@@ -3,6 +3,10 @@ const app = express();
 const port = process.env.PORT || 3000;
 import connectToMySQL from './db.js'; // Import the database connection
 import fs from 'fs'
+import userService from './dbServices/userService.js';
+import articleService from './dbServices/articlesService.js'
+import archiveService from './dbServices/archiveService.js';
+app.use(express.json());
 // Define routes and middleware here
 
 app.listen(port, async () => {
@@ -20,24 +24,6 @@ app.listen(port, async () => {
 });
 
 
-// Function to read the JSON file
-function readDataFromFile() {
-  return new Promise((resolve, reject) => {
-    fs.readFile('data.json', 'utf8', (err, data) => {
-      if (err) {
-        reject(err);
-      } else {
-        try {
-          const parsedData = JSON.parse(data);
-          resolve(parsedData);
-        } catch (parseError) {
-          reject(parseError);
-        }
-      }
-    });
-  });
-}
-
 
 // Express route to handle a GET request to retrieve data
 app.get('/api/getData', async (req, res) => {
@@ -51,18 +37,47 @@ app.get('/api/getData', async (req, res) => {
 });
 
 
-app.get('/api/data', (req, res) => {
+app.post('/api/deleteUser', (req, res) => {
     // Implement your logic to fetch and send data here
-  });
+    const { id } = req.body;
+
+    userService.deleteUser(id);
+    return  res.status(200).json({ message: 'C delete' });
+
+  })
   
 
-app.use(express.json());
+app.post('/api/modifyUser', (req, res) => {
+  const { user } = req.body;
+
+  userService.modifyUser(user);
+  return  res.status(200).json({ message: 'C delete' });
+  // Implement your logic to fetch and send data here
+});
+
+app.get('/api/getUser',async (req, res) => {
+  const { id } = req.body;
+  console.log(id)
+  console.log("caca")
+  return res.status(200).json( await userService.getUser(id));
+  // Implement your logic to fetch and send data here
+});
+
+app.get('/api/getAllUser', async (req, res) => {
+  // Implement your logic to fetch and send data here
+  return res.status(200).json( await userService.getAllUser());
+});
+
 /**
  * Approche utilisant une bd sql
  */
-app.post('/api/addData', async (req, res) => {
-  const { username, email,password } = req.body;
-  console.log(username)
+app.post('/api/addUser', async (req, res) => {
+  const { name, mail,password } = req.body;
+  await userService.addUser({
+    name : name,
+    mail : mail,
+    password : password
+  })
   console.log(req.body)
   //VERSION DB
   // try {
@@ -81,50 +96,107 @@ app.post('/api/addData', async (req, res) => {
   //   console.error('Error adding user:', err);
   //   return res.status(500).json({ error: 'Failed to add user' });
   // }
-  // VERSION FILE 
-  try {
 
-  const rawData = fs.readFileSync('data.json');
-  const data = JSON.parse(rawData);
-
-// Access user data
-const users = data.users;
-
-const newUser = {
-  id: 1,
-  username: 'john_doe',
-  email: 'john@example.com',
-};
-
-data.users.push(newUser);
-
-// Write updated data back to the file
-fs.writeFileSync('data.json', JSON.stringify(data, null, 2));
+  
 return res.status(201).json({message : 'My boiiiii to add user'})
 
-  } catch {
-    return res.status(500).json({error : 'Failed to add user'})
-  }
+ 
 });
 
 
-app.post('/api/add', async (req,res) => {
-  const fs = require('fs');
 
-  const rawData = fs.readFileSync('data.json');
-  const data = JSON.parse(rawData);
+// Articles PARTTTT
 
-// Access user data
-const users = data.users;
 
-const newUser = {
-  id: 1,
-  username: 'john_doe',
-  email: 'john@example.com',
-};
+/**
+ * Approche utilisant une bd sql
+ */
+app.post('/api/addArticle', async (req, res) => {
+  const { article } = req.body;
+  
+return res.status(201).json( await articleService.addArticle(article))
 
-data.users.push(newUser);
+ 
+});
 
-// Write updated data back to the file
-fs.writeFileSync('data.json', JSON.stringify(data, null, 2));
-})
+app.post('/api/deleteArticle', (req, res) => {
+    // Implement your logic to fetch and send data here
+    const { id } = req.body;
+
+    articleService.deleteArticle(id);
+    return  res.status(200).json({ message: 'C delete' });
+
+  })
+  
+
+app.post('/api/modifyArticle', (req, res) => {
+  const { article } = req.body;
+
+  articleService.modifyArticle(article);
+  return  res.status(200).json({ message: 'C modif' });
+  // Implement your logic to fetch and send data here
+});
+
+app.get('/api/getArticle',async (req, res) => {
+  const { id } = req.body;
+  console.log(id)
+  console.log("caca")
+  return res.status(200).json( await articleService.getArticle(id));
+  // Implement your logic to fetch and send data here
+});
+
+app.get('/api/getAllArticles', async (req, res) => {
+  // Implement your logic to fetch and send data here
+  return res.status(200).json( await articleService.getAllArticles());
+});
+
+/// Lets go la suite
+
+
+// ARCHIVE PART 
+// Articles PARTTTT
+
+
+/**
+ * Approche utilisant une bd sql
+ */
+app.post('/api/addArchive', async (req, res) => {
+  const { archive } = req.body;
+  
+return res.status(201).json( await archiveService.addArchive(archive))
+
+ 
+});
+
+app.post('/api/deleteArchive', async (req, res) => {
+    // Implement your logic to fetch and send data here
+    const { id } = req.body;
+
+   
+    return  res.status(200).json(await  archiveService.deleteArchive(id));
+
+  })
+  
+
+app.post('/api/modifyArchive', async (req, res) => {
+  const { archive } = req.body;
+
+ 
+  return  res.status(200).json(await archiveService.modifyArchive(archive));
+  // Implement your logic to fetch and send data here
+});
+
+app.get('/api/getArchive',async (req, res) => {
+  const { id } = req.body;
+  console.log(id)
+  console.log("caca")
+  return res.status(200).json( await archiveService.getArchive(id));
+  // Implement your logic to fetch and send data here
+});
+
+app.get('/api/getAllArchives', async (req, res) => {
+  // Implement your logic to fetch and send data here
+  return res.status(200).json( await archiveService.getAllArchives());
+});
+
+/// Lets go la suite

@@ -1,14 +1,127 @@
 {
   "users": [
     {
-      "id": 1,
-      "username": "john_doe",
-      "email": "john@example.com"
+      "id": "ICII-aomgz087XhfOOuSp",
+      "type": "user",
+      "name": "cacaboudine",
+      "mail": "putepute",
+      "hash": {},
+      "mailCheck": true
     },
     {
-      "id": 1,
-      "username": "john_doe",
-      "email": "john@example.com"
+      "id": "Arrw8IfOw0l7gwoTQWqt4",
+      "type": "user",
+      "name": "cacaprout",
+      "mail": "tortischloag",
+      "hash": {},
+      "mailCheck": true
+    },
+    {
+      "id": "QgA2UpNU2I9E7WcrZu8q9",
+      "type": "user",
+      "name": "cacaboudine",
+      "mail": "putepute",
+      "hash": {},
+      "mailCheck": true
+    }
+  ],
+  "archives": [
+    {
+      "id": "imDxWQr6kKHjuIRpInW8n",
+      "titreFront": "archivdsdsqdsqe.titreFront",
+      "description": "archive.description",
+      "pathPdf": "archive.pathPdf",
+      "pathBack": "archive.pathBack",
+      "pathCover": "archive.pathCover",
+      "numero": "archive.numero",
+      "date": "archive.date",
+      "lectures": " archive.lectures"
+    }
+  ],
+  "articles": [
+    {
+      "id": "gb45hztVlBaYh8loB5_NQ",
+      "titreFront": "gb45hztVlBaYh8loB5_NQ",
+      "description": "fdsfdfdfdds",
+      "imageLogo": "imagePath",
+      "path": "articlepath",
+      "auteur": "auteur",
+      "numeroParu": "numeroParu",
+      "date": "date",
+      "private": "true",
+      "rubrique": "rubriuqe",
+      "misEnLigne": "misEnLigne",
+      "fileType": "fileType"
+    },
+    {
+      "id": "sLG37e-Dibhp8H16VQynZ",
+      "titreFront": "tamere",
+      "description": "desc",
+      "imageLogo": "imagePath",
+      "path": "articlepath",
+      "auteur": "auteur",
+      "numeroParu": "numeroParu",
+      "date": "date",
+      "private": "true",
+      "rubrique": "rubriuqe",
+      "misEnLigne": "misEnLigne",
+      "fileType": "fileType"
+    },
+    {
+      "id": "UIIgg4OzQCVG0F7nK1Or9",
+      "titreFront": "tamere",
+      "description": "desc",
+      "imageLogo": "imagePath",
+      "path": "articlepath",
+      "auteur": "auteur",
+      "numeroParu": "numeroParu",
+      "date": "date",
+      "private": "true",
+      "rubrique": "rubriuqe",
+      "misEnLigne": "misEnLigne",
+      "fileType": "fileType"
+    },
+    {
+      "id": "Gui5ws4iG-Z2n_oIp0OGQ",
+      "titreFront": "tamere",
+      "description": "desc",
+      "imageLogo": "imagePath",
+      "path": "articlepath",
+      "auteur": "auteur",
+      "numeroParu": "numeroParu",
+      "date": "date",
+      "private": "true",
+      "rubrique": "rubriuqe",
+      "misEnLigne": "misEnLigne",
+      "fileType": "fileType"
+    },
+    {
+      "id": "mkUx-zbzxdXOcMvnTbLYP",
+      "titreFront": "tamere",
+      "description": "desc",
+      "imageLogo": "imagePath",
+      "path": "articlepath",
+      "auteur": "auteur",
+      "numeroParu": "numeroParu",
+      "date": "date",
+      "private": "true",
+      "rubrique": "rubriuqe",
+      "misEnLigne": "misEnLigne",
+      "fileType": "fileType"
+    },
+    {
+      "id": "Uam0IYgF0lZQg8haayErB",
+      "titreFront": "tamere",
+      "description": "desc",
+      "imageLogo": "imagePath",
+      "path": "articlepath",
+      "auteur": "auteur",
+      "numeroParu": "numeroParu",
+      "date": "date",
+      "private": "true",
+      "rubrique": "rubriuqe",
+      "misEnLigne": "misEnLigne",
+      "fileType": "fileType"
     }
   ]
 }
