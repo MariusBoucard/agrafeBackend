@@ -5,7 +5,7 @@ import crypto from 'crypto'; // Import the Node.js crypto module
 // Function to read the JSON file
 function readDataFromFile() {
     return new Promise((resolve, reject) => {
-      fs.readFile('data.json', 'utf8', (err, data) => {
+      fs.readFile('data/user.json', 'utf8', (err, data) => {
         if (err) {
           reject(err);
         } else {
@@ -21,7 +21,7 @@ function readDataFromFile() {
   }
 
 function saveToFile(data){
-    fs.writeFileSync('data.json', JSON.stringify(data, null, 2));
+    fs.writeFileSync('data/user.json', JSON.stringify(data, null, 2));
 }
 
 // Function to calculate SHA-256 hash

@@ -1,0 +1,20 @@
+{
+  "users": [
+    {
+      "id": "Z1JS51GncW9aOhbCkNTvf",
+      "type": "user",
+      "name": "cacaboudine",
+      "mail": "putepute",
+      "hash": {},
+      "mailCheck": true
+    },
+    {
+      "id": "p9J7YoJF3ZzCRdqBHRy3J",
+      "type": "user",
+      "name": "cacaboudine",
+      "mail": "putepute",
+      "hash": {},
+      "mailCheck": true
+    }
+  ]
+}

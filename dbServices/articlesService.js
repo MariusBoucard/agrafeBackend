@@ -1,11 +1,12 @@
 import {nanoid } from 'nanoid'
 import fs from 'fs'
 import crypto from 'crypto'; // Import the Node.js crypto module
+import { start } from 'repl';
 
 // Function to read the JSON file
 function readDataFromFile() {
     return new Promise((resolve, reject) => {
-      fs.readFile('data.json', 'utf8', (err, data) => {
+      fs.readFile('data/article.json', 'utf8', (err, data) => {
         if (err) {
           reject(err);
         } else {
@@ -21,7 +22,7 @@ function readDataFromFile() {
   }
 
 function saveToFile(data){
-    fs.writeFileSync('data.json', JSON.stringify(data, null, 2));
+    fs.writeFileSync('data/article.json', JSON.stringify(data, null, 2));
 }
 
 function articleSanityCheck(article){
@@ -52,6 +53,7 @@ const articleService = {
                     numeroParu : article.numeroParu,
                     date : article.date,
                     private : article.private,
+                    // Attention, bien save l id de la rubrique
                     rubrique : article.rubrique,
                     misEnLigne : article.misEnLigne,
                     fileType : article.fileType
@@ -128,6 +130,35 @@ return userFound
 },
 
 
+// TO ADD IN ROUTES :
+getArticlesFromRubrique : async function getArticlesFromRubrique(rubId){
+  const rawData = await readDataFromFile()
+  const tab = rawData.articles.filter(arti => arti.rubrique === rubId)
+  if(tab){
+   return tab   
+  }
+
+},
+
+// TO ADD IN ROUTES :
+getArticlesPage : async function getArticlesPage(number){
+  const rawData = await readDataFromFile()
+  const pageSize = 5
+  const startIndex = number*pageSize
+  const endIndex = startIndex+pageSize
+  const result = rawData.articles.slice(startIndex, endIndex);
+  // TODO : On sort comment ? Il faudrait l'envoyer aussi
+  return result
+},
+getArticleFromName : async function getArticleFromName(name){
+  const rawData = await readDataFromFile()
+  const result = rawData.articles.filter(arto => 
+    arto.titreFront
+    .toLowerCase() // Convert the article title to lowercase
+    .replace(/[.,\/#!$%^&*;:{}=\-_`~()]/g, "") // Remove punctuation
+    .includes(name.toLowerCase()) )
+  return result
+}
 
 }
 

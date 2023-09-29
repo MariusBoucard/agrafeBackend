@@ -1,0 +1,16 @@
+{
+  "archives": [
+    {
+      "id": "KBX3CBihV46tGv9syp-X0",
+      "titreFront": "archive.titreFront",
+      "description": "archive.description",
+      "pathPdf": "archive.pathPdf",
+      "pathBack": "archive.pathBack",
+      "pathCover": "archive.pathCover",
+      "numero": "archive.numero",
+      "date": "archive.date",
+      "lectures": " archive.lectures",
+      "private": true
+    }
+  ]
+}

@@ -4,7 +4,7 @@ import fs from 'fs'
 // Function to read the JSON file
 function readDataFromFile() {
     return new Promise((resolve, reject) => {
-      fs.readFile('data.json', 'utf8', (err, data) => {
+      fs.readFile('data/archive.json', 'utf8', (err, data) => {
         if (err) {
           reject(err);
         } else {
@@ -20,7 +20,7 @@ function readDataFromFile() {
   }
 
 function saveToFile(data){
-    fs.writeFileSync('data.json', JSON.stringify(data, null, 2));
+    fs.writeFileSync('data/archive.json', JSON.stringify(data, null, 2));
 }
 
 function archiveSanityCheck(archive){
