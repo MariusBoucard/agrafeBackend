@@ -43,12 +43,12 @@ const articleService = {
         console.log(article)
         if ( articleSanityCheck(article)){
             // try{
-                
+                const idd = nanoid()
                 articleToAdd = {
-                    id : nanoid(),
+                    id :  idd,
                     "titreFront" : article.titreFront,
                     "description" : article.description,
-                    imageLogo : article.imageLogo,
+                    imageLogo : "/save/saveArticle/cover/"+idd,
                     path : article.path,
                     auteur  : article.auteur,
                     numeroParu : article.numeroParu,
@@ -126,6 +126,7 @@ return userFound
 getAllArticles : async function getAllArticles(){
   const rawData = await readDataFromFile()
   const userFound = rawData.articles
+  console.log(userFound)
   if(userFound){
 return userFound   
  }

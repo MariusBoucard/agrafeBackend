@@ -10,6 +10,7 @@ import articleService from './dbServices/articlesService.js'
 import archiveService from './dbServices/archiveService.js';
 import multer from 'multer'
 import rubriqueService from './dbServices/rubriqueService.js';
+app.use('/save', express.static('save'));
 const upload = multer();
 
 app.use(express.json());
@@ -42,6 +43,9 @@ app.listen(port, async () => {
     console.error('Error establishing MySQL connection:', err);
   }
 });
+
+app.get('api/ser')
+
 
 
 // User registration
