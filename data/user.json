@@ -15,6 +15,22 @@
       "mail": "putepute",
       "hash": {},
       "mailCheck": true
+    },
+    {
+      "id": "cMnnoA07pzhV91yyh2g6g",
+      "type": "user",
+      "name": "marius",
+      "mail": "teuteuMail",
+      "hash": "$2b$10$EC6e0RZLSGwJB436BH/vmux0an0bFQgPJx1N2yGlgY.lPDRpHFo0K",
+      "mailCheck": true
+    },
+    {
+      "id": "5Rwef4k5A1gfrwwmZUJci",
+      "type": "user",
+      "name": "marius",
+      "mail": "teuteuMail",
+      "hash": "$2b$10$UVymb6/Oxj5qZPsHZDn2/OgQasWHgWHH8gsT3mKWMJgMjDKamXRKG",
+      "mailCheck": true
     }
   ]
 }

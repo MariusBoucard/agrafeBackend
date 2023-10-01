@@ -105,6 +105,7 @@ return userFound
 getAllRubriques : async function getAllRubriques(){
   const rawData = await readDataFromFile()
   const userFound = rawData.rubriques
+  console.log("appelle",userFound)
   if(userFound){
 return userFound   
  }

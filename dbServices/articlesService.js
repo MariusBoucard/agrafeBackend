@@ -30,7 +30,7 @@ function articleSanityCheck(article){
     return "titreFront" in article && "description" in article
     && "imageLogo" in article && "path" in article 
   && "auteur" in article && "numeroParu" in article 
-    && "date" in article && "lectures" in article && "private" in article && "rubrique" in article 
+    && "date" in article && "rubrique" in article 
     &&"misEnLigne" in article && "fileType" in article 
 }
 
@@ -40,6 +40,7 @@ const articleService = {
 
     addArticle : async function addArticle(article){
         let articleToAdd = {}
+        console.log(article)
         if ( articleSanityCheck(article)){
             // try{
                 
@@ -64,6 +65,7 @@ const articleService = {
                 const data  = rawData
                 data.articles.push(articleToAdd);
                 saveToFile(data)
+                return articleToAdd.id
                 //save 
                 console.log("article adddeedd")
         //     } catch {

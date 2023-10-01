@@ -1,0 +1,35 @@
+{
+  "rubriques": [
+    {
+      "name": "test"
+    },
+    {
+      "id": "dUMRZxmTYAwWRPmJlwLAk",
+      "rubrique": "caca",
+      "description": "prout",
+      "rubRoute": "tamere",
+      "nombreArticles": "0"
+    },
+    {
+      "id": "lspCNqTNC9iZn5rVKVkvR",
+      "rubrique": "caca",
+      "description": "prout",
+      "rubRoute": "tamere",
+      "nombreArticles": "0"
+    },
+    {
+      "id": "HrOzD9sUFiWA4BpL5u_Gz",
+      "rubrique": "caca",
+      "description": "prout",
+      "rubRoute": "tamere",
+      "nombreArticles": "0"
+    },
+    {
+      "id": "yHHfYtlB-Fp09EFq7RL9_",
+      "rubrique": "caca",
+      "description": "prout",
+      "rubRoute": "tamere",
+      "nombreArticles": "0"
+    }
+  ]
+}

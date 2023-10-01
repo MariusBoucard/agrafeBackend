@@ -1,7 +1,9 @@
 import {nanoid } from 'nanoid'
 import fs from 'fs'
 import crypto from 'crypto'; // Import the Node.js crypto module
-
+import bcrypt from 'bcrypt'
+import jsonWebToken   from 'jsonwebtoken'
+const jwtSecret = 'SecretKey2LagrafeWesh';
 // Function to read the JSON file
 function readDataFromFile() {
     return new Promise((resolve, reject) => {
@@ -80,7 +82,7 @@ const userService = {
                 type : 'user',
                 name : user.name,
                 mail : user.mail,
-                hash : sha256(user.password),
+                hash : user.password,
                 // TODO
                 mailCheck : true
             }
@@ -147,7 +149,21 @@ getAllUser : async function getAllUser(){
 return userFound   
  }
 },
-
+doUserExists : async function doUserExists(user){
+  const rawData = await readDataFromFile()
+  const users = rawData.users
+  const userFound = users.find((u) => u.name === user.name);
+  console.log(userFound)
+  console.log(user.password, userFound.password)
+  if (!user || !bcrypt.compareSync(user.password, userFound.hash)) {
+    return false
+  }
+  return  userFound.id
+},
+generateToken : function generateToken(user){
+  const token = jsonWebToken.sign({ userId: user.id }, jwtSecret);
+  return token
+}
 
 
 }
