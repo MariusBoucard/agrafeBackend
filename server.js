@@ -145,41 +145,14 @@ app.get('/api/getAllUser', async (req, res) => {
   return res.status(200).json( await userService.getAllUser());
 });
 
-/**
- * Approche utilisant une bd sql
- */
-app.post('/api/addUser', async (req, res) => {
-  const { name, mail,password } = req.body;
-  await userService.addUser({
-    name : name,
-    mail : mail,
-    password : password
-  })
-  console.log(req.body)
-  //VERSION DB
-  // try {
-  //   const dbConnection = await connectToMySQL();
+app.delete('/api/deleteUser/:id', (req, res) => {
+  // Implement your logic to fetch and send data here
+  const { id } = req.params;
+  console.log(id)
+  userService.deleteUser(id);
+  return  res.status(200).json({ message: 'C delete' });
 
-  //   const sql = 'INSERT INTO users (username, email,password) VALUES (?, ?,?)';
-  //   const values = [username, email,password];
-
-  //   const [result] = await dbConnection.query(sql, values);
-
-  //   dbConnection.end(); // Close the connection when done
-
-  //   console.log('User added successfully');
-  //   return res.status(201).json({ message: 'User added successfully' });
-  // } catch (err) {
-  //   console.error('Error adding user:', err);
-  //   return res.status(500).json({ error: 'Failed to add user' });
-  // }
-
-  
-return res.status(201).json({message : 'My boiiiii to add user'})
-
- 
-});
-
+})
 
 
 // Articles PARTTTT
@@ -280,9 +253,10 @@ app.post('/api/modifyArticle', (req, res) => {
 });
 
 app.get('/api/getArticle',async (req, res) => {
-  const { id } = req.body;
-  console.log(id)
-  console.log("caca")
+
+    // Retrieve the 'id' parameter from the query string
+    const id = req.query.id;
+
   return res.status(200).json( await articleService.getArticle(id));
   // Implement your logic to fetch and send data here
 });

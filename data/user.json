@@ -1,51 +1,19 @@
 {
   "users": [
     {
-      "id": "Z1JS51GncW9aOhbCkNTvf",
-      "type": "user",
-      "name": "cacaboudine",
-      "mail": "putepute",
-      "hash": {},
-      "mailCheck": true
-    },
-    {
-      "id": "p9J7YoJF3ZzCRdqBHRy3J",
-      "type": "user",
-      "name": "cacaboudine",
-      "mail": "putepute",
-      "hash": {},
-      "mailCheck": true
-    },
-    {
-      "id": "cMnnoA07pzhV91yyh2g6g",
+      "id": "7-_0PP1ekhL3fJPiSx8aU",
       "type": "user",
       "name": "marius",
-      "mail": "teuteuMail",
-      "hash": "$2b$10$EC6e0RZLSGwJB436BH/vmux0an0bFQgPJx1N2yGlgY.lPDRpHFo0K",
+      "mail": "test@gaga.com",
+      "hash": "$2b$10$7XLnpUHW4yq.Mrdpy4B6qOoz6bM5z3iCJDt3B9nIdoS.oiOTxFDim",
       "mailCheck": true
     },
     {
-      "id": "5Rwef4k5A1gfrwwmZUJci",
+      "id": "HilWf99PSX3MPU1wf75Cy",
       "type": "user",
-      "name": "marius",
-      "mail": "teuteuMail",
-      "hash": "$2b$10$UVymb6/Oxj5qZPsHZDn2/OgQasWHgWHH8gsT3mKWMJgMjDKamXRKG",
-      "mailCheck": true
-    },
-    {
-      "id": "RpV8jfDZu6Tf99jPG1URI",
-      "type": "user",
-      "name": "mariusfd",
-      "mail": "teuteuMail",
-      "hash": "$2b$10$10rrw71phcwjPGUAmbkZyuHspWrbzk9RsVUEQPs9lNcYSujCr0LfW",
-      "mailCheck": true
-    },
-    {
-      "id": "Dk726eoiW3g67dpp2V1bu",
-      "type": "user",
-      "name": "marius",
-      "mail": "dsft@esticule",
-      "hash": "$2b$10$lshzbRRGXuNfGZ8MW9mY2uo6/vhyHio/txdUJr3.5VA0lsXgtGhva",
+      "name": "mariussdf",
+      "mail": "dfdsf@fdsfds",
+      "hash": "$2b$10$LpiCnjwK9MgDAf0s45XZBuS/GfXMiKNx9vHQBpAc4eiO20Xt.l5Uy",
       "mailCheck": true
     }
   ]
