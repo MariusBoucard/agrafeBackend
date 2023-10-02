@@ -1,18 +1,3 @@
 {
-  "articles": [
-    {
-      "id": "60ERTTHY1OxuevjMgeJLM",
-      "titreFront": "sdf",
-      "description": "fds",
-      "imageLogo": {},
-      "path": "dsf",
-      "auteur": "sdf",
-      "numeroParu": "fsd",
-      "date": "2023-10-12",
-      "private": "sfd",
-      "rubrique": "HrOzD9sUFiWA4BpL5u_Gz",
-      "misEnLigne": "dfs",
-      "fileType": "fds"
-    }
-  ]
+  "articles": []
 }

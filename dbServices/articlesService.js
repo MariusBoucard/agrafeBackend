@@ -2,7 +2,7 @@ import {nanoid } from 'nanoid'
 import fs from 'fs'
 import crypto from 'crypto'; // Import the Node.js crypto module
 import { start } from 'repl';
-
+import path from 'path'
 // Function to read the JSON file
 function readDataFromFile() {
     return new Promise((resolve, reject) => {
@@ -82,12 +82,33 @@ const articleService = {
 //delete a user 
 deleteArticle : async function deleteArticle(id){
     const rawData = await readDataFromFile()
-    
     const index = rawData.articles.findIndex(idd => id === idd.id)
     if(index !== -1){
         console.log(rawData)
         rawData.articles.splice(index,1)
+        //delet the assets :
+        const filePath = path.join(path.resolve(), 'save', 'saveArticle', 'pdf', id+'.pdf');
+  // Use the fs module to write the image buffer to the file
+        fs.unlink(filePath, (err) => {
+          if (err) {
+            console.error(`Error deleting file: ${err}`);
+          } else {
+            console.log(`File deleted: ${filePath}`);
+          }
+        });
+        const imgPath = path.join(path.resolve(), 'save', 'saveArticle', 'cover', id+'.png');
+        // Use the fs module to write the image buffer to the file
+              fs.unlink(imgPath, (err) => {
+                if (err) {
+                  console.error(`Error deleting file: ${err}`);
+                } else {
+                  console.log(`File deleted: ${filePath}`);
+                }
+              });
+        
+        
         saveToFile(rawData)
+        
     }
     console.log(index)
 },

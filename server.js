@@ -240,12 +240,9 @@ app.post('/api/uploadPdfArticle', upload.single('articlePdf'), (req, res) => {
   }
   console.log("articleId",req.body)
   const infoString = req.body.articleId; // Access the string data
-  // You can now access the uploaded image in req.file.buffer
-  // Process and save the image as needed
 
   const imageBuffer = req.file.buffer; // Access the uploaded image buffer
 
-  // Generate a unique filename (e.g., using a timestamp)
   const filename = infoString+".pdf";
   console.log(filename)
   // Define the path to save the image file on your server
@@ -264,10 +261,10 @@ app.post('/api/uploadPdfArticle', upload.single('articlePdf'), (req, res) => {
 
 
 
-app.post('/api/deleteArticle', (req, res) => {
+app.delete('/api/deleteArticle/:id', (req, res) => {
     // Implement your logic to fetch and send data here
-    const { id } = req.body;
-
+    const { id } = req.params;
+    console.log(id)
     articleService.deleteArticle(id);
     return  res.status(200).json({ message: 'C delete' });
 
