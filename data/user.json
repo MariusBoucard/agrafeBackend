@@ -15,6 +15,22 @@
       "mail": "dfdsf@fdsfds",
       "hash": "$2b$10$LpiCnjwK9MgDAf0s45XZBuS/GfXMiKNx9vHQBpAc4eiO20Xt.l5Uy",
       "mailCheck": true
+    },
+    {
+      "id": "GKriXlm8MS9XsZSdRjn-H",
+      "type": "admin",
+      "name": "marius",
+      "mail": "caca@gail.derche",
+      "hash": {},
+      "mailCheck": true
+    },
+    {
+      "id": "3FgZmKFAFS2s9uEu2tCld",
+      "type": "admin",
+      "name": "marius",
+      "mail": "caca@gail.derche",
+      "hash": {},
+      "mailCheck": true
     }
   ]
 }

@@ -11,6 +11,7 @@ import archiveService from './dbServices/archiveService.js';
 import multer from 'multer'
 import bcrypt from 'bcrypt'
 import rubriqueService from './dbServices/rubriqueService.js';
+import newsletterService from './dbServices/newsletterService.js';
 app.use('/save', express.static('save'));
 const upload = multer();
 
@@ -55,6 +56,20 @@ app.post('/api/register', (req, res) => {
   // Hash the password before saving it in the database
   const hashedPassword = bcrypt.hashSync(password, 10);
   userService.addUser(
+    {
+      name : username,
+      mail : mail,
+      password : hashedPassword
+    }
+  )
+  return res.status(200).json({ message: 'User registered successfully' });
+});
+// User registration
+app.post('/api/registerAdmin', (req, res) => {
+  const { username ,mail, password } = req.body;
+  // Hash the password before saving it in the database
+  const hashedPassword = bcrypt.hashSync(password, 10);
+  userService.addAdminUser(
     {
       name : username,
       mail : mail,
@@ -328,4 +343,14 @@ app.get('/api/getrubriques', async (req, res)=> {
   console.log('tataa')
   return res.status(200).json( await rubriqueService.getAllRubriques());
 
+})
+
+// Newsletter
+app.post('/api/addNewsletter', async (req, res) => {
+  const { user } = req.body;
+  return  res.status(200).json(await  newsletterService.addNewsletter(user));
+
+})
+app.get('/api/getNewsletter', async (req,res) => {
+  return res.status(200).json(await newsletterService.getAllNewsletter())
 })
