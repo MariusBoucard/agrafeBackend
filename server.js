@@ -9,6 +9,7 @@ import userService from './dbServices/userService.js';
 import articleService from './dbServices/articlesService.js'
 import archiveService from './dbServices/archiveService.js';
 import multer from 'multer'
+import bcrypt from 'bcrypt'
 import rubriqueService from './dbServices/rubriqueService.js';
 app.use('/save', express.static('save'));
 const upload = multer();
@@ -33,7 +34,7 @@ app.use(cors(corsOptions));
 app.listen(port, async () => {
   console.log(`Server is running on port ${port}`);
   try {
-    const dbConnection = await connectToMySQL();
+    // const dbConnection = await connectToMySQL();
     
     // You can pass the dbConnection to your routes/controllers as needed
     // For example, you can pass it to your User model if necessary.
@@ -50,9 +51,8 @@ app.get('api/ser')
 
 // User registration
 app.post('/api/register', (req, res) => {
-  const { username , password } = req.body;
+  const { username ,mail, password } = req.body;
   // Hash the password before saving it in the database
-  const mail = "teuteuMail"
   const hashedPassword = bcrypt.hashSync(password, 10);
   userService.addUser(
     {

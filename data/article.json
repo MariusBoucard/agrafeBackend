@@ -1,3 +1,18 @@
 {
-  "articles": []
+  "articles": [
+    {
+      "id": "KsKkxr4QZv_PMgw_EdSZa",
+      "titreFront": "sdf",
+      "description": "fds",
+      "imageLogo": "/save/saveArticle/cover/KsKkxr4QZv_PMgw_EdSZa",
+      "path": "dsf",
+      "auteur": "sdf",
+      "numeroParu": "fsd",
+      "date": "2023-10-19",
+      "private": "sfd",
+      "rubrique": "lspCNqTNC9iZn5rVKVkvR",
+      "misEnLigne": "dfs",
+      "fileType": "fds"
+    }
+  ]
 }
