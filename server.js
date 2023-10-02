@@ -12,6 +12,7 @@ import multer from 'multer'
 import bcrypt from 'bcrypt'
 import rubriqueService from './dbServices/rubriqueService.js';
 import newsletterService from './dbServices/newsletterService.js';
+import newsService from './dbServices/newsService.js';
 app.use('/save', express.static('save'));
 const upload = multer();
 
@@ -353,4 +354,51 @@ app.post('/api/addNewsletter', async (req, res) => {
 })
 app.get('/api/getNewsletter', async (req,res) => {
   return res.status(200).json(await newsletterService.getAllNewsletter())
+})
+app.delete('/api/deleteNewsletter/:id', async (req, res) => {
+  const { id } = req.params
+  return res.status(200).json(await newsletterService.deleteNewsletter(id))
+
+})
+
+// News
+
+app.post('/api/addNews', async (req, res) => {
+  const { news } = req.body
+  return res.status(200).json(await newsService.addNews(news))
+})
+
+app.post('/api/uploadImageNews', upload.single('imageLogo'), (req, res) => {
+  if (!req.file) {
+    return res.status(400).json({ message: 'No image file received.' });
+  }
+  console.log("newsId",req.body)
+  const infoString = req.body.newsId; // Access the string data
+
+  const imageBuffer = req.file.buffer; // Access the uploaded image buffer
+
+  const filename = infoString+".png";
+
+
+  const imagePath = path.join(path.resolve(), 'save', 'newsImage', filename);
+  // Use the fs module to write the image buffer to the file
+  fs.writeFile(imagePath, imageBuffer, err => {
+    if (err) {
+      console.error(err);
+    }
+
+    // At this point, the image has been successfully saved to the server
+  });
+
+  return res.status(200).json({ message: 'Image uploaded successfully.' });
+});
+
+app.get('/api/getAllNews', async (req,res) => {
+  return res.status(200).json(await newsService.getAllNews())
+})
+
+app.delete('/api/deleteNews/:id', async (req, res) => {
+  const { id } = req.params
+  return res.status(200).json(await newsService.deleteNews(id))
+
 })

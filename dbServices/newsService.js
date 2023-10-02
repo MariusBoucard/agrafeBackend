@@ -4,7 +4,7 @@ import path from 'path'
 // Function to read the JSON file
 function readDataFromFile() {
     return new Promise((resolve, reject) => {
-      fs.readFile('data/newsletter.json', 'utf8', (err, data) => {
+      fs.readFile('data/news.json', 'utf8', (err, data) => {
         if (err) {
           reject(err);
         } else {
@@ -20,33 +20,32 @@ function readDataFromFile() {
   }
 
 function saveToFile(data){
-    fs.writeFileSync('data/newsletter.json', JSON.stringify(data, null, 2));
+    fs.writeFileSync('data/news.json', JSON.stringify(data, null, 2));
 }
 
-function newsletterSanityCheck(news){
-    return "username" in news && "mail" in news
+function newsSanityCheck(news){
+    return "titre" in news && "description" in news
 }
 
-const newsletterService = {
+const newsService = {
 
     //add admin user 
 
-    addNewsletter : async function addNewsletter(user){
-        let userToAdd = {}
-        console.log(user)
-        if ( newsletterSanityCheck(user)){
+    addNews : async function addNews(news){
+        let newsToAdd = {}
+        if ( newsSanityCheck(news)){
             // try{
                 const idd = nanoid()
-                userToAdd = {
+                newsToAdd = {
                     id :  idd,
-                   name : user.username,
-                   mail : user.mail
+                   "titre" : news.titre,
+                   date: news.date,
+                   description : news.description
                 }
                 //getdb,
                 const rawData = await readDataFromFile()
-                console.log(rawData)
                 const data  = rawData
-                data.newsletter.push(userToAdd);
+                data.news.push(newsToAdd);
                 saveToFile(data)
                 return idd
              
@@ -58,16 +57,12 @@ const newsletterService = {
   
 
 //delete a user 
-deleteNewsletter : async function deleteNewsletter(id){
+deleteNews : async function deleteNews(id){
     const rawData = await readDataFromFile()
-    const index = rawData.newsletter.findIndex(idd => id === idd.id)
+    const index = rawData.news.findIndex(idd => id === idd.id)
     if(index !== -1){
-        console.log(rawData)
-        rawData.newsletter.splice(index,1)
-        //delet the assets :
-       
+        rawData.news.splice(index,1)
         saveToFile(rawData)
-        
     }
     console.log(index)
 },
@@ -76,12 +71,12 @@ deleteNewsletter : async function deleteNewsletter(id){
 
 //getAllUser Attention DTO mdp
 //GetUser ATTention DTO MDP
-getAllNewsletter : async function getAllNewsletter(){
+getAllNews : async function getAllNews(){
   const rawData = await readDataFromFile()
-  const userFound = rawData.newsletter
+  const userFound = rawData.news
   console.log(userFound)
   if(userFound){
 return userFound   
  }
 }}
-export default newsletterService
+export default newsService
