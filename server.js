@@ -53,12 +53,11 @@ app.listen(port, async () => {
   }
 });
 
-app.get('api/ser')
 
 
 
 // User registration
-app.post('/api/register', (req, res) => {
+app.post('/api/register', userService.authenticateToken,(req, res) => {
   const { username ,mail, password } = req.body;
   // Hash the password before saving it in the database
   const hashedPassword = bcrypt.hashSync(password, 10);
@@ -72,7 +71,7 @@ app.post('/api/register', (req, res) => {
   return res.status(200).json({ message: 'User registered successfully' });
 });
 // User registration
-app.post('/api/registerAdmin', (req, res) => {
+app.post('/api/registerAdmin', userService.authenticateToken ,(req, res) => {
   const { username ,mail, password } = req.body;
   // Hash the password before saving it in the database
   const hashedPassword = bcrypt.hashSync(password, 10);
@@ -101,42 +100,14 @@ app.post('/api/login', (req, res) => {
 });
 
 // Protected route
-app.get('/protected', authenticateToken, (req, res) => {
+app.get('/protected', userService.authenticateToken, (req, res) => {
   res.json({ message: 'This is a protected route' });
 });
 
-// Middleware to authenticate tokens
-function authenticateToken(req, res, next) {
-  const token = req.header('Authorization');
-  if (!token) return res.status(401).json({ message: 'Unauthorized' });
-
-  jwt.verify(token, jwtSecret, (err, user) => {
-    if (err) return res.status(403).json({ message: 'Token is not valid' });
-    req.user = user;
-    next();
-  });
-}
 
 
-app.post('/api/login', async (req,res) => {
-  console.log("c passé")
-  return res.status(200).json({ message : "request received"})
-})
 
-
-// Express route to handle a GET request to retrieve data
-app.get('/api/getData', async (req, res) => {
-  try {
-    const data = await readDataFromFile();
-    res.json(data);
-  } catch (err) {
-    console.error('Error reading data:', err);
-    res.status(500).json({ error: 'Failed to retrieve data' });
-  }
-});
-
-
-app.post('/api/deleteUser', (req, res) => {
+app.post('/api/deleteUser', userService.authenticateToken, (req, res) => {
     // Implement your logic to fetch and send data here
     const { id } = req.body;
 
@@ -146,7 +117,7 @@ app.post('/api/deleteUser', (req, res) => {
   })
   
 
-app.post('/api/modifyUser', (req, res) => {
+app.post('/api/modifyUser',userService.authenticateToken ,(req, res) => {
   const { user } = req.body;
 
   userService.modifyUser(user);
@@ -154,7 +125,7 @@ app.post('/api/modifyUser', (req, res) => {
   // Implement your logic to fetch and send data here
 });
 
-app.get('/api/getUser',async (req, res) => {
+app.get('/api/getUser',userService.authenticateToken,async (req, res) => {
   const { id } = req.body;
   console.log(id)
   console.log("caca")
@@ -162,12 +133,12 @@ app.get('/api/getUser',async (req, res) => {
   // Implement your logic to fetch and send data here
 });
 
-app.get('/api/getAllUser', async (req, res) => {
+app.get('/api/getAllUser',userService.authenticateToken ,async (req, res) => {
   // Implement your logic to fetch and send data here
   return res.status(200).json( await userService.getAllUser());
 });
 
-app.delete('/api/deleteUser/:id', (req, res) => {
+app.delete('/api/deleteUser/:id',userService.authenticateToken ,(req, res) => {
   // Implement your logic to fetch and send data here
   const { id } = req.params;
   console.log(id)
@@ -183,7 +154,7 @@ app.delete('/api/deleteUser/:id', (req, res) => {
 /**
  * Approche utilisant une bd sql
  */
-app.post('/api/addArticle', upload.none(), async (req, res) => {
+app.post('/api/addArticle',userService.authenticateToken ,upload.none(), async (req, res) => {
   // Handle the FormData here
   const { article } = req.body;
   console.log(article, 'article');
@@ -195,7 +166,7 @@ return res.status(201).json( await articleService.addArticle(article))
 });
 
 // Handle the image upload separately
-app.post('/api/uploadImage', upload.single('imageLogo'), (req, res) => {
+app.post('/api/uploadImage',userService.authenticateToken ,upload.single('imageLogo'), (req, res) => {
   if (!req.file) {
     return res.status(400).json({ message: 'No image file received.' });
   }
@@ -229,7 +200,7 @@ app.post('/api/uploadImage', upload.single('imageLogo'), (req, res) => {
 
 
 // Handle the image upload separately
-app.post('/api/uploadPdfArticle', upload.single('articlePdf'), (req, res) => {
+app.post('/api/uploadPdfArticle',userService.authenticateToken ,upload.single('articlePdf'), (req, res) => {
   if (!req.file) {
     return res.status(400).json({ message: 'No pdf file received.' });
   }
@@ -256,7 +227,7 @@ app.post('/api/uploadPdfArticle', upload.single('articlePdf'), (req, res) => {
 
 
 
-app.delete('/api/deleteArticle/:id', (req, res) => {
+app.delete('/api/deleteArticle/:id',userService.authenticateToken ,(req, res) => {
     // Implement your logic to fetch and send data here
     const { id } = req.params;
     console.log(id)
@@ -266,7 +237,7 @@ app.delete('/api/deleteArticle/:id', (req, res) => {
   })
   
 
-app.post('/api/modifyArticle', (req, res) => {
+app.post('/api/modifyArticle',userService.authenticateToken ,(req, res) => {
   const { article } = req.body;
 
   articleService.modifyArticle(article);
@@ -274,7 +245,7 @@ app.post('/api/modifyArticle', (req, res) => {
   // Implement your logic to fetch and send data here
 });
 
-app.post('/api/privateArticle', (req, res) => {
+app.post('/api/privateArticle',userService.authenticateToken ,(req, res) => {
   const { id } = req.body;
 
   articleService.publicArticle(id);
@@ -282,7 +253,7 @@ app.post('/api/privateArticle', (req, res) => {
   // Implement your logic to fetch and send data here
 });
 
-app.get('/api/getArticle',async (req, res) => {
+app.get('/api/getArticle',userService.authenticateToken,async (req, res) => {
 
     // Retrieve the 'id' parameter from the query string
     const id = req.query.id;
@@ -291,7 +262,7 @@ app.get('/api/getArticle',async (req, res) => {
   // Implement your logic to fetch and send data here
 });
 
-app.get('/api/getAllArticles', async (req, res) => {
+app.get('/api/getAllArticles', userService.authenticateToken,async (req, res) => {
   // Implement your logic to fetch and send data here
   return res.status(200).json( await articleService.getAllArticles());
 });
@@ -301,7 +272,7 @@ app.post('/api/addLecture', async (req, res) => {
   return res.status(200).json( await articleService.addLectureArticle(id))
 })
 
-app.get('/api/getLectures', async (req, res) => {
+app.get('/api/getLectures',userService.authenticateToken ,async (req, res) => {
   return res.status(200).json( await lectureService.getLectures())
 })
 /// Lets go la suite
@@ -318,7 +289,7 @@ app.post('/api/addLectureArchive', async (req, res) => {
 /**
  * Approche utilisant une bd sql
  */
-app.post('/api/addArchive', async (req, res) => {
+app.post('/api/addArchive',userService.authenticateToken ,async (req, res) => {
   const { archive } = req.body;
   
 return res.status(201).json( await archiveService.addArchive(archive))
@@ -326,7 +297,7 @@ return res.status(201).json( await archiveService.addArchive(archive))
 
 
 // Handle the image upload separately
-app.post('/api/uploadPdfArchive', upload.single('archivePdf'), (req, res) => {
+app.post('/api/uploadPdfArchive',userService.authenticateToken ,upload.single('archivePdf'), (req, res) => {
   if (!req.file) {
     return res.status(400).json({ message: 'No pdf file received.' });
   }
@@ -348,7 +319,7 @@ app.post('/api/uploadPdfArchive', upload.single('archivePdf'), (req, res) => {
 
 
 
-app.delete('/api/deleteArchive/:id', async (req, res) => {
+app.delete('/api/deleteArchive/:id',userService.authenticateToken ,async (req, res) => {
     // Implement your logic to fetch and send data here
     const { id } = req.params;
 
@@ -358,7 +329,7 @@ app.delete('/api/deleteArchive/:id', async (req, res) => {
   })
   
 
-app.post('/api/modifyArchive', async (req, res) => {
+app.post('/api/modifyArchive',userService.authenticateToken ,async (req, res) => {
   const { archive } = req.body;
 
  
@@ -366,7 +337,7 @@ app.post('/api/modifyArchive', async (req, res) => {
   // Implement your logic to fetch and send data here
 });
 
-app.get('/api/getArchive',async (req, res) => {
+app.get('/api/getArchive',userService.authenticateToken,async (req, res) => {
   const { id } = req.body;
   console.log(id)
   console.log("caca")
@@ -374,19 +345,19 @@ app.get('/api/getArchive',async (req, res) => {
   // Implement your logic to fetch and send data here
 });
 
-app.get('/api/getAllArchives', async (req, res) => {
+app.get('/api/getAllArchives',userService.authenticateToken ,async (req, res) => {
   // Implement your logic to fetch and send data here
   return res.status(200).json( await archiveService.getAllArchives());
 });
 
-app.post('/api/privateArchive', async (req, res) => {
+app.post('/api/privateArchive',userService.authenticateToken ,async (req, res) => {
   const { id } = req.body;
 
   return res.status(200).json(await archiveService.privateArchive(id))
 })
 
 /// Lets go la suite
-app.post('/api/addRubrique', async (req,res) => {
+app.post('/api/addRubrique',userService.authenticateToken ,async (req,res) => {
   const { rubrique } = req.body;
   return  res.status(200).json(await  rubriqueService.addARubrique(rubrique));
 })
@@ -396,7 +367,7 @@ app.get('/api/getrubriques', async (req, res)=> {
   return res.status(200).json( await rubriqueService.getAllRubriques());
 })
 
-app.post('/api/modifyRubrique', async (req, res) => {
+app.post('/api/modifyRubrique',userService.authenticateToken ,async (req, res) => {
   const { rubrique } = req.body;
   return  res.status(200).json(await rubriqueService.modifyRubrique(rubrique));
   // Implement your logic to fetch and send data here
@@ -409,7 +380,7 @@ app.post('/api/addNewsletter', async (req, res) => {
   return  res.status(200).json(await  newsletterService.addNewsletter(user));
 
 })
-app.get('/api/getNewsletter', async (req,res) => {
+app.get('/api/getNewsletter',userService.authenticateToken ,async (req,res) => {
   return res.status(200).json(await newsletterService.getAllNewsletter())
 })
 app.delete('/api/deleteNewsletter/:id', async (req, res) => {
@@ -420,12 +391,12 @@ app.delete('/api/deleteNewsletter/:id', async (req, res) => {
 
 // News
 
-app.post('/api/addNews', async (req, res) => {
+app.post('/api/addNews',userService.authenticateToken ,async (req, res) => {
   const { news } = req.body
   return res.status(200).json(await newsService.addNews(news))
 })
 
-app.post('/api/uploadImageNews', upload.single('imageLogo'), (req, res) => {
+app.post('/api/uploadImageNews',userService.authenticateToken ,upload.single('imageLogo'), (req, res) => {
   if (!req.file) {
     return res.status(400).json({ message: 'No image file received.' });
   }
@@ -450,16 +421,16 @@ app.post('/api/uploadImageNews', upload.single('imageLogo'), (req, res) => {
   return res.status(200).json({ message: 'Image uploaded successfully.' });
 });
 
-app.get('/api/getAllNews', async (req,res) => {
+app.get('/api/getAllNews',userService.authenticateToken ,async (req,res) => {
   return res.status(200).json(await newsService.getAllNews())
 })
 
-app.delete('/api/deleteNews/:id', async (req, res) => {
+app.delete('/api/deleteNews/:id', userService.authenticateToken,async (req, res) => {
   const { id } = req.params
   return res.status(200).json(await newsService.deleteNews(id))
 })
 
-app.post('/api/privateNews', async (req,res) => {
+app.post('/api/privateNews',userService.authenticateToken ,async (req,res) => {
   const { id } = req.body
   return res.status(200).json(await newsService.privateNews(id))
 })

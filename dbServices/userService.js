@@ -163,6 +163,17 @@ doUserExists : async function doUserExists(user){
 generateToken : function generateToken(user){
   const token = jsonWebToken.sign({ userId: user.id }, jwtSecret);
   return token
+},
+// Middleware to authenticate tokens
+authenticateToken : function authenticateToken(req, res, next) {
+  const token = req.header('Authorization');
+  if (!token) return res.status(401).json({ message: 'Unauthorized' });
+
+  jsonWebToken.verify(token, jwtSecret, (err, user) => {
+    if (err) return res.status(403).json({ message: 'Token is not valid' });
+    req.user = user;
+    next();
+  });
 }
 
 
