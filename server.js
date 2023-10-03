@@ -144,7 +144,6 @@ app.delete('/api/deleteUser/:id',userService.authenticateToken ,(req, res) => {
   console.log(id)
   userService.deleteUser(id);
   return  res.status(200).json({ message: 'C delete' });
-
 })
 
 
@@ -158,8 +157,6 @@ app.post('/api/addArticle',userService.authenticateToken ,upload.none(), async (
   // Handle the FormData here
   const { article } = req.body;
   console.log(article, 'article');
-
-  
 return res.status(201).json( await articleService.addArticle(article))
 
  
@@ -174,9 +171,7 @@ app.post('/api/uploadImage',userService.authenticateToken ,upload.single('imageL
   const infoString = req.body.articleId; // Access the string data
   // You can now access the uploaded image in req.file.buffer
   // Process and save the image as needed
-
   const imageBuffer = req.file.buffer; // Access the uploaded image buffer
-
   // Generate a unique filename (e.g., using a timestamp)
   const timestamp = Date.now();
   const filename = infoString+".png";
@@ -191,10 +186,6 @@ app.post('/api/uploadImage',userService.authenticateToken ,upload.single('imageL
 
     // At this point, the image has been successfully saved to the server
   });
-  
-
-
-
   return res.status(200).json({ message: 'Image uploaded successfully.' });
 });
 
@@ -206,9 +197,7 @@ app.post('/api/uploadPdfArticle',userService.authenticateToken ,upload.single('a
   }
   console.log("articleId",req.body)
   const infoString = req.body.articleId; // Access the string data
-
   const imageBuffer = req.file.buffer; // Access the uploaded image buffer
-
   const filename = infoString+".pdf";
   console.log(filename)
   // Define the path to save the image file on your server
@@ -218,14 +207,10 @@ app.post('/api/uploadPdfArticle',userService.authenticateToken ,upload.single('a
     if (err) {
       console.error(err);
     }
-
     // At this point, the image has been successfully saved to the server
   });
-  
   return res.status(200).json({ message: 'pdf uploaded successfully.' });
 });
-
-
 
 app.delete('/api/deleteArticle/:id',userService.authenticateToken ,(req, res) => {
     // Implement your logic to fetch and send data here
@@ -239,7 +224,6 @@ app.delete('/api/deleteArticle/:id',userService.authenticateToken ,(req, res) =>
 
 app.post('/api/modifyArticle',userService.authenticateToken ,(req, res) => {
   const { article } = req.body;
-
   articleService.modifyArticle(article);
   return  res.status(200).json({ message: 'C modif' });
   // Implement your logic to fetch and send data here
@@ -247,14 +231,12 @@ app.post('/api/modifyArticle',userService.authenticateToken ,(req, res) => {
 
 app.post('/api/privateArticle',userService.authenticateToken ,(req, res) => {
   const { id } = req.body;
-
   articleService.publicArticle(id);
   return  res.status(200).json({ message: 'C modif' });
   // Implement your logic to fetch and send data here
 });
 
 app.get('/api/getArticle',userService.authenticateToken,async (req, res) => {
-
     // Retrieve the 'id' parameter from the query string
     const id = req.query.id;
 
@@ -262,10 +244,7 @@ app.get('/api/getArticle',userService.authenticateToken,async (req, res) => {
   // Implement your logic to fetch and send data here
 });
 app.get('/api/getPublicArticle',async (req, res) => {
-
-  // Retrieve the 'id' parameter from the query string
   const id = req.query.id;
-
 return res.status(200).json( await articleService.getPublicArticle(id));
 // Implement your logic to fetch and send data here
 });
