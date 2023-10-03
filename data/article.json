@@ -1,32 +1,19 @@
 {
   "articles": [
     {
-      "id": "Qs95K5de6798S5GG9s159",
+      "id": "RJ4i9OnB9VnqErUgumzuB",
       "titreFront": "sdf",
       "description": "fds",
-      "imageLogo": "/save/saveArticle/cover/Qs95K5de6798S5GG9s159",
+      "imageLogo": "/save/saveArticle/cover/RJ4i9OnB9VnqErUgumzuB",
       "path": "dsf",
       "auteur": "sdf",
       "numeroParu": "fsd",
-      "date": "2023-10-11",
+      "date": "2023-10-05",
       "private": "sfd",
-      "rubrique": "HrOzD9sUFiWA4BpL5u_Gz",
+      "rubrique": "9Mmr0yi33yGCQYGz1dnGL",
       "misEnLigne": "dfs",
-      "fileType": "fds"
-    },
-    {
-      "id": "XYEAwQxpVRfoGKF4cO4J-",
-      "titreFront": "sdf",
-      "description": "fds",
-      "imageLogo": "/save/saveArticle/cover/XYEAwQxpVRfoGKF4cO4J-",
-      "path": "dsf",
-      "auteur": "sdf",
-      "numeroParu": "fsd",
-      "date": "2023-10-11",
-      "private": "sfd",
-      "rubrique": "HrOzD9sUFiWA4BpL5u_Gz",
-      "misEnLigne": "dfs",
-      "fileType": "fds"
+      "fileType": "fds",
+      "lectures": 10
     }
   ]
 }

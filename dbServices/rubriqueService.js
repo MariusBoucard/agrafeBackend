@@ -82,7 +82,7 @@ deleteRubrique : async function deleteRubrique(id){
 modifyRubrique : async function modifyRubrique(rubrique){
     const rawData = await readDataFromFile()
     const arti = rawData.rubriques.find(idd => rubrique.id === idd.id)
-    if(arti){
+    if(arti){ 
         arti.rubRoute = rubrique.rubRoute,
         arti.description = rubrique.description,
         arti.rubrique = rubrique.rubrique,
@@ -109,6 +109,25 @@ getAllRubriques : async function getAllRubriques(){
 return userFound   
  }
 },
+addArticleToRubrique : async function addArticleToRubrique(id){
+  const rawData = await readDataFromFile()
+  const userFound = rawData.rubriques
+  const found = userFound.find(rub => rub.id === id)
+  if(found){
+    found.nombreArticles +=1
+    saveToFile(userFound)
+  }
+
+},
+removeArticleFromRubrique : async function removeArticleFromRubrique(id){
+  const rawData = await readDataFromFile()
+  const userFound = rawData.rubriques
+  const found = userFound.find(rub => rub.id === id)
+  if(found){
+    found.nombreArticles -=1
+    saveToFile(userFound)
+  }
+}
 }
 
 export default rubriqueService

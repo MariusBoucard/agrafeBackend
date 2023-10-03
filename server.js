@@ -13,8 +13,14 @@ import bcrypt from 'bcrypt'
 import rubriqueService from './dbServices/rubriqueService.js';
 import newsletterService from './dbServices/newsletterService.js';
 import newsService from './dbServices/newsService.js';
+import lectureService from './dbServices/lectureService.js';
 app.use('/save', express.static('save'));
 const upload = multer();
+
+const millisecondsInADay = 24 * 60 * 60 * 1000; // 24 hours * 60 minutes * 60 seconds * 1000 milliseconds
+const interval = setInterval(lectureService.updateLectures, millisecondsInADay);
+
+
 
 app.use(express.json());
 // Allow requests from your frontend URL (replace with your actual frontend URL)
@@ -282,6 +288,14 @@ app.get('/api/getAllArticles', async (req, res) => {
   return res.status(200).json( await articleService.getAllArticles());
 });
 
+app.post('/api/addLecture', async (req, res) => {
+  const { id } = req.body;
+  return res.status(200).json( await articleService.addLectureArticle(id))
+})
+
+app.get('/api/getLectures', async (req, res) => {
+  return res.status(200).json( await lectureService.getLectures())
+})
 /// Lets go la suite
 
 
@@ -344,11 +358,10 @@ app.get('/api/getrubriques', async (req, res)=> {
 
 app.post('/api/modifyRubrique', async (req, res) => {
   const { rubrique } = req.body;
-
- 
   return  res.status(200).json(await rubriqueService.modifyRubrique(rubrique));
   // Implement your logic to fetch and send data here
 });
+
 
 // Newsletter
 app.post('/api/addNewsletter', async (req, res) => {

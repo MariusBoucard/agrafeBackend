@@ -1,6 +1,7 @@
 import {nanoid } from 'nanoid'
 import fs from 'fs'
 import path from 'path'
+import rubriqueService from './rubriqueService';
 // Function to read the JSON file
 function readDataFromFile() {
     return new Promise((resolve, reject) => {
@@ -18,6 +19,8 @@ function readDataFromFile() {
       });
     });
   }
+
+
 
 function saveToFile(data){
     fs.writeFileSync('data/article.json', JSON.stringify(data, null, 2));
@@ -55,7 +58,8 @@ const articleService = {
                     // Attention, bien save l id de la rubrique
                     rubrique : article.rubrique,
                     misEnLigne : article.misEnLigne,
-                    fileType : article.fileType
+                    fileType : article.fileType,
+                    lectures : 0
                 }
                 //getdb,
                 const rawData = await readDataFromFile()
@@ -63,6 +67,7 @@ const articleService = {
                 const data  = rawData
                 data.articles.push(articleToAdd);
                 saveToFile(data)
+                rubriqueService.addArticleToRubrique(article.rubrique)
                 return articleToAdd.id
                 //save 
                 console.log("article adddeedd")
@@ -76,13 +81,21 @@ const articleService = {
     }
     },
   
-
+addLectureArticle : async function addLectureArticle(id){
+  const rawData = await readDataFromFile()
+  const arti = rawData.articles.find(idd => id === idd.id)
+  arti.lectures +=1
+  saveToFile(rawData)
+},
 //delete a user 
 deleteArticle : async function deleteArticle(id){
     const rawData = await readDataFromFile()
     const index = rawData.articles.findIndex(idd => id === idd.id)
+
     if(index !== -1){
         console.log(rawData)
+        rubriqueService.removeArticleFromRubrique(rawData.articles[index])
+
         rawData.articles.splice(index,1)
         //delet the assets :
         const filePath = path.join(path.resolve(), 'save', 'saveArticle', 'pdf', id+'.pdf');
