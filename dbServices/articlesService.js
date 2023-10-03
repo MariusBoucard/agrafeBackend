@@ -157,6 +157,15 @@ getArticle : async function getArticle(id){
     const userFound = rawData.articles.find(idd => id === idd.id)
 return userFound    
 },
+getPublicArticle : async function getPublicArticle(id){
+  const rawData = await readDataFromFile()
+  const userFound = rawData.articles.find(idd => id === idd.id)
+  if(userFound){
+    if(!userFound.private){
+      return userFound    
+    }
+  }
+},
 
 
 //getAllUser Attention DTO mdp
@@ -170,6 +179,13 @@ return userFound
  }
 },
 
+getAllPublicArticles : async function getAllPublicArticles(){
+  const rawData = await readDataFromFile()
+  const userFound = rawData.articles.filter(ar => ar.private === false)
+  if(userFound){
+return userFound   
+ }
+},
 
 // TO ADD IN ROUTES :
 getArticlesFromRubrique : async function getArticlesFromRubrique(rubId){

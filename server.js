@@ -261,10 +261,22 @@ app.get('/api/getArticle',userService.authenticateToken,async (req, res) => {
   return res.status(200).json( await articleService.getArticle(id));
   // Implement your logic to fetch and send data here
 });
+app.get('/api/getPublicArticle',async (req, res) => {
 
+  // Retrieve the 'id' parameter from the query string
+  const id = req.query.id;
+
+return res.status(200).json( await articleService.getPublicArticle(id));
+// Implement your logic to fetch and send data here
+});
 app.get('/api/getAllArticles', userService.authenticateToken,async (req, res) => {
   // Implement your logic to fetch and send data here
   return res.status(200).json( await articleService.getAllArticles());
+});
+
+app.get('/api/getAllPublicArticles', async (req, res) => {
+  // Implement your logic to fetch and send data here
+  return res.status(200).json( await articleService.getAllPublicArticles());
 });
 
 app.post('/api/addLecture', async (req, res) => {
@@ -291,7 +303,6 @@ app.post('/api/addLectureArchive', async (req, res) => {
  */
 app.post('/api/addArchive',userService.authenticateToken ,async (req, res) => {
   const { archive } = req.body;
-  
 return res.status(201).json( await archiveService.addArchive(archive))
 });
 
@@ -313,26 +324,18 @@ app.post('/api/uploadPdfArchive',userService.authenticateToken ,upload.single('a
     // At this point, the image has been successfully saved to the server
   });
   archiveService.extractPdf(infoString)
-  
   return res.status(200).json({ message: 'pdf uploaded successfully.' });
 });
-
-
 
 app.delete('/api/deleteArchive/:id',userService.authenticateToken ,async (req, res) => {
     // Implement your logic to fetch and send data here
     const { id } = req.params;
-
-   
     return  res.status(200).json(await  archiveService.deleteArchive(id));
 
   })
   
-
 app.post('/api/modifyArchive',userService.authenticateToken ,async (req, res) => {
   const { archive } = req.body;
-
- 
   return  res.status(200).json(await archiveService.modifyArchive(archive));
   // Implement your logic to fetch and send data here
 });
@@ -344,10 +347,21 @@ app.get('/api/getArchive',userService.authenticateToken,async (req, res) => {
   return res.status(200).json( await archiveService.getArchive(id));
   // Implement your logic to fetch and send data here
 });
+app.get('/api/getArchivePublic',async (req, res) => {
+  const { id } = req.body;
+
+  return res.status(200).json( await archiveService.getArchivePublic(id));
+  // Implement your logic to fetch and send data here
+});
 
 app.get('/api/getAllArchives',userService.authenticateToken ,async (req, res) => {
   // Implement your logic to fetch and send data here
   return res.status(200).json( await archiveService.getAllArchives());
+});
+
+app.get('/api/getPublicArchives',async (req, res) => {
+  // Implement your logic to fetch and send data here
+  return res.status(200).json( await archiveService.getPublicArchives());
 });
 
 app.post('/api/privateArchive',userService.authenticateToken ,async (req, res) => {
@@ -378,7 +392,6 @@ app.post('/api/modifyRubrique',userService.authenticateToken ,async (req, res) =
 app.post('/api/addNewsletter', async (req, res) => {
   const { user } = req.body;
   return  res.status(200).json(await  newsletterService.addNewsletter(user));
-
 })
 app.get('/api/getNewsletter',userService.authenticateToken ,async (req,res) => {
   return res.status(200).json(await newsletterService.getAllNewsletter())
@@ -402,20 +415,13 @@ app.post('/api/uploadImageNews',userService.authenticateToken ,upload.single('im
   }
   console.log("newsId",req.body)
   const infoString = req.body.newsId; // Access the string data
-
-  const imageBuffer = req.file.buffer; // Access the uploaded image buffer
-
+  const imageBuffer = req.file.buffer; 
   const filename = infoString+".png";
-
-
   const imagePath = path.join(path.resolve(), 'save', 'newsImage', filename);
-  // Use the fs module to write the image buffer to the file
   fs.writeFile(imagePath, imageBuffer, err => {
     if (err) {
       console.error(err);
     }
-
-    // At this point, the image has been successfully saved to the server
   });
 
   return res.status(200).json({ message: 'Image uploaded successfully.' });
@@ -424,6 +430,10 @@ app.post('/api/uploadImageNews',userService.authenticateToken ,upload.single('im
 app.get('/api/getAllNews',userService.authenticateToken ,async (req,res) => {
   return res.status(200).json(await newsService.getAllNews())
 })
+app.get('/api/getPublicNews',async (req,res) => {
+  return res.status(200).json(await newsService.getPublicNews())
+})
+
 
 app.delete('/api/deleteNews/:id', userService.authenticateToken,async (req, res) => {
   const { id } = req.params

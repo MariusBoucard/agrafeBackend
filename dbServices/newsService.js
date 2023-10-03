@@ -86,5 +86,15 @@ getAllNews : async function getAllNews(){
   if(userFound){
 return userFound   
  }
-}}
+},
+getPublicNews : async function getPublicNews(){
+  const rawData = await readDataFromFile()
+  const userFound = rawData.news.filter(ne => ne.private === false)
+  console.log(userFound)
+  if(userFound){
+return userFound   
+ }
+}
+
+}
 export default newsService

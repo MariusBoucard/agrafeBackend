@@ -147,6 +147,15 @@ getArchive : async function getArchive(id){
     const userFound = rawData.archives.find(idd => id === idd.id)
 return userFound    
 },
+getArchivePublic : async function getArchivePublic(id){
+  const rawData = await readDataFromFile()
+  const userFound = rawData.archives.find(idd => id === idd.id)
+  if(!userFound.private){
+    return userFound    
+  } else {
+    return "Private archive"
+  }
+},
 
 
 //getAllUser Attention DTO mdp
@@ -154,6 +163,13 @@ return userFound
 getAllArchives : async function getAllArchives(){
   const rawData = await readDataFromFile()
   const userFound = rawData.archives
+  if(userFound){
+return userFound   
+ }
+},
+getPublicArchives : async function getPublicArchives(){
+  const rawData = await readDataFromFile()
+  const userFound = rawData.archives.filter(ar => ar.private === false)
   if(userFound){
 return userFound   
  }
