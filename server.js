@@ -310,6 +310,10 @@ app.get('/api/getLectures', async (req, res) => {
 // ARCHIVE PART 
 // Articles PARTTTT
 
+app.post('/api/addLectureArchive', async (req, res) => {
+  const { id } = req.body;
+  return res.status(200).json( await archiveService.addLecture(id))
+})
 
 /**
  * Approche utilisant une bd sql

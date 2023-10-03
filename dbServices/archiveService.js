@@ -69,6 +69,14 @@ const archiveService = {
         return { error : "Correspond pas a un archive"}
     }
     },
+    addLecture : async function addLecture(id){
+      const rawData = await readDataFromFile()
+      const found = rawData.archives.find(a => a.id ===id)
+      if(found){
+        found.lectures+=1
+        saveToFile(rawData)
+      }
+    },
   
 
 //delete a user 
@@ -80,6 +88,32 @@ deleteArchive : async function deleteArchive(id){
         console.log(rawData)
         rawData.archives.splice(index,1)
         saveToFile(rawData)
+        // Delete the 3 files
+        const pdf = path.join(path.resolve(),'save','saveArchive','pdf',id+".pdf")
+        const cover = path.join(path.resolve(),'save','saveArchive','cover',id+".png")
+        const back = path.join(path.resolve(),'save','saveArchive','back',id+".png")
+
+        fs.unlink(pdf, (err) => {
+          if (err) {
+            console.error(`Error deleting file: ${err}`);
+          } else {
+            console.log(`File deleted: ${pdf}`);
+          }
+        });
+        fs.unlink(cover, (err) => {
+          if (err) {
+            console.error(`Error deleting file: ${err}`);
+          } else {
+            console.log(`File deleted: ${cover}`);
+          }
+        });
+        fs.unlink(back, (err) => {
+          if (err) {
+            console.error(`Error deleting file: ${err}`);
+          } else {
+            console.log(`File deleted: ${back}`);
+          }
+        });
     }
     console.log(index)
 },

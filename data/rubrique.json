@@ -1,5 +1,11 @@
 {
   "rubriques": [
-
+    {
+      "id": "zTYggNX-gFsoUgEjPs-lC",
+      "rubrique": "Test",
+      "description": "test",
+      "rubRoute": "test",
+      "nombreArticles": 1
+    }
   ]
 }
