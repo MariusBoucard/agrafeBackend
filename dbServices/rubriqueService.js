@@ -115,7 +115,7 @@ addArticleToRubrique : async function addArticleToRubrique(id){
   const found = userFound.find(rub => rub.id === id)
   if(found){
     found.nombreArticles +=1
-    saveToFile(userFound)
+    saveToFile(rawData)
   }
 
 },
@@ -125,7 +125,7 @@ removeArticleFromRubrique : async function removeArticleFromRubrique(id){
   const found = userFound.find(rub => rub.id === id)
   if(found){
     found.nombreArticles -=1
-    saveToFile(userFound)
+    saveToFile(rawData)
   }
 }
 }

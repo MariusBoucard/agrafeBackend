@@ -40,7 +40,8 @@ const newsService = {
                     id :  idd,
                    "titre" : news.titre,
                    date: news.date,
-                   description : news.description
+                   description : news.description,
+                   private : true
                 }
                 //getdb,
                 const rawData = await readDataFromFile()
@@ -54,7 +55,14 @@ const newsService = {
         return { error : "Correspond pas a une news"}
     }
     },
-  
+  privateNews : async function privateNews(id){
+    const rawData = await readDataFromFile()
+    const found = rawData.news.find(idd => id === idd.id)
+    if(found){
+      found.private = !found.private
+      saveToFile(rawData)
+    }
+  },
 
 //delete a user 
 deleteNews : async function deleteNews(id){

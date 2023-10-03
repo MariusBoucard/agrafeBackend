@@ -1,7 +1,7 @@
 import {nanoid } from 'nanoid'
 import fs from 'fs'
 import path from 'path'
-import rubriqueService from './rubriqueService';
+import rubriqueService from './rubriqueService.js';
 // Function to read the JSON file
 function readDataFromFile() {
     return new Promise((resolve, reject) => {
@@ -54,7 +54,7 @@ const articleService = {
                     auteur  : article.auteur,
                     numeroParu : article.numeroParu,
                     date : article.date,
-                    private : article.private,
+                    private : true,
                     // Attention, bien save l id de la rubrique
                     rubrique : article.rubrique,
                     misEnLigne : article.misEnLigne,
@@ -93,8 +93,8 @@ deleteArticle : async function deleteArticle(id){
     const index = rawData.articles.findIndex(idd => id === idd.id)
 
     if(index !== -1){
-        console.log(rawData)
-        rubriqueService.removeArticleFromRubrique(rawData.articles[index])
+        console.log(rawData.articles[index],"data")
+        rubriqueService.removeArticleFromRubrique(rawData.articles[index].rubrique)
 
         rawData.articles.splice(index,1)
         //delet the assets :
@@ -144,7 +144,13 @@ modifyArticle : async function modifyArticle(article){
     }
 },
 
-
+publicArticle : async function publicArticle(id){
+  const rawData = await readDataFromFile()
+  console.log(id)
+  const userFound = rawData.articles.find(idd => id === idd.id)
+  userFound.private = !userFound.private
+  saveToFile(rawData)
+},
 //GetUser ATTention DTO MDP
 getArticle : async function getArticle(id){
     const rawData = await readDataFromFile()

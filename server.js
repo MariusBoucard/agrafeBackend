@@ -274,6 +274,14 @@ app.post('/api/modifyArticle', (req, res) => {
   // Implement your logic to fetch and send data here
 });
 
+app.post('/api/privateArticle', (req, res) => {
+  const { id } = req.body;
+
+  articleService.publicArticle(id);
+  return  res.status(200).json({ message: 'C modif' });
+  // Implement your logic to fetch and send data here
+});
+
 app.get('/api/getArticle',async (req, res) => {
 
     // Retrieve the 'id' parameter from the query string
@@ -310,13 +318,35 @@ app.post('/api/addArchive', async (req, res) => {
   const { archive } = req.body;
   
 return res.status(201).json( await archiveService.addArchive(archive))
-
- 
 });
 
-app.post('/api/deleteArchive', async (req, res) => {
+
+// Handle the image upload separately
+app.post('/api/uploadPdfArchive', upload.single('archivePdf'), (req, res) => {
+  if (!req.file) {
+    return res.status(400).json({ message: 'No pdf file received.' });
+  }
+  const infoString = req.body.archiveId; // Access the string data
+  const imageBuffer = req.file.buffer; // Access the uploaded image buffer
+  const filename = infoString+".pdf";
+  const pdfPath = path.join(path.resolve(), 'save', 'saveArchive', 'pdf', filename);
+  // Use the fs module to write the image buffer to the file
+  fs.writeFileSync(pdfPath, imageBuffer, err => {
+    if (err) {
+      console.error(err);
+    }
+    // At this point, the image has been successfully saved to the server
+  });
+  archiveService.extractPdf(infoString)
+  
+  return res.status(200).json({ message: 'pdf uploaded successfully.' });
+});
+
+
+
+app.delete('/api/deleteArchive/:id', async (req, res) => {
     // Implement your logic to fetch and send data here
-    const { id } = req.body;
+    const { id } = req.params;
 
    
     return  res.status(200).json(await  archiveService.deleteArchive(id));
@@ -344,6 +374,12 @@ app.get('/api/getAllArchives', async (req, res) => {
   // Implement your logic to fetch and send data here
   return res.status(200).json( await archiveService.getAllArchives());
 });
+
+app.post('/api/privateArchive', async (req, res) => {
+  const { id } = req.body;
+
+  return res.status(200).json(await archiveService.privateArchive(id))
+})
 
 /// Lets go la suite
 app.post('/api/addRubrique', async (req,res) => {
@@ -417,5 +453,9 @@ app.get('/api/getAllNews', async (req,res) => {
 app.delete('/api/deleteNews/:id', async (req, res) => {
   const { id } = req.params
   return res.status(200).json(await newsService.deleteNews(id))
+})
 
+app.post('/api/privateNews', async (req,res) => {
+  const { id } = req.body
+  return res.status(200).json(await newsService.privateNews(id))
 })

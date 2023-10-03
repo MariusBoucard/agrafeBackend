@@ -16,7 +16,10 @@
     "jsonwebtoken": "^9.0.2",
     "multer": "^1.4.5-lts.1",
     "mysql2": "^3.6.1",
-    "nanoid": "4"
+    "nanoid": "4",
+    "pdf-img-convert": "^1.2.1",
+    "pdf-lib": "^1.17.1",
+    "pdf2pic": "^3.0.3"
   },
   "type": "module"
 }
