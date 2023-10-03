@@ -334,17 +334,21 @@ app.get('/api/getAllArchives', async (req, res) => {
 /// Lets go la suite
 app.post('/api/addRubrique', async (req,res) => {
   const { rubrique } = req.body;
-
-   
   return  res.status(200).json(await  rubriqueService.addARubrique(rubrique));
-
 })
 
 app.get('/api/getrubriques', async (req, res)=> {
   console.log('tataa')
   return res.status(200).json( await rubriqueService.getAllRubriques());
-
 })
+
+app.post('/api/modifyRubrique', async (req, res) => {
+  const { rubrique } = req.body;
+
+ 
+  return  res.status(200).json(await rubriqueService.modifyRubrique(rubrique));
+  // Implement your logic to fetch and send data here
+});
 
 // Newsletter
 app.post('/api/addNewsletter', async (req, res) => {

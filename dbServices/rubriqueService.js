@@ -45,7 +45,7 @@ const rubriqueService = {
                     "rubrique" : rubrique.rubrique,
                     "description" : rubrique.description,
                     "rubRoute" : rubrique.rubRoute,
-                    "nombreArticles" : rubrique.nombreArticles
+                    "nombreArticles" : 0
                 }
                 //getdb,
                 const rawData = await readDataFromFile()
@@ -86,7 +86,6 @@ modifyRubrique : async function modifyRubrique(rubrique){
         arti.rubRoute = rubrique.rubRoute,
         arti.description = rubrique.description,
         arti.rubrique = rubrique.rubrique,
-        arti.nombreArticles = rubrique.nombreArticles,
         saveToFile(rawData)
     }
 },
