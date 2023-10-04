@@ -6,6 +6,13 @@
       "description": "test",
       "rubRoute": "test",
       "nombreArticles": 1
+    },
+    {
+      "id": "1pfoDu0AYl6YNGc9VKp6V",
+      "rubrique": "fds",
+      "description": "dfsdsfs",
+      "rubRoute": "fds",
+      "nombreArticles": 0
     }
   ]
 }
