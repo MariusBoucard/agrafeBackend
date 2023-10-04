@@ -61,28 +61,28 @@ app.post('/api/register', userService.authenticateToken,(req, res) => {
   const { username ,mail, password } = req.body;
   // Hash the password before saving it in the database
   const hashedPassword = bcrypt.hashSync(password, 10);
-  userService.addUser(
+  const ret = userService.addUser(
     {
       name : username,
       mail : mail,
       password : hashedPassword
     }
   )
-  return res.status(200).json({ message: 'User registered successfully' });
+  return res.status(ret.code).json({ message: ret.message });
 });
 // User registration
 app.post('/api/registerAdmin' ,(req, res) => {
   const { username ,mail, password } = req.body;
   // Hash the password before saving it in the database
   const hashedPassword = bcrypt.hashSync(password, 10);
-  userService.addAdminUser(
+  const ret = userService.addAdminUser(
     {
       name : username,
       mail : mail,
       password : hashedPassword
     }
   )
-  return res.status(200).json({ message: 'User registered successfully' });
+  return res.status(ret.code).json({ message: ret.message });
 });
 
 // User login
@@ -95,7 +95,7 @@ app.post('/api/login', async (req, res) => {
   })
   if(id !== false){
     const token = userService.generateToken(id)
-    res.json({ token : token, connected : true });
+    res.status(200).json({ token : token, connected : true });
   }
   res.status(401)
 });
@@ -112,8 +112,8 @@ app.post('/api/deleteUser', userService.authenticateToken, (req, res) => {
     // Implement your logic to fetch and send data here
     const { id } = req.body;
 
-    userService.deleteUser(id);
-    return  res.status(200).json({ message: 'C delete' });
+    const res = userService.deleteUser(id);
+    return  res.status(res.code).json({ message: res.message });
 
   })
   
@@ -121,8 +121,8 @@ app.post('/api/deleteUser', userService.authenticateToken, (req, res) => {
 app.post('/api/modifyUser',userService.authenticateToken ,(req, res) => {
   const { user } = req.body;
 
-  userService.modifyUser(user);
-  return  res.status(200).json({ message: 'C delete' });
+  const res =userService.modifyUser(user);
+  return  res.status(res.code).json({ message: res.message });
   // Implement your logic to fetch and send data here
 });
 
@@ -133,24 +133,24 @@ app.get('/api/getUser',userService.authenticateToken,async (req, res) => {
   const { id } = req.body;
   const result = await userService.getUser(id);
   if (result.user) {
-    return res.status(200).json(result);
+    return res.status(res.code).json(result);
   } else {
-    return res.status(404).json(result); 
+    return res.status(res.code).json(result); 
   }
 });
 
 app.get('/api/getAllUser',userService.authenticateToken ,async (req, res) => {
   // Implement your logic to fetch and send data here
-  return res.status(200).json( await userService.getAllUser());
+  const res = await userService.getAllUser()
+  return res.status(res.code).json(res.users);
 });
 
-app.delete('/api/deleteUser/:id',userService.authenticateToken ,(req, res) => {
+app.delete('/api/deleteUser/:id',userService.authenticateToken ,async (req, res) => {
   // Implement your logic to fetch and send data here
   const { id } = req.params;
-  userService.deleteUser(id);
-  return  res.status(200).json({ message: 'C delete' });
+  const res = await userService.deleteUser(id);
+  return  res.status(res.code).json({ message: res.message });
 })
-
 
 // Articles PARTTTT
 
@@ -161,7 +161,8 @@ app.delete('/api/deleteUser/:id',userService.authenticateToken ,(req, res) => {
 app.post('/api/addArticle',userService.authenticateToken ,upload.none(), async (req, res) => {
   // Handle the FormData here
   const { article } = req.body;
-return res.status(201).json( await articleService.addArticle(article))
+ const res= await articleService.addArticle(article)
+return res.status(res.code).json({message : res.message } )
 
  
 });
@@ -212,49 +213,53 @@ app.post('/api/uploadPdfArticle',userService.authenticateToken ,upload.single('a
   return res.status(200).json({ message: 'pdf uploaded successfully.' });
 });
 
-app.delete('/api/deleteArticle/:id',userService.authenticateToken ,(req, res) => {
+app.delete('/api/deleteArticle/:id',userService.authenticateToken , async (req, res) => {
     // Implement your logic to fetch and send data here
     const { id } = req.params;
-    articleService.deleteArticle(id);
-    return  res.status(200).json({ message: 'C delete' });
+    const res = await articleService.deleteArticle(id);
+    return  res.status(res.code).json({ message: res.message });
 
   })
   
 
-app.post('/api/modifyArticle',userService.authenticateToken ,(req, res) => {
+app.post('/api/modifyArticle',userService.authenticateToken , async (req, res) => {
   const { article } = req.body;
-  articleService.modifyArticle(article);
-  return  res.status(200).json({ message: 'C modif' });
+  const res = articleService.modifyArticle(article);
+  return  res.status(res.code).json({ message: res.message });
   // Implement your logic to fetch and send data here
 });
 
-app.post('/api/privateArticle',userService.authenticateToken ,(req, res) => {
+app.post('/api/privateArticle',userService.authenticateToken ,async (req, res) => {
   const { id } = req.body;
-  articleService.publicArticle(id);
-  return  res.status(200).json({ message: 'C modif' });
+  const res = await articleService.publicArticle(id);
+  return  res.status(res.code).json({ message: res.message });
   // Implement your logic to fetch and send data here
 });
 
 app.get('/api/getArticle',userService.authenticateToken,async (req, res) => {
     // Retrieve the 'id' parameter from the query string
     const id = req.query.id;
-
-  return res.status(200).json( await articleService.getArticle(id));
+   const res =  await articleService.getArticle(id)
+  return res.status(res.code).json(res.article);
   // Implement your logic to fetch and send data here
 });
+
 app.get('/api/getPublicArticle',async (req, res) => {
   const id = req.query.id;
-return res.status(200).json( await articleService.getPublicArticle(id));
+  const res =  await articleService.getPublicArticle(id)
+return res.status(res.code).json(res.articles);
 // Implement your logic to fetch and send data here
 });
 app.get('/api/getAllArticles', userService.authenticateToken,async (req, res) => {
   // Implement your logic to fetch and send data here
-  return res.status(200).json( await articleService.getAllArticles());
+  const res =  await articleService.getAllArticles()
+  return res.status(res.code).json(res.articles);
 });
 
 app.get('/api/getAllPublicArticles', async (req, res) => {
   // Implement your logic to fetch and send data here
-  return res.status(200).json( await articleService.getAllPublicArticles());
+  const res = await articleService.getAllPublicArticles()
+  return res.status(res.code).json(res.articles);
 });
 
 app.post('/api/addLecture', async (req, res) => {
@@ -281,7 +286,8 @@ app.post('/api/addLectureArchive', async (req, res) => {
  */
 app.post('/api/addArchive',userService.authenticateToken ,async (req, res) => {
   const { archive } = req.body;
-return res.status(201).json( await archiveService.addArchive(archive))
+  const res = await archiveService.addArchive(archive)
+return res.status(res.code).json({ id : res.archive.id, archive : res.archive})
 });
 
 
@@ -308,57 +314,64 @@ app.post('/api/uploadPdfArchive',userService.authenticateToken ,upload.single('a
 app.delete('/api/deleteArchive/:id',userService.authenticateToken ,async (req, res) => {
     // Implement your logic to fetch and send data here
     const { id } = req.params;
-    return  res.status(200).json(await  archiveService.deleteArchive(id));
+    const res = await  archiveService.deleteArchive(id)
+    return  res.status(res.code).json(res.message);
 
   })
   
 app.post('/api/modifyArchive',userService.authenticateToken ,async (req, res) => {
   const { archive } = req.body;
-  return  res.status(200).json(await archiveService.modifyArchive(archive));
+  const res = await archiveService.modifyArchive(archive)
+  return  res.status(res.code).json(res.message);
   // Implement your logic to fetch and send data here
 });
 
 app.get('/api/getArchive',userService.authenticateToken,async (req, res) => {
   const { id } = req.body;
-  return res.status(200).json( await archiveService.getArchive(id));
+  const res =  await archiveService.getArchive(id)
+  return res.status(res.code).json(res.archive);
   // Implement your logic to fetch and send data here
 });
 app.get('/api/getArchivePublic',async (req, res) => {
   const { id } = req.body;
-
-  return res.status(200).json( await archiveService.getArchivePublic(id));
+  const res =  await archiveService.getArchivePublic(id)
+  return res.status(res.code).json(res.archive);
   // Implement your logic to fetch and send data here
 });
 
 app.get('/api/getAllArchives',userService.authenticateToken ,async (req, res) => {
   // Implement your logic to fetch and send data here
-  return res.status(200).json( await archiveService.getAllArchives());
+  const res = await archiveService.getAllArchives()
+  return res.status(res.code).json(res.archives);
 });
 
 app.get('/api/getPublicArchives',async (req, res) => {
   // Implement your logic to fetch and send data here
-  return res.status(200).json( await archiveService.getPublicArchives());
+  const res = await archiveService.getPublicArchives()
+  return res.status(res.code).json(res.archives);
 });
 
 app.post('/api/privateArchive',userService.authenticateToken ,async (req, res) => {
   const { id } = req.body;
-
   return res.status(200).json(await archiveService.privateArchive(id))
 })
 
 /// Lets go la suite
 app.post('/api/addRubrique',userService.authenticateToken ,async (req,res) => {
   const { rubrique } = req.body;
-  return  res.status(200).json(await  rubriqueService.addARubrique(rubrique));
+  const res = await  rubriqueService.addARubrique(rubrique)
+  return  res.status(res.code).json(res.message);
 })
 
 app.get('/api/getrubriques', async (req, res)=> {
-  return res.status(200).json( await rubriqueService.getAllRubriques());
+  const res = await rubriqueService.getAllRubriques()
+  return res.status(res.code).json(res.rubriques);
 })
 
 app.post('/api/modifyRubrique',userService.authenticateToken ,async (req, res) => {
   const { rubrique } = req.body;
-  return  res.status(200).json(await rubriqueService.modifyRubrique(rubrique));
+  const res = await rubriqueService.modifyRubrique(rubrique)
+  return  res.status(res.code).json(res.message);
   // Implement your logic to fetch and send data here
 });
 
@@ -366,14 +379,17 @@ app.post('/api/modifyRubrique',userService.authenticateToken ,async (req, res) =
 // Newsletter
 app.post('/api/addNewsletter', async (req, res) => {
   const { user } = req.body;
-  return  res.status(200).json(await  newsletterService.addNewsletter(user));
+  const res = await  newsletterService.addNewsletter(user)
+  return  res.status(res.code).json({ id : res.newsletter.id, message : res.message});
 })
 app.get('/api/getNewsletter',userService.authenticateToken ,async (req,res) => {
-  return res.status(200).json(await newsletterService.getAllNewsletter())
+  const res = await newsletterService.getAllNewsletter()
+  return res.status(res.code).json(res.newsletter)
 })
 app.delete('/api/deleteNewsletter/:id', async (req, res) => {
   const { id } = req.params
-  return res.status(200).json(await newsletterService.deleteNewsletter(id))
+  const res = await newsletterService.deleteNewsletter(id)
+  return res.status(res.code).json(res.message)
 
 })
 
@@ -381,7 +397,8 @@ app.delete('/api/deleteNewsletter/:id', async (req, res) => {
 
 app.post('/api/addNews',userService.authenticateToken ,async (req, res) => {
   const { news } = req.body
-  return res.status(200).json(await newsService.addNews(news))
+  const res = await newsService.addNews(news)
+  return res.status(res.code).json(res.news)
 })
 
 app.post('/api/uploadImageNews',userService.authenticateToken ,upload.single('imageLogo'), (req, res) => {
@@ -402,19 +419,23 @@ app.post('/api/uploadImageNews',userService.authenticateToken ,upload.single('im
 });
 
 app.get('/api/getAllNews',userService.authenticateToken ,async (req,res) => {
-  return res.status(200).json(await newsService.getAllNews())
+  const res = await newsService.getAllNews()
+  return res.status(res.code).json(res.news)
 })
 app.get('/api/getPublicNews',async (req,res) => {
-  return res.status(200).json(await newsService.getPublicNews())
+  const res = await newsService.getPublicNews()
+  return res.status(res.code).json(res.news)
 })
 
 
 app.delete('/api/deleteNews/:id', userService.authenticateToken,async (req, res) => {
   const { id } = req.params
-  return res.status(200).json(await newsService.deleteNews(id))
+  const res = await newsService.deleteNews(id)
+  return res.status(res.code).json(res.message)
 })
 
 app.post('/api/privateNews',userService.authenticateToken ,async (req,res) => {
   const { id } = req.body
-  return res.status(200).json(await newsService.privateNews(id))
+  const res = await newsService.privateNews(id)
+  return res.status(res.code).json(res.message)
 })
