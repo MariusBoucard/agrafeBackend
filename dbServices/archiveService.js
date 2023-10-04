@@ -59,15 +59,12 @@ const archiveService = {
                 saveToFile(data)
                 //save 
                 console.log("archive adddeedd")
-                return idd
-        //     } catch {
-        //         console.log("error")
-        //         return { error : "Mon soos ça a chié en rajoutant le user"}
-        // }
+                return { code: 200, message: "archive ajoutée" , archive : archiveToAdd};
+         
     } else {
         console.log('pas bon')
-        return { error : "Correspond pas a un archive"}
-    }
+        return { code: 404, message: "archive ajoutée" , archive : null};
+      }
     },
     addLecture : async function addLecture(id){
       const rawData = await readDataFromFile()
@@ -114,8 +111,9 @@ deleteArchive : async function deleteArchive(id){
             console.log(`File deleted: ${back}`);
           }
         });
+        return { code: 200, message: "archive deleted" };
     }
-    console.log(index)
+    return { code: 404, message: "archive not deleted" };
 },
 //modify a user
 modifyArchive : async function modifyArchive(archive){
@@ -132,7 +130,10 @@ modifyArchive : async function modifyArchive(archive){
         arti.numero = archive.numero,
         arti.lectures = archive.lectures,
         saveToFile(rawData)
+        return { code: 200, message: "archive modified" };
     }
+    return { code: 404, message: "archive not modified" };
+
 },
 
 privateArchive : async function privateArchive(id){
@@ -145,15 +146,18 @@ privateArchive : async function privateArchive(id){
 getArchive : async function getArchive(id){
     const rawData = await readDataFromFile()
     const userFound = rawData.archives.find(idd => id === idd.id)
-return userFound    
-},
+    if(userFound){
+      return { code: 200, message: "voila l archive" , archive : userFound};
+    }
+    return { code: 404, message: "voila l archive" , archive : null};
+  },
 getArchivePublic : async function getArchivePublic(id){
   const rawData = await readDataFromFile()
   const userFound = rawData.archives.find(idd => id === idd.id)
   if(!userFound.private){
-    return userFound    
+    return { code: 200, message: "voila l archive" , archive : userFound};
   } else {
-    return "Private archive"
+    return { code: 401, message: "archive privée" , archive : null};
   }
 },
 
@@ -164,15 +168,19 @@ getAllArchives : async function getAllArchives(){
   const rawData = await readDataFromFile()
   const userFound = rawData.archives
   if(userFound){
-return userFound   
+    return { code: 200, message: "voila l archive" , archives : userFound};   
  }
+ return { code: 404, message: "voila l archive" , archives : null};
+
 },
 getPublicArchives : async function getPublicArchives(){
   const rawData = await readDataFromFile()
   const userFound = rawData.archives.filter(ar => ar.private === false)
   if(userFound){
-return userFound   
+    return { code: 200, message: "voila l archive" , archives : userFound};   
  }
+ return { code: 404, message: "voila l archive" , archives : null};   
+
 },
 extractPdf : async function extractPdf(filename) {
   try {

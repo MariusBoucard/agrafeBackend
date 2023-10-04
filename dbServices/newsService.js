@@ -48,10 +48,10 @@ const newsService = {
                 const data  = rawData
                 data.news.push(newsToAdd);
                 saveToFile(data)
-                return idd
+                return { code: 200, message: "news added" , news : newsToAdd};
              
     } else {
-        return { error : "Correspond pas a une news"}
+      return { code: 404, message: "news pas ajoutée" , news : null};
     }
     },
   privateNews : async function privateNews(id){
@@ -60,7 +60,10 @@ const newsService = {
     if(found){
       found.private = !found.private
       saveToFile(rawData)
+      return { code: 200, message: "news passed private" };
     }
+    return { code: 404, message: "news pas passed private" };
+
   },
 
 //delete a user 
@@ -70,7 +73,11 @@ deleteNews : async function deleteNews(id){
     if(index !== -1){
         rawData.news.splice(index,1)
         saveToFile(rawData)
+        return { code: 200, message: "news deleted" };
+
     }
+    return { code: 404, message: "news not found" };
+
 },
 
 
@@ -81,15 +88,19 @@ getAllNews : async function getAllNews(){
   const rawData = await readDataFromFile()
   const userFound = rawData.news
   if(userFound){
-return userFound   
+    return { code: 200, message: "news found", news : userFound };
  }
+ return { code: 404, message: "news not found", news : null };
+
 },
 getPublicNews : async function getPublicNews(){
   const rawData = await readDataFromFile()
   const userFound = rawData.news.filter(ne => ne.private === false)
   if(userFound){
-return userFound   
+    return { code: 200, message: "news found", news : userFound };
  }
+ return { code: 404, message: "news not found", news : null };
+
 }
 
 }

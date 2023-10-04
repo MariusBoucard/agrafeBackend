@@ -60,10 +60,11 @@ const userService = {
                 if(!data.users.find(e => e.mail === userToAdd.mail)){
                   data.users.push(userToAdd);
                   saveToFile(data)
-                  return "User addede"
-                }
+                    return { code: 200, message: "User added" };
+                  }   
                 else {
-                  return "mail deja existant"
+                  return { code: 500, message: "Utilisateur déja existant" };
+
                 }
           } else {
               return { error : "Correspond pas a un utilisateur"}
@@ -90,9 +91,9 @@ const userService = {
             if( ! data.users.find(aa => aa.mail === userToAdd.mail)){
               data.users.push(userToAdd);
               saveToFile(data)
-              return "user added"
+              return { code: 200, message: "User added" };
             } else {
-              return "Mail déja existant"
+              return { code: 500, message: "User deja existant" };
             }      
 } else {
     return { error : "Correspond pas a un utilisateur"}
@@ -106,7 +107,10 @@ deleteUser : async function deleteUser(id){
     if(index !== -1){
         rawData.users.splice(index,1)
         saveToFile(rawData)
+        return { code: 200, message: "User deleted" };
     }
+    return { code: 404, message: "User not found" };
+
 },
 //modify a user
 modifyUser : async function modifyUser(user){
@@ -115,8 +119,11 @@ modifyUser : async function modifyUser(user){
     if(userFound){
         userFound.name = user.name
         userFound.mail = user.mail
-        saveToFile(rawData)
+        saveToFile(rawData)            
+         return { code: 200, message: "User modified" };
     }
+    return { code: 404, message: "User not found" };
+
 },
 
 
@@ -126,9 +133,9 @@ getUser : async function getUser(id){
     const userFound = rawData.users.find(idd => id === idd.id)
     if (userFound) {
       userFound.hash = "Si tu pensais avoir le Hash du mdp, t'es mignon, ça fait des DTO stupides ici";
-      return { user: userFound, message: "User found" };
+      return { code :200 , user: userFound, message: "User found" };
     } else {
-      return { user: null, message: "User not found" };
+      return { code : 404 ,user: null, message: "User not found" };
     }
 },
 
@@ -140,8 +147,9 @@ getAllUser : async function getAllUser(){
   const userFound = rawData.users
   if(userFound){
       userFound.forEach(user=> user.hash = "Si tu pensais avoir le Hash du mdp, t'es mignon, ça fait des DTO stupides ici")
-return userFound   
+     return { code: 200, message: "User added" , users : userFound};
  }
+ return { code: 404, message: "User not found" , users : null};
 },
 doUserExists : async function doUserExists(user){
   const rawData = await readDataFromFile()

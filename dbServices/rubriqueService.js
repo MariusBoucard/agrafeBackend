@@ -51,8 +51,10 @@ const rubriqueService = {
                 const data  = rawData
                 data.rubriques.push(rubriqueToAdd);
                 saveToFile(data)
+                return { code: 200, message: "Rubrique added" };
+
     } else {
-        return { error : "Correspond pas a un rubrique"}
+      return { code: 404, message: "Erreur ajout rubrique" };
     }
     },
   
@@ -65,7 +67,10 @@ deleteRubrique : async function deleteRubrique(id){
     if(index !== -1){
         rawData.rubriques.splice(index,1)
         saveToFile(rawData)
+        return { code: 200, message: "Rubrique deleted" };
     }
+    return { code: 404, message: "Rubrique not found" };
+
 },
 //modify a user
 modifyRubrique : async function modifyRubrique(rubrique){
@@ -76,7 +81,9 @@ modifyRubrique : async function modifyRubrique(rubrique){
         arti.description = rubrique.description,
         arti.rubrique = rubrique.rubrique,
         saveToFile(rawData)
+        return { code: 200, message: "Rubrique Modified" };
     }
+    return { code: 404, message: "Rubrique not found" };
 },
 
 
@@ -84,8 +91,11 @@ modifyRubrique : async function modifyRubrique(rubrique){
 getRubrique : async function getRubrique(id){
     const rawData = await readDataFromFile()
     const userFound = rawData.rubriques.find(idd => id === idd.id)
-return userFound    
-},
+    if(userFound){
+      return { code: 200, message: "Rubrique found" , rubrique : userFound};
+    }
+    return { code: 404, message: "Rubrique not found" , rubrique : null};
+  },
 
 
 //getAllUser Attention DTO mdp
@@ -93,9 +103,11 @@ return userFound
 getAllRubriques : async function getAllRubriques(){
   const rawData = await readDataFromFile()
   const userFound = rawData.rubriques
-  if(userFound){
-return userFound   
- }
+    if(userFound){
+      return { code: 200, message: "Rubrique found" , rubriques : userFound};
+  }
+  return { code: 404, message: "Rubriques not found" , rubriques : null};
+
 },
 addArticleToRubrique : async function addArticleToRubrique(id){
   const rawData = await readDataFromFile()
@@ -104,8 +116,9 @@ addArticleToRubrique : async function addArticleToRubrique(id){
   if(found){
     found.nombreArticles +=1
     saveToFile(rawData)
+    return { code: 200, message: "article added to rubrique" };
   }
-
+  return { code: 404, message: "article not added to rubrique" };
 },
 removeArticleFromRubrique : async function removeArticleFromRubrique(id){
   const rawData = await readDataFromFile()
@@ -114,7 +127,11 @@ removeArticleFromRubrique : async function removeArticleFromRubrique(id){
   if(found){
     found.nombreArticles -=1
     saveToFile(rawData)
+    return { code: 200, message: "article deleted" };
+
   }
+  return { code: 404, message: "article not deleted" };
+
 }
 }
 

@@ -46,10 +46,10 @@ const newsletterService = {
                 const data  = rawData
                 data.newsletter.push(userToAdd);
                 saveToFile(data)
-                return idd
+                return { code: 200, message: "newsletters added" , newsletter : userToAdd};
              
     } else {
-        return { error : "Correspond pas a une news"}
+      return { code: 404, message: "newsletters not added" , newsletter : null};
     }
     },
   
@@ -61,8 +61,11 @@ deleteNewsletter : async function deleteNewsletter(id){
     if(index !== -1){
         rawData.newsletter.splice(index,1)
         //delet the assets :
-        saveToFile(rawData)    
+        saveToFile(rawData)  
+        return { code: 200, message: "mail deleted" };
     }
+    return { code: 404, message: "mail deleted"};
+
 },
 
 //getAllUser Attention DTO mdp
@@ -71,7 +74,11 @@ getAllNewsletter : async function getAllNewsletter(){
   const rawData = await readDataFromFile()
   const userFound = rawData.newsletter
   if(userFound){
-return userFound   
+return { code: 200, message: "Voila toutes les newsletters" , newsletter : userFound};
+
+ } else {
+  return { code: 404, message: "news not found" , newsletter : null};
+
  }
 }}
 export default newsletterService

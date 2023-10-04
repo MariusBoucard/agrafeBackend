@@ -65,9 +65,9 @@ const articleService = {
                 data.articles.push(articleToAdd);
                 saveToFile(data)
                 rubriqueService.addArticleToRubrique(article.rubrique)
-                return articleToAdd.id
+                return { code: 200, message: "article added" , article : articleToAdd};
     } else {
-        return { error : "Correspond pas a un article"}
+      return { code: 404, message: "article not added" , article : null};
     }
     },
   
@@ -108,8 +108,11 @@ deleteArticle : async function deleteArticle(id){
         
         
         saveToFile(rawData)
-        
+        return { code: 200, message: "article deleted" };
+
     }
+    return { code: 404, message: "article not found"};
+
 },
 //modify a user
 modifyArticle : async function modifyArticle(article){
@@ -128,29 +131,41 @@ modifyArticle : async function modifyArticle(article){
         arti.misEnLigne = article.misEnLigne,
         arti.fileType = article.fileType
         saveToFile(rawData)
+        return { code: 200, message: "article modified" };
     }
+    return { code: 404, message: "article not modified" };
+
 },
 
 publicArticle : async function publicArticle(id){
   const rawData = await readDataFromFile()
   const userFound = rawData.articles.find(idd => id === idd.id)
-  userFound.private = !userFound.private
-  saveToFile(rawData)
+  if(userFound){
+    userFound.private = !userFound.private
+    saveToFile(rawData)
+    return { code: 200, message: "article passé public" };
+  }
+  return { code: 404, message: "article pas passé public" };
 },
 //GetUser ATTention DTO MDP
 getArticle : async function getArticle(id){
     const rawData = await readDataFromFile()
     const userFound = rawData.articles.find(idd => id === idd.id)
-return userFound    
-},
+    if(userFound){
+      return { code: 200, message: "Voila l'article bg" , article : userFound};
+    }
+    return { code: 404, message: "Voila l'article bg" , article : null};
+  },
 getPublicArticle : async function getPublicArticle(id){
   const rawData = await readDataFromFile()
   const userFound = rawData.articles.find(idd => id === idd.id)
   if(userFound){
     if(!userFound.private){
-      return userFound    
+      return { code: 200, message: "Voila les articles bg" , article : userFound};
     }
+    return { code: 404, message: "pas d article bg" , article : null};
   }
+  return { code: 404, message: "pas d article" , article : null};
 },
 
 
@@ -160,16 +175,18 @@ getAllArticles : async function getAllArticles(){
   const rawData = await readDataFromFile()
   const userFound = rawData.articles
   if(userFound){
-return userFound   
+    return { code: 200, message: "Voila les articles bg" , articles : userFound};
  }
+ return { code: 404, message: "pas d article bg" , articles : null};
 },
 
 getAllPublicArticles : async function getAllPublicArticles(){
   const rawData = await readDataFromFile()
   const userFound = rawData.articles.filter(ar => ar.private === false)
   if(userFound){
-return userFound   
+    return { code: 200, message: "Voila les articles bg" , article : userFound};
  }
+ return { code: 404, message: "pas d article bg" , articles : null};
 },
 
 // TO ADD IN ROUTES :
@@ -177,11 +194,12 @@ getArticlesFromRubrique : async function getArticlesFromRubrique(rubId){
   const rawData = await readDataFromFile()
   const tab = rawData.articles.filter(arti => arti.rubrique === rubId)
   if(tab){
-   return tab   
+    return { code: 200, message: "Voila les articles bg" , articles : tab};
   }
-
+  return { code: 404, message: "pas d article bg" , articles : null};
 },
 
+//TODO
 // TO ADD IN ROUTES :
 getArticlesPage : async function getArticlesPage(number){
   const rawData = await readDataFromFile()
@@ -190,8 +208,9 @@ getArticlesPage : async function getArticlesPage(number){
   const endIndex = startIndex+pageSize
   const result = rawData.articles.slice(startIndex, endIndex);
   // TODO : On sort comment ? Il faudrait l'envoyer aussi
-  return result
+  return { code: 200, message: "Voila les articles bg" , articles : result};
 },
+//TODO
 getArticleFromName : async function getArticleFromName(name){
   const rawData = await readDataFromFile()
   const result = rawData.articles.filter(arto => 
@@ -199,8 +218,8 @@ getArticleFromName : async function getArticleFromName(name){
     .toLowerCase() // Convert the article title to lowercase
     .replace(/[.,\/#!$%^&*;:{}=\-_`~()]/g, "") // Remove punctuation
     .includes(name.toLowerCase()) )
-  return result
-}
+    return { code: 200, message: "Voila les articles bg" , articles : result};
+  }
 
 }
 
