@@ -14,6 +14,7 @@ import rubriqueService from './dbServices/rubriqueService.js';
 import newsletterService from './dbServices/newsletterService.js';
 import newsService from './dbServices/newsService.js';
 import lectureService from './dbServices/lectureService.js';
+import focaleService from './dbServices/focaleService.js';
 app.use('/save', express.static('save'));
 const upload = multer();
 
@@ -439,4 +440,82 @@ app.post('/api/privateNews',userService.authenticateToken ,async (req,res) => {
   const { id } = req.body
   const resu = await newsService.privateNews(id)
   return res.status(resu.code).json(resu.message)
+})
+
+/////////////////// FOCALLEEEEE
+// Route to send the JSON object
+app.post('/api/addFocale', userService.authenticateToken, async (req, res) => {
+  const jsonObject = req.body; // Assuming the JSON object is sent in the request body
+  const resu = await focaleService.addToFocale(jsonObject)
+  // Process and save the JSON object as needed
+  console.log(jsonObject)
+  // Respond with a success message or other appropriate response
+  res.status(200).json(resu);
+});
+
+// Route to send the files
+app.post('/api/uploadFocale',userService.authenticateToken, upload.array('images'), (req, res) => {
+  const uploadedFiles = req.files;
+  const ids = req.body;
+  const generalId = ids['generalId']
+  console.log(generalId)
+  const directoryPath = path.join(path.resolve(), 'save', 'saveFocale', generalId );
+
+  fs.mkdirSync(directoryPath, { recursive: true }, (err) => {
+    if (err) {
+      console.error('Error creating directory:', err);
+    } else {
+      console.log('Directory created successfully');
+    }
+  });
+
+  for (let i = 0; i < uploadedFiles.length; i++) {
+    const imageBuffer = uploadedFiles[i].buffer;
+    const imgId = ids[`id${i}`];
+  
+    const filename = imgId+".png";
+  // Define the path to save the image file on your server
+    const imagePath = path.join(path.resolve(), 'save', 'saveFocale', generalId , filename);
+  // Use the fs module to write the image buffer to the file
+  fs.writeFile(imagePath, imageBuffer, err => {
+    if (err) {
+      console.error(err);
+    }})
+  }
+  console.log(uploadedFiles)
+  console.log(ids)
+  res.status(200).json({ message: 'Images uploaded successfully' });
+});
+
+app.get('/api/getFocaleFromId/:id',  userService.authenticateToken,async (req,res) => {
+  const { id } = req.params
+  const resu = await focaleService.getFocaleFromId(id)
+  return res.status(resu.code).json(resu.focale)
+})
+
+app.post('/api/publicFocale',  userService.authenticateToken,async (req,res) => {
+  const { id } = req.body
+  const resu = await focaleService.publicFocale(id)
+  return res.status(resu.code).json(resu)
+})
+
+app.get('/api/getFocaleFromIdPublic/:id', async (req,res) => {
+  const { id } = req.params
+  const resu = await focaleService.getFocaleFromIdPublic(id)
+  return res.status(resu.code).json(resu.focale)
+})
+
+app.get('/api/getFocale', userService.authenticateToken,async (req,res) => {
+  const resu = await focaleService.getFocale()
+  return res.status(resu.code).json(resu.focales)
+})
+app.get('/api/getPublicFocale', async (req,res) => {
+  const resu = await focaleService.getFocalePublic()
+  return res.status(resu.code).json(resu.focales)
+})
+
+app.delete('/api/deleteFocale/:id', async (req,res) => {
+  const { id }= req.params
+  const resu = await focaleService.deleteFocale(id)
+  return res.status(resu.code).json(resu)
 })
