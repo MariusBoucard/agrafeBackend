@@ -24,7 +24,6 @@ function saveToFile(data){
 }
 
 function rubriqueSanityCheck(rubrique){
-    console.log(rubrique)
     return "rubrique" in rubrique 
     && "rubRoute" in rubrique &&
     "description" in rubrique 
@@ -49,18 +48,10 @@ const rubriqueService = {
                 }
                 //getdb,
                 const rawData = await readDataFromFile()
-                console.log(rawData)
                 const data  = rawData
                 data.rubriques.push(rubriqueToAdd);
                 saveToFile(data)
-                //save 
-                console.log("rubrique adddeedd")
-        //     } catch {
-        //         console.log("error")
-        //         return { error : "Mon soos ça a chié en rajoutant le user"}
-        // }
     } else {
-        console.log('pas bon')
         return { error : "Correspond pas a un rubrique"}
     }
     },
@@ -72,11 +63,9 @@ deleteRubrique : async function deleteRubrique(id){
     
     const index = rawData.rubriques.findIndex(idd => id === idd.id)
     if(index !== -1){
-        console.log(rawData)
         rawData.rubriques.splice(index,1)
         saveToFile(rawData)
     }
-    console.log(index)
 },
 //modify a user
 modifyRubrique : async function modifyRubrique(rubrique){
@@ -104,7 +93,6 @@ return userFound
 getAllRubriques : async function getAllRubriques(){
   const rawData = await readDataFromFile()
   const userFound = rawData.rubriques
-  console.log("appelle",userFound)
   if(userFound){
 return userFound   
  }

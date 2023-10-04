@@ -33,7 +33,6 @@ const newsletterService = {
 
     addNewsletter : async function addNewsletter(user){
         let userToAdd = {}
-        console.log(user)
         if ( newsletterSanityCheck(user)){
             // try{
                 const idd = nanoid()
@@ -44,14 +43,12 @@ const newsletterService = {
                 }
                 //getdb,
                 const rawData = await readDataFromFile()
-                console.log(rawData)
                 const data  = rawData
                 data.newsletter.push(userToAdd);
                 saveToFile(data)
                 return idd
              
     } else {
-        console.log('pas bon')
         return { error : "Correspond pas a une news"}
     }
     },
@@ -62,24 +59,17 @@ deleteNewsletter : async function deleteNewsletter(id){
     const rawData = await readDataFromFile()
     const index = rawData.newsletter.findIndex(idd => id === idd.id)
     if(index !== -1){
-        console.log(rawData)
         rawData.newsletter.splice(index,1)
         //delet the assets :
-       
-        saveToFile(rawData)
-        
+        saveToFile(rawData)    
     }
-    console.log(index)
 },
-
-
 
 //getAllUser Attention DTO mdp
 //GetUser ATTention DTO MDP
 getAllNewsletter : async function getAllNewsletter(){
   const rawData = await readDataFromFile()
   const userFound = rawData.newsletter
-  console.log(userFound)
   if(userFound){
 return userFound   
  }

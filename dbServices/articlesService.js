@@ -27,7 +27,6 @@ function saveToFile(data){
 }
 
 function articleSanityCheck(article){
-    console.log(article)
     return "titreFront" in article && "description" in article
     && "imageLogo" in article && "path" in article 
   && "auteur" in article && "numeroParu" in article 
@@ -41,7 +40,6 @@ const articleService = {
 
     addArticle : async function addArticle(article){
         let articleToAdd = {}
-        console.log(article)
         if ( articleSanityCheck(article)){
             // try{
                 const idd = nanoid()
@@ -63,20 +61,12 @@ const articleService = {
                 }
                 //getdb,
                 const rawData = await readDataFromFile()
-                console.log(rawData)
                 const data  = rawData
                 data.articles.push(articleToAdd);
                 saveToFile(data)
                 rubriqueService.addArticleToRubrique(article.rubrique)
                 return articleToAdd.id
-                //save 
-                console.log("article adddeedd")
-        //     } catch {
-        //         console.log("error")
-        //         return { error : "Mon soos ça a chié en rajoutant le user"}
-        // }
     } else {
-        console.log('pas bon')
         return { error : "Correspond pas a un article"}
     }
     },
@@ -93,7 +83,6 @@ deleteArticle : async function deleteArticle(id){
     const index = rawData.articles.findIndex(idd => id === idd.id)
 
     if(index !== -1){
-        console.log(rawData.articles[index],"data")
         rubriqueService.removeArticleFromRubrique(rawData.articles[index].rubrique)
 
         rawData.articles.splice(index,1)
@@ -121,7 +110,6 @@ deleteArticle : async function deleteArticle(id){
         saveToFile(rawData)
         
     }
-    console.log(index)
 },
 //modify a user
 modifyArticle : async function modifyArticle(article){
@@ -140,13 +128,11 @@ modifyArticle : async function modifyArticle(article){
         arti.misEnLigne = article.misEnLigne,
         arti.fileType = article.fileType
         saveToFile(rawData)
-        console.log("toruvé")
     }
 },
 
 publicArticle : async function publicArticle(id){
   const rawData = await readDataFromFile()
-  console.log(id)
   const userFound = rawData.articles.find(idd => id === idd.id)
   userFound.private = !userFound.private
   saveToFile(rawData)
@@ -173,7 +159,6 @@ getPublicArticle : async function getPublicArticle(id){
 getAllArticles : async function getAllArticles(){
   const rawData = await readDataFromFile()
   const userFound = rawData.articles
-  console.log(userFound)
   if(userFound){
 return userFound   
  }

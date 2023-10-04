@@ -56,20 +56,18 @@ const userService = {
                 }
                 //getdb,
                 const rawData = await readDataFromFile()
-                console.log(rawData)
                 const data  = rawData
-                data.users.push(userToAdd);
-                saveToFile(data)
-                //save 
-                console.log("user adddeedd")
-        //     } catch {
-        //         console.log("error")
-        //         return { error : "Mon soos ça a chié en rajoutant le user"}
-        // }
-    } else {
-        console.log('pas bon')
-        return { error : "Correspond pas a un utilisateur"}
-    }
+                if(!data.users.find(e => e.mail === userToAdd.mail)){
+                  data.users.push(userToAdd);
+                  saveToFile(data)
+                  return "User addede"
+                }
+                else {
+                  return "mail deja existant"
+                }
+          } else {
+              return { error : "Correspond pas a un utilisateur"}
+          }
     },
     // Add a user
    addUser : async function addUser(user){
@@ -88,18 +86,15 @@ const userService = {
             }
             //getdb,
             const rawData = await readDataFromFile()
-            console.log(rawData)
             const data  = rawData
-            data.users.push(userToAdd);
-            saveToFile(data)
-            //save 
-            console.log("user adddeedd")
-    //     } catch {
-    //         console.log("error")
-    //         return { error : "Mon soos ça a chié en rajoutant le user"}
-    // }
+            if( ! data.users.find(aa => aa.mail === userToAdd.mail)){
+              data.users.push(userToAdd);
+              saveToFile(data)
+              return "user added"
+            } else {
+              return "Mail déja existant"
+            }      
 } else {
-    console.log('pas bon')
     return { error : "Correspond pas a un utilisateur"}
 }
 },
@@ -108,9 +103,7 @@ const userService = {
 deleteUser : async function deleteUser(id){
     const rawData = await readDataFromFile()
     const index = rawData.users.findIndex(idd => id === idd.id)
-    console.log("index",index)
     if(index !== -1){
-      console.log("trouvé")
         rawData.users.splice(index,1)
         saveToFile(rawData)
     }
@@ -118,14 +111,12 @@ deleteUser : async function deleteUser(id){
 //modify a user
 modifyUser : async function modifyUser(user){
     const rawData = await readDataFromFile()
-    console.log(user)
     const userFound = rawData.users.find(idd => user.id === idd.id)
     if(userFound){
         userFound.name = user.name
         userFound.mail = user.mail
         saveToFile(rawData)
     }
-    console.log(userFound)
 },
 
 
@@ -133,9 +124,12 @@ modifyUser : async function modifyUser(user){
 getUser : async function getUser(id){
     const rawData = await readDataFromFile()
     const userFound = rawData.users.find(idd => id === idd.id)
-    if(userFound){
-        userFound.hash = "Si tu pensais avoir le Hash du mdp, t'es mignon, ça fait des DTO stupides ici"
-return userFound    }
+    if (userFound) {
+      userFound.hash = "Si tu pensais avoir le Hash du mdp, t'es mignon, ça fait des DTO stupides ici";
+      return { user: userFound, message: "User found" };
+    } else {
+      return { user: null, message: "User not found" };
+    }
 },
 
 
@@ -152,10 +146,8 @@ return userFound
 doUserExists : async function doUserExists(user){
   const rawData = await readDataFromFile()
   const users = rawData.users
-  const userFound = users.find((u) => u.name === user.name);
-  console.log(userFound)
-  console.log(user.password, userFound.password)
-  if (!user || !bcrypt.compareSync(user.password, userFound.hash)) {
+  const userFound = users.find((u) => u.mail === user.mail);
+  if ((userFound===undefined) || !bcrypt.compareSync(user.password, userFound.hash)) {
     return false
   }
   return  userFound.id

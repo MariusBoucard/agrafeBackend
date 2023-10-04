@@ -71,7 +71,7 @@ app.post('/api/register', userService.authenticateToken,(req, res) => {
   return res.status(200).json({ message: 'User registered successfully' });
 });
 // User registration
-app.post('/api/registerAdmin', userService.authenticateToken ,(req, res) => {
+app.post('/api/registerAdmin' ,(req, res) => {
   const { username ,mail, password } = req.body;
   // Hash the password before saving it in the database
   const hashedPassword = bcrypt.hashSync(password, 10);
@@ -86,17 +86,18 @@ app.post('/api/registerAdmin', userService.authenticateToken ,(req, res) => {
 });
 
 // User login
-app.post('/api/login', (req, res) => {
-  const { username, password } = req.body;
- const id = userService.doUserExists({
+app.post('/api/login', async (req, res) => {
+  const { username, password, mail } = req.body;
+ const id = await userService.doUserExists({
     name : username,
+    mail: mail,
     password : password
   })
   if(id !== false){
     const token = userService.generateToken(id)
     res.json({ token : token, connected : true });
   }
-
+  res.status(401)
 });
 
 // Protected route
@@ -125,12 +126,17 @@ app.post('/api/modifyUser',userService.authenticateToken ,(req, res) => {
   // Implement your logic to fetch and send data here
 });
 
+/**
+ * Refactored
+ */
 app.get('/api/getUser',userService.authenticateToken,async (req, res) => {
   const { id } = req.body;
-  console.log(id)
-  console.log("caca")
-  return res.status(200).json( await userService.getUser(id));
-  // Implement your logic to fetch and send data here
+  const result = await userService.getUser(id);
+  if (result.user) {
+    return res.status(200).json(result);
+  } else {
+    return res.status(404).json(result); 
+  }
 });
 
 app.get('/api/getAllUser',userService.authenticateToken ,async (req, res) => {
@@ -141,7 +147,6 @@ app.get('/api/getAllUser',userService.authenticateToken ,async (req, res) => {
 app.delete('/api/deleteUser/:id',userService.authenticateToken ,(req, res) => {
   // Implement your logic to fetch and send data here
   const { id } = req.params;
-  console.log(id)
   userService.deleteUser(id);
   return  res.status(200).json({ message: 'C delete' });
 })
@@ -156,7 +161,6 @@ app.delete('/api/deleteUser/:id',userService.authenticateToken ,(req, res) => {
 app.post('/api/addArticle',userService.authenticateToken ,upload.none(), async (req, res) => {
   // Handle the FormData here
   const { article } = req.body;
-  console.log(article, 'article');
 return res.status(201).json( await articleService.addArticle(article))
 
  
@@ -167,7 +171,6 @@ app.post('/api/uploadImage',userService.authenticateToken ,upload.single('imageL
   if (!req.file) {
     return res.status(400).json({ message: 'No image file received.' });
   }
-  console.log("articleId",req.body)
   const infoString = req.body.articleId; // Access the string data
   // You can now access the uploaded image in req.file.buffer
   // Process and save the image as needed
@@ -175,7 +178,6 @@ app.post('/api/uploadImage',userService.authenticateToken ,upload.single('imageL
   // Generate a unique filename (e.g., using a timestamp)
   const timestamp = Date.now();
   const filename = infoString+".png";
-  console.log(filename)
   // Define the path to save the image file on your server
   const imagePath = path.join(path.resolve(), 'save', 'saveArticle', 'cover', filename);
   // Use the fs module to write the image buffer to the file
@@ -195,11 +197,9 @@ app.post('/api/uploadPdfArticle',userService.authenticateToken ,upload.single('a
   if (!req.file) {
     return res.status(400).json({ message: 'No pdf file received.' });
   }
-  console.log("articleId",req.body)
   const infoString = req.body.articleId; // Access the string data
   const imageBuffer = req.file.buffer; // Access the uploaded image buffer
   const filename = infoString+".pdf";
-  console.log(filename)
   // Define the path to save the image file on your server
   const imagePath = path.join(path.resolve(), 'save', 'saveArticle', 'pdf', filename);
   // Use the fs module to write the image buffer to the file
@@ -215,7 +215,6 @@ app.post('/api/uploadPdfArticle',userService.authenticateToken ,upload.single('a
 app.delete('/api/deleteArticle/:id',userService.authenticateToken ,(req, res) => {
     // Implement your logic to fetch and send data here
     const { id } = req.params;
-    console.log(id)
     articleService.deleteArticle(id);
     return  res.status(200).json({ message: 'C delete' });
 
@@ -321,8 +320,6 @@ app.post('/api/modifyArchive',userService.authenticateToken ,async (req, res) =>
 
 app.get('/api/getArchive',userService.authenticateToken,async (req, res) => {
   const { id } = req.body;
-  console.log(id)
-  console.log("caca")
   return res.status(200).json( await archiveService.getArchive(id));
   // Implement your logic to fetch and send data here
 });
@@ -356,7 +353,6 @@ app.post('/api/addRubrique',userService.authenticateToken ,async (req,res) => {
 })
 
 app.get('/api/getrubriques', async (req, res)=> {
-  console.log('tataa')
   return res.status(200).json( await rubriqueService.getAllRubriques());
 })
 
@@ -392,7 +388,6 @@ app.post('/api/uploadImageNews',userService.authenticateToken ,upload.single('im
   if (!req.file) {
     return res.status(400).json({ message: 'No image file received.' });
   }
-  console.log("newsId",req.body)
   const infoString = req.body.newsId; // Access the string data
   const imageBuffer = req.file.buffer; 
   const filename = infoString+".png";

@@ -44,7 +44,6 @@ const lectureService = {
     updateLectures: async function updateLectures() {
         const articleData = await readArticleData()
         let allReads = 0
-        console.log(articleData)
         articleData.articles.forEach(art => allReads += art.lectures)
 
         const lectures = await readDataFromFile()
@@ -56,8 +55,6 @@ const lectureService = {
 
         // Format the date as "day/month/year"
         const formattedDate = `${day}/${month}/${year}`;
-
-        console.log(lectures)
         lectures.lectures.push(
             {
                 "date": formattedDate,

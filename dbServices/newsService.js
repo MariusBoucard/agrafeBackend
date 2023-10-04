@@ -51,7 +51,6 @@ const newsService = {
                 return idd
              
     } else {
-        console.log('pas bon')
         return { error : "Correspond pas a une news"}
     }
     },
@@ -72,7 +71,6 @@ deleteNews : async function deleteNews(id){
         rawData.news.splice(index,1)
         saveToFile(rawData)
     }
-    console.log(index)
 },
 
 
@@ -82,7 +80,6 @@ deleteNews : async function deleteNews(id){
 getAllNews : async function getAllNews(){
   const rawData = await readDataFromFile()
   const userFound = rawData.news
-  console.log(userFound)
   if(userFound){
 return userFound   
  }
@@ -90,7 +87,6 @@ return userFound
 getPublicNews : async function getPublicNews(){
   const rawData = await readDataFromFile()
   const userFound = rawData.news.filter(ne => ne.private === false)
-  console.log(userFound)
   if(userFound){
 return userFound   
  }
