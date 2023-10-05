@@ -5,14 +5,14 @@
       "rubrique": "Test",
       "description": "test",
       "rubRoute": "test",
-      "nombreArticles": 1
+      "nombreArticles": 2
     },
     {
       "id": "1pfoDu0AYl6YNGc9VKp6V",
       "rubrique": "fds",
       "description": "dfsdsfs",
       "rubRoute": "fds",
-      "nombreArticles": 0
+      "nombreArticles": 1
     }
   ]
 }

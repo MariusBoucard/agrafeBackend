@@ -30,7 +30,7 @@ function archiveSanityCheck(archive){
     console.log(archive)
     return "titre" in archive 
    && "description" in archive 
-    && "date" in archive && "numero" in archive 
+    && "date" in archive && "numero" in archive && "auteurBack" in archive && "copyrightBack" in archive
   }
 
 const archiveService = {
@@ -49,6 +49,8 @@ const archiveService = {
                     numero : archive.numero,
                     date : archive.date,
                     lectures : 0,
+                    auteurBack : archive.auteurBack,
+                    copyrightBack : archive.copyrightBack,
                     private : true
                 }
                 //getdb,

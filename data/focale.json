@@ -1,3 +1,29 @@
 {
-  "focale": []
+  "focale": [
+    {
+      "id": "F1ueWQ4NjszzYnuwDfXrG",
+      "titre": "Alleyyy ca marcheee",
+      "numero": 54,
+      "description": "lets goooo",
+      "private": true,
+      "images": [
+        {
+          "id": "P4qrbdSIbCPGr8dZKFBY_",
+          "auteur": "Mais lets gooooo",
+          "titre": "Mario",
+          "description": "caca",
+          "date": "2023-10-11",
+          "copyright": "C'est partiiiiii"
+        },
+        {
+          "id": "29UiWEl8s_W__XnVErVzB",
+          "auteur": "fdsfdsfd",
+          "titre": "cacaProut",
+          "description": "Ouais ouais ouas",
+          "date": "2023-10-24",
+          "copyright": "letsgooo"
+        }
+      ]
+    }
+  ]
 }

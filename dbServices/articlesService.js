@@ -31,7 +31,7 @@ function articleSanityCheck(article){
     && "imageLogo" in article && "path" in article 
   && "auteur" in article && "numeroParu" in article 
     && "date" in article && "rubrique" in article 
-    &&"misEnLigne" in article && "fileType" in article 
+    &&"misEnLigne" in article  
 }
 
 const articleService = {
@@ -56,7 +56,7 @@ const articleService = {
                     // Attention, bien save l id de la rubrique
                     rubrique : article.rubrique,
                     misEnLigne : article.misEnLigne,
-                    fileType : article.fileType,
+                    rang : article.rangArticle,
                     lectures : 0
                 }
                 //getdb,

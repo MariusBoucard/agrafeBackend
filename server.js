@@ -174,23 +174,47 @@ app.post('/api/uploadImage',userService.authenticateToken ,upload.single('imageL
     return res.status(400).json({ message: 'No image file received.' });
   }
   const infoString = req.body.articleId; // Access the string data
-  // You can now access the uploaded image in req.file.buffer
-  // Process and save the image as needed
   const imageBuffer = req.file.buffer; // Access the uploaded image buffer
-  // Generate a unique filename (e.g., using a timestamp)
-  const timestamp = Date.now();
   const filename = infoString+".png";
-  // Define the path to save the image file on your server
   const imagePath = path.join(path.resolve(), 'save', 'saveArticle', 'cover', filename);
-  // Use the fs module to write the image buffer to the file
   fs.writeFile(imagePath, imageBuffer, err => {
     if (err) {
       console.error(err);
     }
-
-    // At this point, the image has been successfully saved to the server
   });
   return res.status(200).json({ message: 'Image uploaded successfully.' });
+});
+
+
+// Route to send the files
+app.post('/api/uploadArticleImages',userService.authenticateToken, upload.array('images'), (req, res) => {
+  const uploadedFiles = req.files;
+  const ids = req.body;
+  const generalId = ids['generalId']
+  console.log(generalId)
+  const directoryPath = path.join(path.resolve(), 'save', 'saveArticle','images', generalId );
+
+  fs.mkdirSync(directoryPath, { recursive: true }, (err) => {
+    if (err) {
+      console.error('Error creating directory:', err);
+    } else {
+      console.log('Directory created successfully');
+    }
+  });
+
+  for (let i = 0; i < uploadedFiles.length; i++) {
+    const imageBuffer = uploadedFiles[i].buffer;
+    const imgId = ids[`id${i}`];
+    const filename = imgId+".png";
+    const imagePath = path.join(path.resolve(), 'save', 'saveArticle','images', generalId , filename);
+  fs.writeFile(imagePath, imageBuffer, err => {
+    if (err) {
+      console.error(err);
+    }})
+  }
+  console.log(uploadedFiles)
+  console.log(ids)
+  res.status(200).json({ message: 'Images uploaded successfully' });
 });
 
 
