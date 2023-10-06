@@ -15,16 +15,14 @@ import newsletterService from './dbServices/newsletterService.js';
 import newsService from './dbServices/newsService.js';
 import lectureService from './dbServices/lectureService.js';
 import focaleService from './dbServices/focaleService.js';
+/**
+ * Here's the server class, where all the server is defined and all the routes because I haven't did several files
+ */
 app.use('/save', express.static('save'));
 const upload = multer();
-
 const millisecondsInADay = 24 * 60 * 60 * 1000; // 24 hours * 60 minutes * 60 seconds * 1000 milliseconds
 const interval = setInterval(lectureService.updateLectures, millisecondsInADay);
-
-
-
 app.use(express.json());
-// Allow requests from your frontend URL (replace with your actual frontend URL)
 const allowedOrigins = ['http://localhost:8080'];
 
 const corsOptions = {
@@ -57,7 +55,11 @@ app.listen(port, async () => {
 
 
 
-// User registration
+// Begining of routes :
+//=================================================================================================
+/*
+* Admin user registration
+*/
 app.post('/api/register', userService.authenticateToken,(req, res) => {
   const { username ,mail, password } = req.body;
   // Hash the password before saving it in the database
@@ -71,7 +73,9 @@ app.post('/api/register', userService.authenticateToken,(req, res) => {
   )
   return res.status(ret.code).json({ message: ret.message });
 });
-// User registration
+/*
+* Admin user registration
+*/
 app.post('/api/registerAdmin' ,async (req, res) => {
   const { username ,mail, password } = req.body;
   // Hash the password before saving it in the database
@@ -86,7 +90,9 @@ app.post('/api/registerAdmin' ,async (req, res) => {
   return res.status(ret.code).json({ message: ret.message });
 });
 
-// User login
+/*
+admin login
+*/
 app.post('/api/login', async (req, res) => {
   const { username, password, mail } = req.body;
  const id = await userService.doUserExists({
@@ -101,14 +107,9 @@ app.post('/api/login', async (req, res) => {
   res.status(401)
 });
 
-// Protected route
-app.get('/protected', userService.authenticateToken, (req, res) => {
-  res.json({ message: 'This is a protected route' });
-});
-
-
-
-
+/**
+ * Admin delete user
+ */
 app.post('/api/deleteUser', userService.authenticateToken, (req, res) => {
     // Implement your logic to fetch and send data here
     const { id } = req.body;
@@ -118,7 +119,9 @@ app.post('/api/deleteUser', userService.authenticateToken, (req, res) => {
 
   })
   
-
+/**
+ * Admin modify user
+ */
 app.post('/api/modifyUser',userService.authenticateToken ,(req, res) => {
   const { user } = req.body;
 
@@ -128,7 +131,7 @@ app.post('/api/modifyUser',userService.authenticateToken ,(req, res) => {
 });
 
 /**
- * Refactored
+ * Admin get user
  */
 app.get('/api/getUser',userService.authenticateToken,async (req, res) => {
   const { id } = req.body;
@@ -140,12 +143,18 @@ app.get('/api/getUser',userService.authenticateToken,async (req, res) => {
   }
 });
 
+/**
+ * Admin get all user
+ */
 app.get('/api/getAllUser',userService.authenticateToken ,async (req, res) => {
   // Implement your logic to fetch and send data here
   const resu = await userService.getAllUser()
   return res.status(resu.code).json(resu.users);
 });
 
+/**
+ * Admin delete user
+ */
 app.delete('/api/deleteUser/:id',userService.authenticateToken ,async (req, res) => {
   // Implement your logic to fetch and send data here
   const { id } = req.params;
@@ -157,7 +166,7 @@ app.delete('/api/deleteUser/:id',userService.authenticateToken ,async (req, res)
 
 
 /**
- * Approche utilisant une bd sql
+ * Admin add article
  */
 app.post('/api/addArticle',userService.authenticateToken ,upload.none(), async (req, res) => {
   // Handle the FormData here
@@ -168,7 +177,8 @@ return res.status(resu.code).json(resu.article.id)
  
 });
 
-// Handle the image upload separately
+/* Admin upload image article
+*/
 app.post('/api/uploadImage',userService.authenticateToken ,upload.single('imageLogo'), (req, res) => {
   if (!req.file) {
     return res.status(400).json({ message: 'No image file received.' });
@@ -186,7 +196,9 @@ app.post('/api/uploadImage',userService.authenticateToken ,upload.single('imageL
 });
 
 
-// Route to send the files
+/**
+ * Admin api upload image article
+ */
 app.post('/api/uploadArticleImages',userService.authenticateToken, upload.array('images'), (req, res) => {
   const uploadedFiles = req.files;
   const ids = req.body;
@@ -237,7 +249,9 @@ app.post('/api/uploadPdfArticle',userService.authenticateToken ,upload.single('a
   });
   return res.status(200).json({ message: 'pdf uploaded successfully.' });
 });
-
+/**
+ * Admin delete article
+ */
 app.delete('/api/deleteArticle/:id',userService.authenticateToken , async (req, res) => {
     // Implement your logic to fetch and send data here
     const { id } = req.params;
@@ -246,21 +260,27 @@ app.delete('/api/deleteArticle/:id',userService.authenticateToken , async (req, 
 
   })
   
-
+/**
+ * Admin modify article
+ */
 app.post('/api/modifyArticle',userService.authenticateToken , async (req, res) => {
   const { article } = req.body;
   const resu = await articleService.modifyArticle(article);
   return  res.status(resu.code).json({ message: resu.message });
   // Implement your logic to fetch and send data here
 });
-
+/**
+ * Admin private article
+ */
 app.post('/api/privateArticle',userService.authenticateToken ,async (req, res) => {
   const { id } = req.body;
   const resu = await articleService.publicArticle(id);
   return  res.status(resu.code).json({ message: resu.message });
   // Implement your logic to fetch and send data here
 });
-
+/**
+ * Admin get article
+ */
 app.get('/api/getArticle',userService.authenticateToken,async (req, res) => {
     // Retrieve the 'id' parameter from the query string
     const id = req.query.id;
@@ -269,29 +289,41 @@ app.get('/api/getArticle',userService.authenticateToken,async (req, res) => {
   // Implement your logic to fetch and send data here
 });
 
+/**
+ * Public get article
+ */
 app.get('/api/getPublicArticle',async (req, res) => {
   const id = req.query.id;
   const resu =  await articleService.getPublicArticle(id)
 return res.status(resu.code).json(resu.article);
 // Implement your logic to fetch and send data here
 });
+/**
+ * Admin get all article
+ */
 app.get('/api/getAllArticles', userService.authenticateToken,async (req, res) => {
   // Implement your logic to fetch and send data here
   const resu =  await articleService.getAllArticles()
   return res.status(resu.code).json(resu.articles);
 });
-
+/**
+ * Public get all article
+ */
 app.get('/api/getAllPublicArticles', async (req, res) => {
   // Implement your logic to fetch and send data here
   const resu = await articleService.getAllPublicArticles()
   return res.status(resu.code).json(resu.articles);
 });
-
+/**
+ * Public add lecture article
+ */
 app.post('/api/addLecture', async (req, res) => {
   const { id } = req.body;
   return res.status(200).json( await articleService.addLectureArticle(id))
 })
-
+/**
+ * admin get lectures article
+ */
 app.get('/api/getLectures',userService.authenticateToken ,async (req, res) => {
   return res.status(200).json( await lectureService.getLectures())
 })
@@ -300,7 +332,9 @@ app.get('/api/getLectures',userService.authenticateToken ,async (req, res) => {
 
 // ARCHIVE PART 
 // Articles PARTTTT
-
+/**
+ * Public add lecture aarchive
+ */
 app.post('/api/addLectureArchive', async (req, res) => {
   const { id } = req.body;
   return res.status(200).json( await archiveService.addLecture(id))
@@ -309,13 +343,18 @@ app.post('/api/addLectureArchive', async (req, res) => {
 /**
  * Approche utilisant une bd sql
  */
+/**
+ * Admin add archive
+ */
 app.post('/api/addArchive',userService.authenticateToken ,async (req, res) => {
   const { archive } = req.body;
   const resu = await archiveService.addArchive(archive)
 return res.status(resu.code).json(resu.archive.id)
 });
 
-
+/**
+ * Admin upload pdf archive
+ */
 // Handle the image upload separately
 app.post('/api/uploadPdfArchive',userService.authenticateToken ,upload.single('archivePdf'), (req, res) => {
   if (!req.file) {
@@ -335,7 +374,9 @@ app.post('/api/uploadPdfArchive',userService.authenticateToken ,upload.single('a
   archiveService.extractPdf(infoString)
   return res.status(200).json({ message: 'pdf uploaded successfully.' });
 });
-
+/**
+ * Admin delete archive
+ */
 app.delete('/api/deleteArchive/:id',userService.authenticateToken ,async (req, res) => {
     // Implement your logic to fetch and send data here
     const { id } = req.params;
@@ -344,6 +385,9 @@ app.delete('/api/deleteArchive/:id',userService.authenticateToken ,async (req, r
 
   })
   
+/**
+ * Admin modify archive
+ */
 app.post('/api/modifyArchive',userService.authenticateToken ,async (req, res) => {
   const { archive } = req.body;
   const resu = await archiveService.modifyArchive(archive)
@@ -351,48 +395,67 @@ app.post('/api/modifyArchive',userService.authenticateToken ,async (req, res) =>
   // Implement your logic to fetch and send data here
 });
 
+/**
+ * Public add archive
+ */
 app.get('/api/getArchive',userService.authenticateToken,async (req, res) => {
   const { id } = req.body;
   const resu =  await archiveService.getArchive(id)
   return res.status(resu.code).json(resu.archive);
   // Implement your logic to fetch and send data here
 });
+/**
+ * Public get archive
+ */
 app.get('/api/getArchivePublic',async (req, res) => {
   const { id } = req.body;
   const resu =  await archiveService.getArchivePublic(id)
   return res.status(resu.code).json(resu.archive);
   // Implement your logic to fetch and send data here
 });
-
+/**
+ * Admin getall archive
+ */
 app.get('/api/getAllArchives',userService.authenticateToken ,async (req, res) => {
   // Implement your logic to fetch and send data here
   const resu = await archiveService.getAllArchives()
   return res.status(resu.code).json(resu.archives);
 });
-
+/**
+ * Public get all archive
+ */
 app.get('/api/getPublicArchives',async (req, res) => {
   // Implement your logic to fetch and send data here
   const resu = await archiveService.getPublicArchives()
   return res.status(resu.code).json(resu.archives);
 });
 
+/**
+ * Admin private archive
+ */
 app.post('/api/privateArchive',userService.authenticateToken ,async (req, res) => {
   const { id } = req.body;
   return res.status(200).json(await archiveService.privateArchive(id))
 })
-
+/**
+ * Admin add rubriuqe
+ */
 /// Lets go la suite
 app.post('/api/addRubrique',userService.authenticateToken ,async (req,res) => {
   const { rubrique } = req.body;
   const resu = await  rubriqueService.addARubrique(rubrique)
   return  res.status(resu.code).json(resu.message);
 })
-
+/**
+ * Public get rubriuqe
+ */
 app.get('/api/getrubriques', async (req, res)=> {
   const resu = await rubriqueService.getAllRubriques()
   return res.status(resu.code).json(resu.rubriques);
 })
-
+/**
+ * Public modify rubrique
+ */
 app.post('/api/modifyRubrique',userService.authenticateToken ,async (req, res) => {
   const { rubrique } = req.body;
   const resu = await rubriqueService.modifyRubrique(rubrique)
@@ -400,17 +463,25 @@ app.post('/api/modifyRubrique',userService.authenticateToken ,async (req, res) =
   // Implement your logic to fetch and send data here
 });
 
-
+/**
+ * public add newsletter
+ */
 // Newsletter
 app.post('/api/addNewsletter', async (req, res) => {
   const { user } = req.body;
   const resu = await  newsletterService.addNewsletter(user)
   return  res.status(resu.code).json({ id : resu.newsletter.id, message : resu.message});
 })
+/**
+ * Admin get newsletter
+ */
 app.get('/api/getNewsletter',userService.authenticateToken ,async (req,res) => {
   const resu = await newsletterService.getAllNewsletter()
   return res.status(resu.code).json(resu.newsletter)
 })
+/**
+ * public delete newsletter
+ */
 app.delete('/api/deleteNewsletter/:id', async (req, res) => {
   const { id } = req.params
   const resu = await newsletterService.deleteNewsletter(id)
@@ -418,14 +489,17 @@ app.delete('/api/deleteNewsletter/:id', async (req, res) => {
 
 })
 
-// News
-
+/**
+ * Admin add news
+ */
 app.post('/api/addNews',userService.authenticateToken ,async (req, res) => {
   const { news } = req.body
   const resu = await newsService.addNews(news)
   return res.status(resu.code).json(resu.news.id)
 })
-
+/**
+ * Admin add image news
+ */
 app.post('/api/uploadImageNews',userService.authenticateToken ,upload.single('imageLogo'), (req, res) => {
   console.log("upload image")
   if (!req.file) {
@@ -443,23 +517,32 @@ app.post('/api/uploadImageNews',userService.authenticateToken ,upload.single('im
 
   return res.status(200).json({ message: 'Image uploaded successfully.' });
 });
-
+/**
+ * Admin get news
+ */
 app.get('/api/getAllNews',userService.authenticateToken ,async (req,res) => {
   const resu = await newsService.getAllNews()
   return res.status(resu.code).json(resu.news)
 })
+/**
+ * Public get news
+ */
 app.get('/api/getPublicNews',async (req,res) => {
   const resu = await newsService.getPublicNews()
   return res.status(resu.code).json(resu.news)
 })
 
-
+/**
+ * Admin delete news
+ */
 app.delete('/api/deleteNews/:id', userService.authenticateToken,async (req, res) => {
   const { id } = req.params
   const resu = await newsService.deleteNews(id)
   return res.status(resu.code).json(resu.message)
 })
-
+/**
+ * Admin private news
+ */
 app.post('/api/privateNews',userService.authenticateToken ,async (req,res) => {
   const { id } = req.body
   const resu = await newsService.privateNews(id)
@@ -467,7 +550,9 @@ app.post('/api/privateNews',userService.authenticateToken ,async (req,res) => {
 })
 
 /////////////////// FOCALLEEEEE
-// Route to send the JSON object
+/**
+ * Admin  add focale
+ *  */
 app.post('/api/addFocale', userService.authenticateToken, async (req, res) => {
   const jsonObject = req.body; // Assuming the JSON object is sent in the request body
   const resu = await focaleService.addToFocale(jsonObject)
@@ -478,6 +563,9 @@ app.post('/api/addFocale', userService.authenticateToken, async (req, res) => {
 });
 
 // Route to send the files
+/**
+ * Admin  upload image focale
+ *  */
 app.post('/api/uploadFocale',userService.authenticateToken, upload.array('images'), (req, res) => {
   const uploadedFiles = req.files;
   const ids = req.body;
@@ -511,33 +599,47 @@ app.post('/api/uploadFocale',userService.authenticateToken, upload.array('images
   res.status(200).json({ message: 'Images uploaded successfully' });
 });
 
+/**
+ * Admin  get focale
+ *  */
 app.get('/api/getFocaleFromId/:id',  userService.authenticateToken,async (req,res) => {
   const { id } = req.params
   const resu = await focaleService.getFocaleFromId(id)
   return res.status(resu.code).json(resu.focale)
 })
-
-app.post('/api/publicFocale',  userService.authenticateToken,async (req,res) => {
+/**
+ * Admin private focale
+ *  */
+app.post('/api/publicFocale',  async (req,res) => {
   const { id } = req.body
   const resu = await focaleService.publicFocale(id)
   return res.status(resu.code).json(resu)
 })
-
+/**
+ * public  get id focale
+ *  */
 app.get('/api/getFocaleFromIdPublic/:id', async (req,res) => {
   const { id } = req.params
   const resu = await focaleService.getFocaleFromIdPublic(id)
   return res.status(resu.code).json(resu.focale)
 })
-
+/**
+ * Admin  get focale
+ *  */
 app.get('/api/getFocale', userService.authenticateToken,async (req,res) => {
   const resu = await focaleService.getFocale()
   return res.status(resu.code).json(resu.focales)
 })
+/**
+ * public  get focale
+ *  */
 app.get('/api/getPublicFocale', async (req,res) => {
   const resu = await focaleService.getFocalePublic()
   return res.status(resu.code).json(resu.focales)
 })
-
+/**
+ * Admin  delete add focale
+ *  */
 app.delete('/api/deleteFocale/:id', async (req,res) => {
   const { id }= req.params
   const resu = await focaleService.deleteFocale(id)

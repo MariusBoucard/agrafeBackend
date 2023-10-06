@@ -77,6 +77,7 @@ modifyRubrique : async function modifyRubrique(rubrique){
     const rawData = await readDataFromFile()
     const arti = rawData.rubriques.find(idd => rubrique.id === idd.id)
     if(arti){ 
+         arti.rubrique = rubrique.rubrique
         arti.rubRoute = rubrique.rubRoute,
         arti.description = rubrique.description,
         arti.rubrique = rubrique.rubrique,
