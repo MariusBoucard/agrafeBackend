@@ -298,13 +298,31 @@ app.get('/api/getPublicArticle',async (req, res) => {
 return res.status(resu.code).json(resu.article);
 // Implement your logic to fetch and send data here
 });
+
+
+app.get('/api/getrecentarticle',async (req, res) => {
+  const resu =  await articleService.getRecentArticles()
+  console.log(resu)
+
+return res.status(resu.code).json(resu.article);
+// Implement your logic to fetch and send data here
+});
+
+
+app.get('/api/getrecentarticle',async (req, res) => {
+  const resu =  await articleService.getRecentArticles()
+  console.log(resu)
+
+return res.status(resu.code).json(resu.article);
+// Implement your logic to fetch and send data here
+});
 /**
  * Admin get all article
  */
 app.get('/api/getAllArticles', userService.authenticateToken,async (req, res) => {
   // Implement your logic to fetch and send data here
   const resu =  await articleService.getAllArticles()
-  return res.status(resu.code).json(resu.articles);
+  return res.status(resu.code).json(resu.article);
 });
 /**
  * Public get all article

@@ -219,6 +219,17 @@ getArticleFromName : async function getArticleFromName(name){
     .replace(/[.,\/#!$%^&*;:{}=\-_`~()]/g, "") // Remove punctuation
     .includes(name.toLowerCase()) )
     return { code: 200, message: "Voila les articles bg" , articles : result};
+  },
+  getRecentArticles : async function getRecentArticles(){
+    const rawData = await readDataFromFile()
+  let userFound = rawData.articles.filter(ar => ar.private === false)
+  if(userFound){
+    userFound = userFound.sort((a,b) => b.date - a.date)
+    userFound.slice(0, 10);
+    return { code: 200, message: "Voila les articles bg" , article : userFound};
+ }
+ return { code: 404, message: "pas d article bg" , article : null};
+
   }
 
 }
