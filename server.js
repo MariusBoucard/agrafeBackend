@@ -181,7 +181,7 @@ return res.status(resu.code).json(resu.article.id)
 */
 app.post('/api/uploadImage',userService.authenticateToken ,upload.single('imageLogo'), (req, res) => {
   if (!req.file) {
-    return res.status(400).json({ message: 'No image file received.' });
+    return res.status(200).json({ message: 'No image file received.' });
   }
   const infoString = req.body.articleId; // Access the string data
   const imageBuffer = req.file.buffer; // Access the uploaded image buffer
@@ -322,7 +322,7 @@ return res.status(resu.code).json(resu.article);
 app.get('/api/getAllArticles', userService.authenticateToken,async (req, res) => {
   // Implement your logic to fetch and send data here
   const resu =  await articleService.getAllArticles()
-  return res.status(resu.code).json(resu.article);
+  return res.status(resu.code).json(resu.articles);
 });
 /**
  * Public get all article
