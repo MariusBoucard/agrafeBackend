@@ -322,7 +322,7 @@ return res.status(resu.code).json(resu.article);
 app.get('/api/getAllArticles', userService.authenticateToken,async (req, res) => {
   // Implement your logic to fetch and send data here
   const resu =  await articleService.getAllArticles()
-  return res.status(resu.code).json(resu.article);
+  return res.status(resu.code).json(resu.articles);
 });
 /**
  * Public get all article
@@ -455,6 +455,13 @@ app.post('/api/privateArchive',userService.authenticateToken ,async (req, res) =
   const { id } = req.body;
   return res.status(200).json(await archiveService.privateArchive(id))
 })
+
+app.get('/api/lastArchive',async (req,res) => {
+  const resu = await archiveService.getLastArchive()
+  console.log(resu)
+  return res.status(resu.code).json(resu.archive);
+}
+)
 /**
  * Admin add rubriuqe
  */

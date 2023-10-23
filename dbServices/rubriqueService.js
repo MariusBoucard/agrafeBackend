@@ -87,7 +87,6 @@ modifyRubrique : async function modifyRubrique(rubrique){
     return { code: 404, message: "Rubrique not found" };
 },
 
-
 //GetUser ATTention DTO MDP
 getRubrique : async function getRubrique(id){
     const rawData = await readDataFromFile()

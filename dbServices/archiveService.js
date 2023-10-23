@@ -184,6 +184,15 @@ getPublicArchives : async function getPublicArchives(){
  return { code: 404, message: "voila l archive" , archives : null};   
 
 },
+getLastArchive : async function getLastArchive(){
+  const rawData = await readDataFromFile()
+  let userFound = rawData.archives.filter(ar => ar.private === false)
+  if(userFound){
+    userFound = userFound.sort((a,b)=>a.date - b.date)
+    return { code: 200, message: "voila l archive" , archive: userFound[0]};   
+ }
+ return { code: 404, message: "voila l archive" , archives : null};   
+},
 extractPdf : async function extractPdf(filename) {
   try {
     // Read the PDF file
