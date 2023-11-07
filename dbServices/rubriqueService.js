@@ -44,6 +44,9 @@ const rubriqueService = {
                     "rubrique" : rubrique.rubrique,
                     "description" : rubrique.description,
                     "rubRoute" : rubrique.rubRoute,
+                    "information" : rubrique.information,
+                    "nombreSecMin" : rubrique.nombreSecMin,
+                    "nombreSecMax" : rubrique.nombreSecMax,
                     "nombreArticles" : 0
                 }
                 //getdb,
@@ -74,17 +77,19 @@ deleteRubrique : async function deleteRubrique(id){
 },
 //modify a user
 modifyRubrique : async function modifyRubrique(rubrique){
-    const rawData = await readDataFromFile()
-    const arti = rawData.rubriques.find(idd => rubrique.id === idd.id)
-    if(arti){ 
-         arti.rubrique = rubrique.rubrique
-        arti.rubRoute = rubrique.rubRoute,
-        arti.description = rubrique.description,
-        arti.rubrique = rubrique.rubrique,
-        saveToFile(rawData)
-        return { code: 200, message: "Rubrique Modified" };
-    }
-    return { code: 404, message: "Rubrique not found" };
+  const rawData = await readDataFromFile()
+  const arti = rawData.rubriques.find(idd => rubrique.id === idd.id)
+  if(arti){ 
+    arti.rubrique = rubrique.rubrique
+    arti.description = rubrique.description
+    arti.rubRoute = rubrique.rubRoute
+    arti.information = rubrique.information
+    arti.nombreSecMin = rubrique.nombreSecMin
+    arti.nombreSecMax = rubrique.nombreSecMax
+    saveToFile(rawData)
+    return { code: 200, message: "Rubrique Modified" };
+  }
+  return { code: 404, message: "Rubrique not found" };
 },
 
 

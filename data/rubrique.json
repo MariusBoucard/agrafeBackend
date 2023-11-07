@@ -13,6 +13,23 @@
       "description": "dfsdsfs",
       "rubRoute": "fds",
       "nombreArticles": 3
+    },
+    {
+      "id": "t9r5-mo3eZtNGK-su2skQ",
+      "rubrique": "test",
+      "description": "super rubrique",
+      "rubRoute": "rubtest",
+      "nombreArticles": 0
+    },
+    {
+      "id": "yzLEoJzbWi0RcWCcoXuVI",
+      "rubrique": "test",
+      "description": "super rubrique",
+      "rubRoute": "rubtest",
+      "information": "syper infos il faut qure ca soit long song lorem ipsum dis ta mere la pute s teuple j ai pas tourette mais franchement c est plus marrant d'insulter es gens de maniere gratuite quand on fait un site",
+      "nombreSecMin": 600,
+      "nombreSecMax": 900,
+      "nombreArticles": 0
     }
   ]
 }

@@ -2,7 +2,6 @@ import express from 'express'
 const app = express();
 import cors from 'cors';
 const port = process.env.PORT || 3000;
-import connectToMySQL from './db.js'; // Import the database connection
 import fs from 'fs'
 import path from 'path'
 import userService from './dbServices/userService.js';
@@ -15,6 +14,8 @@ import newsletterService from './dbServices/newsletterService.js';
 import newsService from './dbServices/newsService.js';
 import lectureService from './dbServices/lectureService.js';
 import focaleService from './dbServices/focaleService.js';
+import axios from 'axios'
+import querystring from 'querystring'
 /**
  * Here's the server class, where all the server is defined and all the routes because I haven't did several files
  */
@@ -663,3 +664,78 @@ app.delete('/api/deleteFocale/:id', async (req,res) => {
   const resu = await focaleService.deleteFocale(id)
   return res.status(resu.code).json(resu)
 })
+
+
+/**
+ * Security part
+ */
+
+app.post('/verifyRecaptcha' , async (req,res) => {
+  const { captcha } = req.body
+  console.log(captcha)
+  const secret_key = "6LdFZPQoAAAAAPRETSD9-IuqspvBnx0dVTOs2tvM"
+  const postData = querystring.stringify({
+    secret: secret_key,
+    response: captcha
+  });
+  await axios.post(`https://www.google.com/recaptcha/api/siteverify`,postData)
+  .then(response => {
+    console.log(response.data)
+      if (response.data.success) {
+          console.log('Success!')
+          res.status(200).json({ value: 'captcha OK', succes : true})
+          // The reCAPTCHA was verified successfully. Continue processing the form.
+      } else {
+          console.log('Failed!')
+          res.status(400).json({ value: 'captcha NOK' , success : false})
+
+          // The reCAPTCHA verification failed. Send an error response.
+      }
+  })
+  .catch(error => {
+      console.error('Error verifying reCAPTCHA:', error);
+  });}
+)
+
+
+// Proposer Article
+import proposerArticleService from './dbServices/proposerArticleService.js';
+
+app.post('/api/proposerArticle',upload.none(), async (req, res) => {
+  // Handle the FormData here
+  const { article } = req.body;
+ const resu= await proposerArticleService.addArticle(article)
+return res.status(resu.code).json(resu.article.id)
+});
+
+app.post('/api/uploadFilesProposer', upload.array('files'), (req, res) => {
+  const uploadedFiles = req.files;
+  const ids = req.body;
+
+  const generalId = ids['generalId']
+  const directoryPath = path.join(path.resolve(), 'save', 'propalArticle', generalId );
+
+  fs.mkdirSync(directoryPath, { recursive: true }, (err) => {
+    if (err) {
+      console.error('Error creating directory:', err);
+    } else {
+      console.log('Directory created successfully');
+    }
+  });
+
+  for (let i = 0; i < uploadedFiles.length; i++) {
+    const imageBuffer = uploadedFiles[i].buffer;
+  
+    const filename = uploadedFiles[i].originalname;
+  // Define the path to save the image file on your server
+    const imagePath = path.join(path.resolve(), 'save', 'propalArticle', generalId , filename);
+  // Use the fs module to write the image buffer to the file
+  fs.writeFile(imagePath, imageBuffer, err => {
+    if (err) {
+      console.error(err);
+    }})
+  }
+  console.log(uploadedFiles)
+  console.log(ids)
+  res.status(200).json({ message: 'Files uploaded successfully' });
+});
