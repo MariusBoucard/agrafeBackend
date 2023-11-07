@@ -672,7 +672,6 @@ app.delete('/api/deleteFocale/:id', async (req,res) => {
 
 app.post('/verifyRecaptcha' , async (req,res) => {
   const { captcha } = req.body
-  console.log(captcha)
   const secret_key = "6LdFZPQoAAAAAPRETSD9-IuqspvBnx0dVTOs2tvM"
   const postData = querystring.stringify({
     secret: secret_key,
@@ -704,9 +703,19 @@ import proposerArticleService from './dbServices/proposerArticleService.js';
 app.post('/api/proposerArticle',upload.none(), async (req, res) => {
   // Handle the FormData here
   const { article } = req.body;
+  console.log(article)
  const resu= await proposerArticleService.addArticle(article)
 return res.status(resu.code).json(resu.article.id)
 });
+
+
+app.get('/api/getPropalArticles', async (req, res) => {
+  // Handle the FormData here
+ const resu= await proposerArticleService.getAllArticles()
+ console.log(resu)
+return res.status(resu.code).json(resu.articles)
+});
+
 
 app.post('/api/uploadFilesProposer', upload.array('files'), (req, res) => {
   const uploadedFiles = req.files;
@@ -735,7 +744,40 @@ app.post('/api/uploadFilesProposer', upload.array('files'), (req, res) => {
       console.error(err);
     }})
   }
-  console.log(uploadedFiles)
-  console.log(ids)
+
   res.status(200).json({ message: 'Files uploaded successfully' });
+});
+
+app.delete('/api/deletePropalArticle/:id', async (req, res) => {
+  // Handle the FormData here
+  const { id } = req.params;
+ const resu= await proposerArticleService.deleteArticle(id)
+ res.status(200).json({ message: 'Files deleted successfully' });
+
+})
+
+app.get('/api/downloadPropal/:id', async (req, res) => {
+  const { id } = req.params;
+
+  const filePath = path.join(path.resolve(), 'propal', id+".zip");
+
+  await proposerArticleService.createArchive(id)
+  
+  const filename = id+".zip";
+  const stats = fs.statSync(filePath);
+  const fileSizeInBytes = stats.size;
+  res.setHeader('Content-Length', fileSizeInBytes);
+  res.setHeader('Content-Type', 'application/zip');
+  res.setHeader('Content-Disposition', `attachment; filename=${id}.zip`);
+
+  // Wait for 2 seconds
+  setTimeout(() => {
+    res.download(filePath, filename, (err) => {
+      if (err) {
+        console.error(`Error downloading file: ${err}`);
+      } else {
+        console.log(`File downloaded: ${filePath}`);
+      }
+    });
+  }, 2000);
 });

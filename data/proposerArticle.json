@@ -1,3 +1,16 @@
 {
-    "articles" : []
+  "articles": [
+    {
+      "id": "yH7345dbDzQprU66UwtZA",
+      "rubriqueId": "yzLEoJzbWi0RcWCcoXuVI",
+      "auteur": "fsd",
+      "titre": "",
+      "sous-titre": "fd",
+      "article": "dfs",
+      "notesBasPage": "sdf",
+      "sources": "",
+      "contact": "sdf",
+      "commentaire": "sdf"
+    }
+  ]
 }
