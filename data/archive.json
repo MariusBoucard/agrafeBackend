@@ -7,7 +7,7 @@
       "numero": "s",
       "date": "2023-10-06",
       "lectures": 0,
-      "private": true
+      "private": false
     }
   ]
 }

@@ -423,6 +423,12 @@ app.get('/api/getArchive',userService.authenticateToken,async (req, res) => {
   return res.status(resu.code).json(resu.archive);
   // Implement your logic to fetch and send data here
 });
+
+app.get('/api/lastArchive',async (req, res) => {
+  const resu =  await archiveService.getLastArchive()
+  return res.status(resu.code).json(resu.archive);
+  // Implement your logic to fetch and send data here
+});
 /**
  * Public get archive
  */
