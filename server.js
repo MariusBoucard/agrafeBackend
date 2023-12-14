@@ -19,7 +19,6 @@ import querystring from 'querystring'
 /**
  * Here's the server class, where all the server is defined and all the routes because I haven't did several files
  */
-app.use('/save', express.static('save'));
 const upload = multer();
 const millisecondsInADay = 24 * 60 * 60 * 1000; // 24 hours * 60 minutes * 60 seconds * 1000 milliseconds
 const interval = setInterval(lectureService.updateLectures, millisecondsInADay);
@@ -33,8 +32,12 @@ const corsOptions = {
     } else {
       callback(new Error('Not allowed by CORS'));
     }
+    
   },
+  credentials: true, // This is important.
+  
 };
+app.use('/save',cors(corsOptions), express.static('save'));
 
 app.use(cors(corsOptions));
 
