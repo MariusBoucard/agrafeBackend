@@ -23,7 +23,7 @@ const upload = multer();
 const millisecondsInADay = 24 * 60 * 60 * 1000; // 24 hours * 60 minutes * 60 seconds * 1000 milliseconds
 const interval = setInterval(lectureService.updateLectures, millisecondsInADay);
 app.use(express.json());
-const allowedOrigins = ['http://localhost:8080'];
+const allowedOrigins = ['http://localhost:8080','http://127.0.0.1:8080'];
 
 const corsOptions = {
   origin: (origin, callback) => {
@@ -34,7 +34,7 @@ const corsOptions = {
     }
     
   },
-  credentials: true, // This is important.
+  // credentials: true, // This is important.
   
 };
 app.use('/save',cors(corsOptions), express.static('save'));
@@ -582,10 +582,9 @@ app.post('/api/privateNews',userService.authenticateToken ,async (req,res) => {
  * Admin  add focale
  *  */
 app.post('/api/addFocale', userService.authenticateToken, async (req, res) => {
-  const jsonObject = req.body; // Assuming the JSON object is sent in the request body
-  const resu = await focaleService.addToFocale(jsonObject)
+  const { focale } = req.body; // Assuming the JSON object is sent in the request body
+  const resu = await focaleService.addToFocale(focale)
   // Process and save the JSON object as needed
-  console.log(jsonObject)
   // Respond with a success message or other appropriate response
   res.status(200).json(resu);
 });
@@ -622,6 +621,48 @@ app.post('/api/uploadFocale',userService.authenticateToken, upload.array('images
       console.error(err);
     }})
   }
+  console.log(uploadedFiles)
+  console.log(ids)
+  res.status(200).json({ message: 'Images uploaded successfully' });
+});
+app.post('/api/uploadPDFFocale',userService.authenticateToken, upload.array('focalePDF'), (req, res) => {
+  const uploadedFiles = req.files;
+  const ids = req.body;
+  const generalId = ids['focaleID']
+  console.log(generalId)
+  const directoryPath = path.join(path.resolve(), 'save', 'saveFocale', generalId );
+
+  fs.mkdirSync(directoryPath, { recursive: true }, (err) => {
+    if (err) {
+      console.error('Error creating directory:', err);
+    } else {
+      console.log('Directory created successfully');
+    }
+  });
+
+    const pdf1Buffer = uploadedFiles[0].buffer;
+    
+    const filename = "1.pdf";
+    
+  // Define the path to save the image file on your server
+    const file1 = path.join(path.resolve(), 'save', 'saveFocale', generalId , filename);
+  // Use the fs module to write the image buffer to the file
+  fs.writeFile(file1, pdf1Buffer, err => {
+    if (err) {
+      console.error(err);
+    }})
+    const pdf2Buffer = uploadedFiles[1].buffer;
+    
+    const filename2 = "2.pdf";
+    
+  // Define the path to save the image file on your server
+    const file2 = path.join(path.resolve(), 'save', 'saveFocale', generalId , filename2);
+  // Use the fs module to write the image buffer to the file
+  fs.writeFile(file2, pdf1Buffer, err => {
+    if (err) {
+      console.error(err);
+    }})
+  
   console.log(uploadedFiles)
   console.log(ids)
   res.status(200).json({ message: 'Images uploaded successfully' });
