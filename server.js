@@ -2,7 +2,6 @@ import express from 'express'
 const app = express();
 import cors from 'cors';
 const port = process.env.PORT || 3000;
-import connectToMySQL from './db.js'; // Import the database connection
 import fs from 'fs'
 import path from 'path'
 import userService from './dbServices/userService.js';
@@ -15,15 +14,16 @@ import newsletterService from './dbServices/newsletterService.js';
 import newsService from './dbServices/newsService.js';
 import lectureService from './dbServices/lectureService.js';
 import focaleService from './dbServices/focaleService.js';
+import axios from 'axios'
+import querystring from 'querystring'
 /**
  * Here's the server class, where all the server is defined and all the routes because I haven't did several files
  */
-app.use('/save', express.static('save'));
 const upload = multer();
 const millisecondsInADay = 24 * 60 * 60 * 1000; // 24 hours * 60 minutes * 60 seconds * 1000 milliseconds
 const interval = setInterval(lectureService.updateLectures, millisecondsInADay);
 app.use(express.json());
-const allowedOrigins = ['http://localhost:8080'];
+const allowedOrigins = ['http://localhost:8080','http://127.0.0.1:8080'];
 
 const corsOptions = {
   origin: (origin, callback) => {
@@ -32,8 +32,12 @@ const corsOptions = {
     } else {
       callback(new Error('Not allowed by CORS'));
     }
+    
   },
+  // credentials: true, // This is important.
+  
 };
+app.use('/save',cors(corsOptions), express.static('save'));
 
 app.use(cors(corsOptions));
 
@@ -181,7 +185,7 @@ return res.status(resu.code).json(resu.article.id)
 */
 app.post('/api/uploadImage',userService.authenticateToken ,upload.single('imageLogo'), (req, res) => {
   if (!req.file) {
-    return res.status(400).json({ message: 'No image file received.' });
+    return res.status(200).json({ message: 'No image file received.' });
   }
   const infoString = req.body.articleId; // Access the string data
   const imageBuffer = req.file.buffer; // Access the uploaded image buffer
@@ -422,6 +426,12 @@ app.get('/api/getArchive',userService.authenticateToken,async (req, res) => {
   return res.status(resu.code).json(resu.archive);
   // Implement your logic to fetch and send data here
 });
+
+app.get('/api/lastArchive',async (req, res) => {
+  const resu =  await archiveService.getLastArchive()
+  return res.status(resu.code).json(resu.archive);
+  // Implement your logic to fetch and send data here
+});
 /**
  * Public get archive
  */
@@ -579,10 +589,9 @@ app.post('/api/privateNews',userService.authenticateToken ,async (req,res) => {
  * Admin  add focale
  *  */
 app.post('/api/addFocale', userService.authenticateToken, async (req, res) => {
-  const jsonObject = req.body; // Assuming the JSON object is sent in the request body
-  const resu = await focaleService.addToFocale(jsonObject)
+  const { focale } = req.body; // Assuming the JSON object is sent in the request body
+  const resu = await focaleService.addToFocale(focale)
   // Process and save the JSON object as needed
-  console.log(jsonObject)
   // Respond with a success message or other appropriate response
   res.status(200).json(resu);
 });
@@ -619,6 +628,48 @@ app.post('/api/uploadFocale',userService.authenticateToken, upload.array('images
       console.error(err);
     }})
   }
+  console.log(uploadedFiles)
+  console.log(ids)
+  res.status(200).json({ message: 'Images uploaded successfully' });
+});
+app.post('/api/uploadPDFFocale',userService.authenticateToken, upload.array('focalePDF'), (req, res) => {
+  const uploadedFiles = req.files;
+  const ids = req.body;
+  const generalId = ids['focaleID']
+  console.log(generalId)
+  const directoryPath = path.join(path.resolve(), 'save', 'saveFocale', generalId );
+
+  fs.mkdirSync(directoryPath, { recursive: true }, (err) => {
+    if (err) {
+      console.error('Error creating directory:', err);
+    } else {
+      console.log('Directory created successfully');
+    }
+  });
+
+    const pdf1Buffer = uploadedFiles[0].buffer;
+    
+    const filename = "1.pdf";
+    
+  // Define the path to save the image file on your server
+    const file1 = path.join(path.resolve(), 'save', 'saveFocale', generalId , filename);
+  // Use the fs module to write the image buffer to the file
+  fs.writeFile(file1, pdf1Buffer, err => {
+    if (err) {
+      console.error(err);
+    }})
+    const pdf2Buffer = uploadedFiles[1].buffer;
+    
+    const filename2 = "2.pdf";
+    
+  // Define the path to save the image file on your server
+    const file2 = path.join(path.resolve(), 'save', 'saveFocale', generalId , filename2);
+  // Use the fs module to write the image buffer to the file
+  fs.writeFile(file2, pdf1Buffer, err => {
+    if (err) {
+      console.error(err);
+    }})
+  
   console.log(uploadedFiles)
   console.log(ids)
   res.status(200).json({ message: 'Images uploaded successfully' });
@@ -670,3 +721,120 @@ app.delete('/api/deleteFocale/:id', async (req,res) => {
   const resu = await focaleService.deleteFocale(id)
   return res.status(resu.code).json(resu)
 })
+
+
+/**
+ * Security part
+ */
+
+app.post('/verifyRecaptcha' , async (req,res) => {
+  const { captcha } = req.body
+  const secret_key = "6LdFZPQoAAAAAPRETSD9-IuqspvBnx0dVTOs2tvM"
+  const postData = querystring.stringify({
+    secret: secret_key,
+    response: captcha
+  });
+  await axios.post(`https://www.google.com/recaptcha/api/siteverify`,postData)
+  .then(response => {
+    console.log(response.data)
+      if (response.data.success) {
+          console.log('Success!')
+          res.status(200).json({ value: 'captcha OK', succes : true})
+          // The reCAPTCHA was verified successfully. Continue processing the form.
+      } else {
+          console.log('Failed!')
+          res.status(400).json({ value: 'captcha NOK' , success : false})
+
+          // The reCAPTCHA verification failed. Send an error response.
+      }
+  })
+  .catch(error => {
+      console.error('Error verifying reCAPTCHA:', error);
+  });}
+)
+
+
+// Proposer Article
+import proposerArticleService from './dbServices/proposerArticleService.js';
+
+app.post('/api/proposerArticle',upload.none(), async (req, res) => {
+  // Handle the FormData here
+  const { article } = req.body;
+  console.log(article)
+ const resu= await proposerArticleService.addArticle(article)
+return res.status(resu.code).json(resu.article.id)
+});
+
+
+app.get('/api/getPropalArticles', async (req, res) => {
+  // Handle the FormData here
+ const resu= await proposerArticleService.getAllArticles()
+ console.log(resu)
+return res.status(resu.code).json(resu.articles)
+});
+
+
+app.post('/api/uploadFilesProposer', upload.array('files'), (req, res) => {
+  const uploadedFiles = req.files;
+  const ids = req.body;
+
+  const generalId = ids['generalId']
+  const directoryPath = path.join(path.resolve(), 'save', 'propalArticle', generalId );
+
+  fs.mkdirSync(directoryPath, { recursive: true }, (err) => {
+    if (err) {
+      console.error('Error creating directory:', err);
+    } else {
+      console.log('Directory created successfully');
+    }
+  });
+
+  for (let i = 0; i < uploadedFiles.length; i++) {
+    const imageBuffer = uploadedFiles[i].buffer;
+  
+    const filename = uploadedFiles[i].originalname;
+  // Define the path to save the image file on your server
+    const imagePath = path.join(path.resolve(), 'save', 'propalArticle', generalId , filename);
+  // Use the fs module to write the image buffer to the file
+  fs.writeFile(imagePath, imageBuffer, err => {
+    if (err) {
+      console.error(err);
+    }})
+  }
+
+  res.status(200).json({ message: 'Files uploaded successfully' });
+});
+
+app.delete('/api/deletePropalArticle/:id', async (req, res) => {
+  // Handle the FormData here
+  const { id } = req.params;
+ const resu= await proposerArticleService.deleteArticle(id)
+ res.status(200).json({ message: 'Files deleted successfully' });
+
+})
+
+app.get('/api/downloadPropal/:id', async (req, res) => {
+  const { id } = req.params;
+
+  const filePath = path.join(path.resolve(), 'propal', id+".zip");
+
+  await proposerArticleService.createArchive(id)
+  
+  const filename = id+".zip";
+  const stats = fs.statSync(filePath);
+  const fileSizeInBytes = stats.size;
+  res.setHeader('Content-Length', fileSizeInBytes);
+  res.setHeader('Content-Type', 'application/zip');
+  res.setHeader('Content-Disposition', `attachment; filename=${id}.zip`);
+
+  // Wait for 2 seconds
+  setTimeout(() => {
+    res.download(filePath, filename, (err) => {
+      if (err) {
+        console.error(`Error downloading file: ${err}`);
+      } else {
+        console.log(`File downloaded: ${filePath}`);
+      }
+    });
+  }, 2000);
+});

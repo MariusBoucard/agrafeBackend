@@ -98,27 +98,17 @@ const focaleService = {
    addToFocale : async function addToFocale(focale){
         if(focaleSanityCheck(focale)){
             const idd = nanoid()
-            const focaleToAdd = {
+            console.log(focale)
+            var focaleToAdd = {
                 id : idd,
                 titre : focale.titre,
                 numero : focale.numero,
                 description : focale.description,
+                auteur : focale.auteur,
+                technique : focale.technique,
                 private : true,
-                images : []
             }
-            focale.images.forEach(img => {
-                if(imgSanityCheck(img)){
-                    focaleToAdd.images.push({
-                        id : img.id,
-                        auteur : img.auteur,
-                        titre : img.titre,
-                        description : img.description,
-                        date : img.date,
-                        copyright : img.copyright
-                    })
-                }
-            })
-
+           console.log(focaleToAdd)
             const data = await readDataFromFile()
             data.focale.push(focaleToAdd)
             saveToFile(data)

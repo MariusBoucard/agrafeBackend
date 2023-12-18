@@ -153,6 +153,15 @@ getArchive : async function getArchive(id){
     }
     return { code: 404, message: "voila l archive" , archive : null};
   },
+  //GetUser ATTention DTO MDP
+getLastArchive : async function getLastArchive(){
+  const rawData = await readDataFromFile()
+  const userFound = rawData.archives.filter(ar => ar.private === false).sort((a, b) => new Date(b.date) - new Date(a.date))[0];
+  if(userFound){
+    return { code: 200, message: "voila l archive" , archive : userFound};
+  }
+  return { code: 404, message: "voila l archive" , archive : null};
+},
 getArchivePublic : async function getArchivePublic(id){
   const rawData = await readDataFromFile()
   const userFound = rawData.archives.find(idd => id === idd.id)
