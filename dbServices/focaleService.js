@@ -98,7 +98,6 @@ const focaleService = {
    addToFocale : async function addToFocale(focale){
         if(focaleSanityCheck(focale)){
             const idd = nanoid()
-            console.log(focale)
             var focaleToAdd = {
                 id : idd,
                 titre : focale.titre,
@@ -106,6 +105,7 @@ const focaleService = {
                 description : focale.description,
                 auteur : focale.auteur,
                 technique : focale.technique,
+                date : focale.date,
                 private : true,
             }
            console.log(focaleToAdd)
