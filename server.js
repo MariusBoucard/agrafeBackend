@@ -435,8 +435,8 @@ app.get('/api/lastArchive',async (req, res) => {
 /**
  * Public get archive
  */
-app.get('/api/getArchivePublic',async (req, res) => {
-  const { id } = req.body;
+app.get('/api/getArchivePublic/:id',async (req, res) => {
+  const { id } = req.params;
   const resu =  await archiveService.getArchivePublic(id)
   return res.status(resu.code).json(resu.archive);
   // Implement your logic to fetch and send data here
