@@ -23,11 +23,11 @@ const upload = multer();
 const millisecondsInADay = 24 * 60 * 60 * 1000; // 24 hours * 60 minutes * 60 seconds * 1000 milliseconds
 const interval = setInterval(lectureService.updateLectures, millisecondsInADay);
 app.use(express.json());
-const allowedOrigins = ['http://localhost:8080','http://127.0.0.1:8080'];
+const allowedOrigins = ['http://localhost:8080','http://127.0.0.1:8080','http://192.168.0.13:8080/'];
 
 const corsOptions = {
   origin: (origin, callback) => {
-    if (allowedOrigins.includes(origin) || !origin) {
+    if (allowedOrigins.includes(origin) || !origin || true) {
       callback(null, true);
     } else {
       callback(new Error('Not allowed by CORS'));
