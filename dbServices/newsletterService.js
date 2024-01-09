@@ -24,7 +24,7 @@ function saveToFile(data){
 }
 
 function newsletterSanityCheck(news){
-    return "username" in news && "mail" in news
+    return "name" in news && "mail" in news
 }
 
 const newsletterService = {
@@ -35,9 +35,7 @@ const newsletterService = {
         let userToAdd = {}
         if ( newsletterSanityCheck(user)){
             // try{
-                const idd = nanoid()
                 userToAdd = {
-                    id :  idd,
                    name : user.username,
                    mail : user.mail
                 }
@@ -55,16 +53,16 @@ const newsletterService = {
   
 
 //delete a user 
-deleteNewsletter : async function deleteNewsletter(id){
+deleteNewsletter : async function deleteNewsletter(mail){
     const rawData = await readDataFromFile()
-    const index = rawData.newsletter.findIndex(idd => id === idd.id)
+    const index = rawData.newsletter.findIndex(user => mail === user.mail)
     if(index !== -1){
         rawData.newsletter.splice(index,1)
         //delet the assets :
         saveToFile(rawData)  
         return { code: 200, message: "mail deleted" };
     }
-    return { code: 404, message: "mail deleted"};
+    return { code: 406, message: "mail not found"};
 
 },
 

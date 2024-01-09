@@ -65,6 +65,17 @@ const articleService = {
                 data.articles.push(articleToAdd);
                 saveToFile(data)
                 rubriqueService.addArticleToRubrique(article.rubrique)
+
+                const filePath = 'save/saveArticle/articleText/'+idd+'.txt';
+                const fileContent = JSON.stringify(article.contenu) ;
+                // ON a pas get le contenu !!!!!
+                fs.writeFile(filePath, fileContent, (err) => {
+                  if (err) {
+                    console.error('Error creating file:', err);
+                    return;
+                  }
+                  console.log('File created successfully.');
+                });
                 return { code: 200, message: "article added" , article : articleToAdd};
     } else {
       return { code: 404, message: "article not added" , article : null};
@@ -161,7 +172,11 @@ getPublicArticle : async function getPublicArticle(id){
   const userFound = rawData.articles.find(idd => id === idd.id)
   if(userFound){
     if(!userFound.private){
-      return { code: 200, message: "Voila les articles bg" , article : userFound};
+      // Read the content from file 
+      const filePath = 'save/saveArticle/articleText/'+id+'.txt';
+      const fileContent = fs.readFileSync(filePath, 'utf8');
+      userFound.contenu = JSON.parse(fileContent)
+      return { code: 200, message: "Voila le article bg" , article : userFound};
     }
     return { code: 404, message: "pas d article bg" , article : null};
   }

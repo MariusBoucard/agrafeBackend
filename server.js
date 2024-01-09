@@ -296,11 +296,13 @@ app.get('/api/getArticle',userService.authenticateToken,async (req, res) => {
 /**
  * Public get article
  */
-app.get('/api/getPublicArticle',async (req, res) => {
-  const id = req.query.id;
-  const resu =  await articleService.getPublicArticle(id)
-return res.status(resu.code).json(resu.article);
-// Implement your logic to fetch and send data here
+app.get('/api/getPublicArticle/:caca', async (req, res) => {
+  console.log('triggered');
+  const { caca } = req.params;
+  console.log(caca);
+  const resu = await articleService.getPublicArticle(caca);
+  return res.status(resu.code).json(resu.article);
+  // Implement your logic to fetch and send data here
 });
 
 
@@ -517,9 +519,9 @@ app.get('/api/getNewsletter',userService.authenticateToken ,async (req,res) => {
 /**
  * public delete newsletter
  */
-app.delete('/api/deleteNewsletter/:id', async (req, res) => {
-  const { id } = req.params
-  const resu = await newsletterService.deleteNewsletter(id)
+app.delete('/api/deleteNewsletter/:mail', async (req, res) => {
+  const { mail } = req.params
+  const resu = await newsletterService.deleteNewsletter(mail)
   return res.status(resu.code).json(resu.message)
 
 })
