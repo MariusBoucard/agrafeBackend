@@ -24,37 +24,19 @@ const millisecondsInADay = 24 * 60 * 60 * 1000; // 24 hours * 60 minutes * 60 se
 const interval = setInterval(lectureService.updateLectures, millisecondsInADay);
 app.use(express.json());
 const allowedOrigins = ['http://localhost:8080','http://127.0.0.1:8080','http://192.168.0.13:8080/'];
-
 const corsOptions = {
   origin: (origin, callback) => {
-    if (allowedOrigins.includes(origin) || !origin || true) {
+    if (!origin || allowedOrigins.includes(origin), true) {
       callback(null, true);
     } else {
       callback(new Error('Not allowed by CORS'));
     }
-    
   },
-  // credentials: true, // This is important.
-  
 };
-app.use('/save',cors(corsOptions), express.static('save'));
 
+app.use('/save', cors(corsOptions), express.static('save'));
 app.use(cors(corsOptions));
 
-
-app.listen(port, async () => {
-  console.log(`Server is running on port ${port}`);
-  try {
-    // const dbConnection = await connectToMySQL();
-    
-    // You can pass the dbConnection to your routes/controllers as needed
-    // For example, you can pass it to your User model if necessary.
-    // const user = new User(dbConnection);
-
-  } catch (err) {
-    console.error('Error establishing MySQL connection:', err);
-  }
-});
 
 
 
@@ -839,4 +821,19 @@ app.get('/api/downloadPropal/:id', async (req, res) => {
       }
     });
   }, 2000);
+});
+
+
+app.listen(port, async () => {
+  console.log(`Server is running on port ${port}`);
+  try {
+    // const dbConnection = await connectToMySQL();
+    
+    // You can pass the dbConnection to your routes/controllers as needed
+    // For example, you can pass it to your User model if necessary.
+    // const user = new User(dbConnection);
+
+  } catch (err) {
+    console.error('Error establishing MySQL connection:', err);
+  }
 });
