@@ -1,35 +1,134 @@
 {
   "rubriques": [
     {
-      "id": "zTYggNX-gFsoUgEjPs-lC",
-      "rubrique": "sdf",
-      "description": "fdsfdsf",
-      "rubRoute": "fds",
+      "id": "cbgmDLUFesIDwaVimzdEV",
+      "rubrique": "Tribune",
+      "description": "La Tribune est un lieu d’expression libre où tu peux traiter un sujet de controverse et y défendre un positionnement, le tout dans un format court. Aiguise ta plume !",
+      "rubRoute": "tribune",
+      "information": "/",
+      "nombreSecMin": 0,
+      "nombreSecMax": 6000,
+      "nombreArticles": 3
+    },
+    {
+      "id": "_jQS8Uf8JZr33gZwX7qV6",
+      "rubrique": "Oratorium",
+      "description": "L'Oratorium, c'est la rubrique politique de L'agrafe. Tu peux y aborder les querelles partisanes et autres escarmouches de nos cher.es représentant.es, dans la tonalité qui t'inspire.",
+      "rubRoute": "oratorium",
+      "information": "/",
+      "nombreSecMin": 0,
+      "nombreSecMax": 12000,
+      "nombreArticles": 3
+    },
+    {
+      "id": "JGJwkAOryhk6apsLpXTfz",
+      "rubrique": "Reportage",
+      "description": "Le Reportage est un format long destiné au traitement d'un sujet en profondeur. On t'encourage à y intégrer une enquête de terrain, et à favoriser les thématiques et enjeux locaux. À ton carnet !",
+      "rubRoute": "reportage",
+      "information": "/",
+      "nombreSecMin": 0,
+      "nombreSecMax": 12000,
       "nombreArticles": 1
     },
     {
-      "id": "1pfoDu0AYl6YNGc9VKp6V",
-      "rubrique": "fds",
-      "description": "dfsdsfs",
-      "rubRoute": "fds",
+      "id": "j3H6kQQUrBkxXdQqiJDKw",
+      "rubrique": "Campus",
+      "description": "Campus, c'est l'espace spécialement dédié à l'actualité de Rennes 2 ! Tu peux y relayer des événements, discuter de la vie à l’université, relater une expérience en lien avec ton statut d’étudiant.e, etc. Partage tes bons plans !",
+      "rubRoute": "campus",
+      "information": "/",
+      "nombreSecMin": 0,
+      "nombreSecMax": 12000,
+      "nombreArticles": 3
+    },
+    {
+      "id": "uhdZRV73VqTBNIN4tZmtd",
+      "rubrique": "Revue de presse",
+      "description": "La Revue de presse, c'est un peu le carrefour de l'actualité : en agrégeant différents articles parus dans la presses quotidienne, tu peux y comparer les angles d'attaque, y pointer les contradictions et proposer une lecture transversale. Les journaleux.ses, c'est cadeau !",
+      "rubRoute": "revuedepresse",
+      "information": "/",
+      "nombreSecMin": 0,
+      "nombreSecMax": 3000,
+      "nombreArticles": 0
+    },
+    {
+      "id": "QTjGEYRiT06jU4sn3LXnB",
+      "rubrique": "Antithèse",
+      "description": "Antithèse t'invite à questionner le monde qui t'entoure. Tu peux y aborder un fait de société et l'irriguer de concepts propres à la sociologie, la philosophie, l'économie, etc. Prévois l'aspirine, tu vas te creuser les méninges !",
+      "rubRoute": "antithese",
+      "information": "/",
+      "nombreSecMin": 0,
+      "nombreSecMax": 12000,
+      "nombreArticles": 4
+    },
+    {
+      "id": "e4tFs7PHWCg0AQoGluFaS",
+      "rubrique": "Portrait",
+      "description": "Ici, on t'invite à tirer le Portrait des figures qui t'inspirent. Si tu peux choper une interview, c'est encore mieux ! PS : tu savais que le mot \"portraiture\" existait ?",
+      "rubRoute": "portrait",
+      "information": "/",
+      "nombreSecMin": 0,
+      "nombreSecMax": 6000,
+      "nombreArticles": 3
+    },
+    {
+      "id": "qr0CAgT5vUoyBiZqUfQyR",
+      "rubrique": "L'Echo",
+      "description": "Dans L’Echo, on parle écologie. T'en fais pas, il y a de quoi faire, alors viens nous aider à penser le(s) monde(s) de demain ! Ça résonne ? Échomment ! ",
+      "rubRoute": "echo",
+      "information": "/",
+      "nombreSecMin": 0,
+      "nombreSecMax": 12000,
       "nombreArticles": 2
     },
     {
-      "id": "t9r5-mo3eZtNGK-su2skQ",
-      "rubrique": "test",
-      "description": "super rubrique",
-      "rubRoute": "rubtest",
+      "id": "NL_fBgWtM_W1jGZdPdYYO",
+      "rubrique": "Culturons-nous",
+      "description": "Culturons-nous ? Vraiment ? Eh oui, parce qu'on est toutes et tous un peu ignorant.es, alors c'est le moment de nous partager tes meilleures découvertes, tous domaines confondus !",
+      "rubRoute": "culturonsnous",
+      "information": "/",
+      "nombreSecMin": 0,
+      "nombreSecMax": 12000,
+      "nombreArticles": 4
+    },
+    {
+      "id": "haiPvlrj3ILlIkP_c9T86",
+      "rubrique": "Confluences",
+      "description": "Confluences, التقاء نهرين, Злиття, 合流, संगमम्, Zusammenfluss, hợp lưu, 合流, Confluenza",
+      "rubRoute": "confluences",
+      "information": "/",
+      "nombreSecMin": 0,
+      "nombreSecMax": 6000,
+      "nombreArticles": 3
+    },
+    {
+      "id": "0JGM34aN_KLF_4wxUJl-d",
+      "rubrique": "Sport",
+      "description": "La rubrique Sport, c'est l'occasion de parler de ta passion pour les fléchettes et de discuter des évènements sportifs du moment. Un esprit sain dans un corps sain !",
+      "rubRoute": "sport",
+      "information": "/",
+      "nombreSecMin": 0,
+      "nombreSecMax": 12000,
       "nombreArticles": 0
     },
     {
-      "id": "yzLEoJzbWi0RcWCcoXuVI",
-      "rubrique": "test",
-      "description": "super rubrique",
-      "rubRoute": "rubtest",
-      "information": "syper infos il faut qure ca soit long song lorem ipsum dis ta mere la pute s teuple j ai pas tourette mais franchement c est plus marrant d'insulter es gens de maniere gratuite quand on fait un site",
-      "nombreSecMin": 600,
-      "nombreSecMax": 900,
+      "id": "LLwDinc4Uh79PDLxLd9sd",
+      "rubrique": "Illustration",
+      "description": "Ici, tu trouveras toutes les illustrations réalisées pour L'agrafe et publiées en quatrième de couverture !",
+      "rubRoute": "illustration",
+      "information": "/",
+      "nombreSecMin": 0,
+      "nombreSecMax": 12000,
       "nombreArticles": 0
+    },
+    {
+      "id": "n5nWNPCjOwd1hb51T1y6j",
+      "rubrique": "Trajectoires",
+      "description": "Trajectoires accueille des récits, des histoires, des parcours, etc. Il s’agit d’une rubrique libre qui fait la part belle à une approche narrative et littéraire de l’actualité.",
+      "rubRoute": "trajectoires",
+      "information": "/",
+      "nombreSecMin": 0,
+      "nombreSecMax": 12000,
+      "nombreArticles": 3
     }
   ]
 }

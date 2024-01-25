@@ -165,11 +165,13 @@ getLastArchive : async function getLastArchive(){
 getArchivePublic : async function getArchivePublic(id){
   const rawData = await readDataFromFile()
   const userFound = rawData.archives.find(idd => id === idd.id)
+  if(userFound){
   if(!userFound.private){
     return { code: 200, message: "voila l archive" , archive : userFound};
   } else {
     return { code: 401, message: "archive privée" , archive : null};
-  }
+  }}
+  return { code: 404, message: "voila l archive" , archive : null};
 },
 
 

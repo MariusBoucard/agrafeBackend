@@ -50,7 +50,7 @@ const userService = {
                     type : 'admin',
                     name : user.name,
                     mail : user.mail,
-                    hash : sha256(user.password),
+                    hash : user.password,
                     // TODO
                     mailCheck : true
                 }

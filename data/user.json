@@ -9,27 +9,19 @@
       "mailCheck": true
     },
     {
-      "id": "HilWf99PSX3MPU1wf75Cy",
-      "type": "user",
-      "name": "mariussdf",
-      "mail": "dfdsf@fdsfds",
-      "hash": "$2b$10$LpiCnjwK9MgDAf0s45XZBuS/GfXMiKNx9vHQBpAc4eiO20Xt.l5Uy",
+      "id": "z3dT_MuACP9xMOt06dFBq",
+      "type": "admin",
+      "name": "Matteo",
+      "mail": "lagrafejournal@protonmail.com",
+      "hash": "$2b$10$2kp2nj1JV2Ss5qg7P5U2C.8bJtfVD1VjiKXmVOHT0gJrz1fTEafIW",
       "mailCheck": true
     },
     {
-      "id": "GKriXlm8MS9XsZSdRjn-H",
+      "id": "_6H7m6x0SKTfR83FYUoHM",
       "type": "admin",
-      "name": "marius",
-      "mail": "caca@gail.derche",
-      "hash": {},
-      "mailCheck": true
-    },
-    {
-      "id": "3FgZmKFAFS2s9uEu2tCld",
-      "type": "admin",
-      "name": "marius",
-      "mail": "caca@gail.derche",
-      "hash": {},
+      "name": "Emile",
+      "mail": "chevallier.emile@gmail.com",
+      "hash": "$2b$10$CahQ8iznf6iRNypZ07.EGeXXDNjxcTqyj3jGwXf8yGeJW6A.wXl36",
       "mailCheck": true
     }
   ]

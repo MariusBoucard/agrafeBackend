@@ -1,23 +1,47 @@
 {
   "archives": [
     {
-      "id": "1EYqIowKr_5sW0E2P_-cj",
-      "titre": "sdf",
-      "description": "fds",
-      "numero": "s",
-      "date": "2023-10-06",
+      "id": "S4rXouMu6j3sAyXmUg7lc",
+      "titre": "N°13 - Décembre 2023",
+      "description": "N°13 - Décembre 2023",
+      "numero": "13",
+      "date": "2023-12-13",
       "lectures": 0,
+      "auteurBack": "@baluchon_design",
+      "copyrightBack": "@baluchon_design",
       "private": false
     },
     {
-      "id": "SmiT-FhFphv-FtkuufskD",
-      "titre": "sdf",
-      "description": "fds",
-      "numero": "dsf",
-      "date": "2023-12-06",
+      "id": "Iv_ldkfElt2W48tt4yteb",
+      "titre": "N°12 - Novembre 2023",
+      "description": "12",
+      "numero": "12",
+      "date": "2023-11-13",
       "lectures": 0,
-      "auteurBack": "fafa",
-      "copyrightBack": "gzfd",
+      "auteurBack": "@jozehefff",
+      "copyrightBack": "jozehefff",
+      "private": false
+    },
+    {
+      "id": "o6xkCsDI8JeGHh-x0hPXW",
+      "titre": "N°11 - Octobre 2023",
+      "description": "N°11 - Octobre 2023",
+      "numero": "11",
+      "date": "2023-11-10",
+      "lectures": 0,
+      "auteurBack": "@egg.eyes.graphicstudio",
+      "copyrightBack": "egg.eyes.graphicstudio",
+      "private": false
+    },
+    {
+      "id": "VvOfUGGuLacFJiTV2exOf",
+      "titre": "N°10 - Septembre 2023",
+      "description": "N°10",
+      "numero": "10",
+      "date": "2023-09-13",
+      "lectures": 0,
+      "auteurBack": "@egg.eyes.graphicstudio",
+      "copyrightBack": "@egg.eyes.graphicstudio",
       "private": false
     }
   ]

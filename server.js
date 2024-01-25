@@ -48,8 +48,10 @@ app.use(cors(corsOptions));
 */
 app.post('/api/register', userService.authenticateToken,(req, res) => {
   const { username ,mail, password } = req.body;
+  console.log(password)
   // Hash the password before saving it in the database
   const hashedPassword = bcrypt.hashSync(password, 10);
+  console.log(hashedPassword)
   const ret = userService.addUser(
     {
       name : username,
@@ -62,10 +64,12 @@ app.post('/api/register', userService.authenticateToken,(req, res) => {
 /*
 * Admin user registration
 */
-app.post('/api/registerAdmin' ,async (req, res) => {
+app.post('/api/registerAdmin' ,userService.authenticateToken,async (req, res) => {
   const { username ,mail, password } = req.body;
   // Hash the password before saving it in the database
   const hashedPassword = bcrypt.hashSync(password, 10);
+  console.log(hashedPassword)
+
   const ret = await userService.addAdminUser(
     {
       name : username,
