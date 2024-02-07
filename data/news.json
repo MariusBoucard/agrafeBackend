@@ -1,25 +1,5 @@
 {
   "news": [
-    {
-      "id": "i5zZHmgBQUBqTVa3fO1KQ",
-      "titre": "wxwxc",
-      "date": "2023-10-11",
-      "description": "cxw",
-      "private": false
-    },
-    {
-      "id": "f0Y1na6DdqjB2v1KO7vgH",
-      "titre": "fds",
-      "date": "2023-10-12",
-      "description": "fds",
-      "private": true
-    },
-    {
-      "id": "hNcRdeBhN9NBhjZI7vgkL",
-      "titre": "fdsf ",
-      "date": "2023-12-14",
-      "description": "fdsfd fds fds fdsfdsfdsfd fdsfdsf fdsfdsf fdsfdsf fdsfdsf dsfdsfdsfds fdsfdsfd fdsfdsf sfdsfdsfd sfdsfdsfdsf fdsfdsfds fdsfdsfdsf fdsfds",
-      "private": false
-    }
+    
   ]
 }

@@ -19,7 +19,7 @@ import querystring from 'querystring'
 /**
  * Here's the server class, where all the server is defined and all the routes because I haven't did several files
  */
-const upload = multer();
+const upload = multer({ dest: './' });
 const millisecondsInADay = 24 * 60 * 60 * 1000; // 24 hours * 60 minutes * 60 seconds * 1000 milliseconds
 const interval = setInterval(lectureService.updateLectures, millisecondsInADay);
 app.use(express.json());
@@ -825,6 +825,118 @@ app.get('/api/downloadPropal/:id', async (req, res) => {
       }
     });
   }, 2000);
+});
+
+
+app.post('/deletefile',  userService.authenticateToken,(req, res) => {
+  const { pathfile } = req.body; // Assuming the request body contains the path of the file or directory to delete
+
+  let directoryPath = path.join(process.cwd(), pathfile);
+
+    fs.stat(directoryPath, (err, stats) => {
+        if (err) {
+            console.error(`Error getting file/directory stats: ${err.message}`);
+            res.status(500).send(`Error getting file/directory stats: ${err.message}`);
+            return;
+        }
+
+        if (stats.isDirectory()) {
+            fs.rmdir(directoryPath, { recursive: true }, (err) => {
+                if (err) {
+                    console.error(`Error deleting directory: ${err.message}`);
+                    res.status(500).send(`Error deleting directory: ${err.message}`);
+                    return;
+                }
+
+                res.send('Directory deleted successfully');
+            });
+        } else {
+            fs.unlink(directoryPath, (err) => {
+                if (err) {
+                    console.error(`Error deleting file: ${err.message}`);
+                    res.status(500).send(`Error deleting file: ${err.message}`);
+                    return;
+                }
+
+                res.send('File deleted successfully');
+            });
+        }
+    });
+});
+
+app.post('/fileList/',  userService.authenticateToken,(req, res) => {
+    console.log(process.cwd())
+ 
+    let cwd = process.cwd();
+    let directoryPath = path.join(cwd);
+    const { pathfile }= req.body; // Assuming the request body is a string
+    console.log(pathfile);
+
+    if(pathfile){
+     directoryPath = path.join(directoryPath, pathfile);
+    } 
+    fs.readdir(directoryPath, (err, files) => {
+        if (err) {
+            console.error(`Error reading directory: ${err.message}`);
+            res.status(500).send(`Error reading directory: ${err.message}`);
+            return;
+        }
+
+        const fileObjects = files.map((file) => {
+            const filePath = path.join(directoryPath, file);
+            const stats = fs.statSync(filePath);
+            const fileType = stats.isDirectory() ? 'directory' : 'file';
+            return { name: file, type: fileType };
+        });
+
+        res.send(fileObjects);
+    });
+});
+
+app.post('/upload', upload.single('file'),  userService.authenticateToken,(req, res) => {
+  const file = req.file; // the uploaded file
+  const destinationPath = req.body.path; // the path provided by the user
+
+  // Check if path is provided
+  if (!destinationPath) {
+      res.status(400).send('No path provided');
+      return;
+  }
+
+  // Create the destination directory if it doesn't exist
+  const finalDest = path.join(process.cwd(), destinationPath);
+  fs.mkdirSync(finalDest, { recursive: true });
+
+  // Move the file to the desired location
+  const newFilePath = path.join(finalDest, file.originalname);
+
+  fs.rename(file.path, newFilePath, err => {
+      if (err) {
+          console.error(`Error moving file: ${err.message}`);
+          res.status(500).send(`Error moving file: ${err.message}`);
+          return;
+      }
+
+      res.send('File uploaded successfully');
+  });
+});
+
+app.post('/getFile', (req, res) => {
+  const { pathfile } = req.body;
+
+  // Join the pathfile with the current working directory
+  const filePath = path.join(process.cwd(), pathfile);
+
+  // Read the file and send its content as the response
+  fs.readFile(filePath, 'utf8', (err, data) => {
+      if (err) {
+          console.error(`Error reading file: ${err.message}`);
+          res.status(500).send(`Error reading file: ${err.message}`);
+          return;
+      }
+
+      res.send(data);
+  });
 });
 
 
