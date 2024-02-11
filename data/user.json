@@ -23,6 +23,62 @@
       "mail": "chevallier.emile@gmail.com",
       "hash": "$2b$10$CahQ8iznf6iRNypZ07.EGeXXDNjxcTqyj3jGwXf8yGeJW6A.wXl36",
       "mailCheck": true
+    },
+    {
+      "id": "OUiabxZzrS8x2A-icYG_3",
+      "type": "admin",
+      "name": "Léna",
+      "mail": "lena@protonmail.com",
+      "hash": "$2b$10$H2z0m11SAYY7whEguHUay.Ym9SyRKEDWQPIwAXmsL8JIw9aVHsVvG",
+      "mailCheck": true
+    },
+    {
+      "id": "cpvhzz3SyrCPzkboUjaSh",
+      "type": "admin",
+      "name": "kevin",
+      "mail": "kevin@protonmail.com",
+      "hash": "$2b$10$uvuEdwXD9EDLkwMd1Dp1YeQrwR2vIbIjYJWXKgyKJ.jngNMXREwWq",
+      "mailCheck": true
+    },
+    {
+      "id": "djnYFr6abfTqRiCrBWBQ1",
+      "type": "admin",
+      "name": "solene",
+      "mail": "solene@protonmail.com",
+      "hash": "$2b$10$JrsNFq1KPZqRrOuI0xZJBOwwzhwysr0Ew9SBveMSlpQfEnD84uNge",
+      "mailCheck": true
+    },
+    {
+      "id": "G5-EkZLMuwqU2HKu-aZAe",
+      "type": "admin",
+      "name": "cassandra",
+      "mail": "cassandra@protonmail.com",
+      "hash": "$2b$10$9YZFp9/Vl1UKmiuSm6MIg..QpRuv97ruBcAB3U0e.lP..poMmqiLy",
+      "mailCheck": true
+    },
+    {
+      "id": "cm5GWzQZ1kef33oQhLktb",
+      "type": "admin",
+      "name": "louise",
+      "mail": "louise@protonmail.com",
+      "hash": "$2b$10$PcOMBrN4fTlrjxs6c6.tjOEULMI6dIb02vqkk2khhTKmbMSig5dkW",
+      "mailCheck": true
+    },
+    {
+      "id": "J_Zot3W0C6OQ17q7qEyqr",
+      "type": "admin",
+      "name": "constance",
+      "mail": "constance@protonmail.com",
+      "hash": "$2b$10$vC7lvzd7uDtky7w38AyD/.EK1fSmGfa2bWv0G/hRKJojjbIBZNPay",
+      "mailCheck": true
+    },
+    {
+      "id": "blQTxE35-JAoBtD9dC_Y7",
+      "type": "admin",
+      "name": "julien",
+      "mail": "julien@protonmail.com",
+      "hash": "$2b$10$rli/64da5F0MKH4kLWFg2eHYeWpr0G4h/o69PoHahUCRrzDWVDcb.",
+      "mailCheck": true
     }
   ]
 }

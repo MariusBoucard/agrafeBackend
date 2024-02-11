@@ -23,7 +23,7 @@ const upload = multer({ dest: './' });
 const millisecondsInADay = 24 * 60 * 60 * 1000; // 24 hours * 60 minutes * 60 seconds * 1000 milliseconds
 const interval = setInterval(lectureService.updateLectures, millisecondsInADay);
 app.use(express.json());
-const allowedOrigins = ['http://localhost:8080','http://127.0.0.1:8080','http://192.168.0.13:8080/'];
+const allowedOrigins = ['http://localhost:8080','http://127.0.0.1:8080','http://192.168.0.13:8080/','http://92.91.215.221:8080'];
 const corsOptions = {
   origin: (origin, callback) => {
     if (!origin || allowedOrigins.includes(origin), true) {
@@ -176,12 +176,14 @@ app.post('/api/uploadImage',userService.authenticateToken ,upload.single('imageL
   const infoString = req.body.articleId; // Access the string data
   const imageBuffer = req.file.buffer; // Access the uploaded image buffer
   const filename = infoString+".png";
+  const fileBuffer = fs.readFileSync(req.file.path);
   const imagePath = path.join(path.resolve(), 'save', 'saveArticle', 'cover', filename);
-  fs.writeFile(imagePath, imageBuffer, err => {
+  fs.writeFile(imagePath, fileBuffer, err => {
     if (err) {
       console.error(err);
     }
   });
+  fs.rmSync(req.file.path)
   return res.status(200).json({ message: 'Image uploaded successfully.' });
 });
 
@@ -205,7 +207,8 @@ app.post('/api/uploadArticleImages',userService.authenticateToken, upload.array(
   });
 
   for (let i = 0; i < uploadedFiles.length; i++) {
-    const imageBuffer = uploadedFiles[i].buffer;
+    const imageBufferPath = uploadedFiles[i].path;
+    const imageBuffer = fs.readFileSync(imageBufferPath);
     const imgId = ids[`id${i}`];
     const filename = imgId+".png";
     const imagePath = path.join(path.resolve(), 'save', 'saveArticle','images', generalId , filename);
@@ -213,6 +216,7 @@ app.post('/api/uploadArticleImages',userService.authenticateToken, upload.array(
     if (err) {
       console.error(err);
     }})
+    fs.rmSync(imageBufferPath)
   }
   console.log(uploadedFiles)
   console.log(ids)
@@ -221,24 +225,24 @@ app.post('/api/uploadArticleImages',userService.authenticateToken, upload.array(
 
 
 // Handle the image upload separately
-app.post('/api/uploadPdfArticle',userService.authenticateToken ,upload.single('articlePdf'), (req, res) => {
-  if (!req.file) {
-    return res.status(400).json({ message: 'No pdf file received.' });
-  }
-  const infoString = req.body.articleId; // Access the string data
-  const imageBuffer = req.file.buffer; // Access the uploaded image buffer
-  const filename = infoString+".pdf";
-  // Define the path to save the image file on your server
-  const imagePath = path.join(path.resolve(), 'save', 'saveArticle', 'pdf', filename);
-  // Use the fs module to write the image buffer to the file
-  fs.writeFile(imagePath, imageBuffer, err => {
-    if (err) {
-      console.error(err);
-    }
-    // At this point, the image has been successfully saved to the server
-  });
-  return res.status(200).json({ message: 'pdf uploaded successfully.' });
-});
+// app.post('/api/uploadPdfArticle',userService.authenticateToken ,upload.single('articlePdf'), (req, res) => {
+//   if (!req.file) {
+//     return res.status(400).json({ message: 'No pdf file received.' });
+//   }
+//   const infoString = req.body.articleId; // Access the string data
+//   const imageBuffer = req.file.buffer; // Access the uploaded image buffer
+//   const filename = infoString+".pdf";
+//   // Define the path to save the image file on your server
+//   const imagePath = path.join(path.resolve(), 'save', 'saveArticle', 'pdf', filename);
+//   // Use the fs module to write the image buffer to the file
+//   fs.writeFile(imagePath, imageBuffer, err => {
+//     if (err) {
+//       console.error(err);
+//     }
+//     // At this point, the image has been successfully saved to the server
+//   });
+//   return res.status(200).json({ message: 'pdf uploaded successfully.' });
+// });
 /**
  * Admin delete article
  */
@@ -370,18 +374,23 @@ app.post('/api/uploadPdfArchive',userService.authenticateToken ,upload.single('a
   if (!req.file) {
     return res.status(400).json({ message: 'No pdf file received.' });
   }
+  console.log(req.file)
   const infoString = req.body.archiveId; // Access the string data
   const imageBuffer = req.file.buffer; // Access the uploaded image buffer
   const filename = infoString+".pdf";
+  const fileBuffer = fs.readFileSync(req.file.path);
+
+  // console.log(fileBuffer)
   const pdfPath = path.join(path.resolve(), 'save', 'saveArchive', 'pdf', filename);
   // Use the fs module to write the image buffer to the file
-  fs.writeFileSync(pdfPath, imageBuffer, err => {
+  fs.writeFileSync(pdfPath, fileBuffer, err => {
     if (err) {
       console.error(err);
     }
     // At this point, the image has been successfully saved to the server
   });
   archiveService.extractPdf(infoString)
+  fs.rmSync(req.file.path)
   return res.status(200).json({ message: 'pdf uploaded successfully.' });
 });
 /**
@@ -529,10 +538,11 @@ app.post('/api/uploadImageNews',userService.authenticateToken ,upload.single('im
     return res.status(400).json({ message: 'No image file received.' });
   }
   const infoString = req.body.newsId; // Access the string data
-  const imageBuffer = req.file.buffer; 
   const filename = infoString+".png";
+  const fileBuffer = fs.readFileSync(req.file.path);
+
   const imagePath = path.join(path.resolve(), 'save', 'newsImage', filename);
-  fs.writeFile(imagePath, imageBuffer, err => {
+  fs.writeFile(imagePath, fileBuffer, err => {
     if (err) {
       console.error(err);
     }
@@ -588,39 +598,39 @@ app.post('/api/addFocale', userService.authenticateToken, async (req, res) => {
 /**
  * Admin  upload image focale
  *  */
-app.post('/api/uploadFocale',userService.authenticateToken, upload.array('images'), (req, res) => {
-  const uploadedFiles = req.files;
-  const ids = req.body;
-  const generalId = ids['generalId']
-  console.log(generalId)
-  const directoryPath = path.join(path.resolve(), 'save', 'saveFocale', generalId );
+// app.post('/api/uploadFocale',userService.authenticateToken, upload.array('images'), (req, res) => {
+//   const uploadedFiles = req.files;
+//   const ids = req.body;
+//   const generalId = ids['generalId']
+//   console.log(generalId)
+//   const directoryPath = path.join(path.resolve(), 'save', 'saveFocale', generalId );
 
-  fs.mkdirSync(directoryPath, { recursive: true }, (err) => {
-    if (err) {
-      console.error('Error creating directory:', err);
-    } else {
-      console.log('Directory created successfully');
-    }
-  });
+//   fs.mkdirSync(directoryPath, { recursive: true }, (err) => {
+//     if (err) {
+//       console.error('Error creating directory:', err);
+//     } else {
+//       console.log('Directory created successfully');
+//     }
+//   });
 
-  for (let i = 0; i < uploadedFiles.length; i++) {
-    const imageBuffer = uploadedFiles[i].buffer;
-    const imgId = ids[`id${i}`];
+//   for (let i = 0; i < uploadedFiles.length; i++) {
+//     const imageBuffer = uploadedFiles[i].buffer;
+//     const imgId = ids[`id${i}`];
   
-    const filename = imgId+".png";
-  // Define the path to save the image file on your server
-    const imagePath = path.join(path.resolve(), 'save', 'saveFocale', generalId , filename);
-  // Use the fs module to write the image buffer to the file
-  fs.writeFile(imagePath, imageBuffer, err => {
-    if (err) {
-      console.error(err);
-    }})
-  }
-  console.log(uploadedFiles)
-  console.log(ids)
-  res.status(200).json({ message: 'Images uploaded successfully' });
-});
-app.post('/api/uploadPDFFocale',userService.authenticateToken, upload.array('focalePDF'), (req, res) => {
+//     const filename = imgId+".png";
+//   // Define the path to save the image file on your server
+//     const imagePath = path.join(path.resolve(), 'save', 'saveFocale', generalId , filename);
+//   // Use the fs module to write the image buffer to the file
+//   fs.writeFile(imagePath, imageBuffer, err => {
+//     if (err) {
+//       console.error(err);
+//     }})
+//   }
+//   console.log(uploadedFiles)
+//   console.log(ids)
+//   res.status(200).json({ message: 'Images uploaded successfully' });
+// });
+app.post('/api/uploadPDFFocale', userService.authenticateToken, upload.array('focalePDF'), (req, res) => {
   const uploadedFiles = req.files;
   const ids = req.body;
   const generalId = ids['focaleID']
@@ -635,34 +645,26 @@ app.post('/api/uploadPDFFocale',userService.authenticateToken, upload.array('foc
     }
   });
 
-    const pdf1Buffer = uploadedFiles[0].buffer;
-    
-    const filename = "1.pdf";
-    
-  // Define the path to save the image file on your server
-    const file1 = path.join(path.resolve(), 'save', 'saveFocale', generalId , filename);
-  // Use the fs module to write the image buffer to the file
-  fs.writeFile(file1, pdf1Buffer, err => {
+  const filename1 = "1.pdf";
+  const file1 = path.join(directoryPath, filename1);
+  fs.copyFile(uploadedFiles[0].path, file1, (err) => {
     if (err) {
       console.error(err);
-    }})
-    const pdf2Buffer = uploadedFiles[1].buffer;
-    
-    const filename2 = "2.pdf";
-    
-  // Define the path to save the image file on your server
-    const file2 = path.join(path.resolve(), 'save', 'saveFocale', generalId , filename2);
-  // Use the fs module to write the image buffer to the file
-  fs.writeFile(file2, pdf1Buffer, err => {
+    }
+  });
+
+  const filename2 = "2.pdf";
+  const file2 = path.join(directoryPath, filename2);
+  fs.copyFile(uploadedFiles[1].path, file2, (err) => {
     if (err) {
       console.error(err);
-    }})
-  
+    }
+  });
+
   console.log(uploadedFiles)
   console.log(ids)
   res.status(200).json({ message: 'Images uploaded successfully' });
 });
-
 /**
  * Admin  get focale
  *  */

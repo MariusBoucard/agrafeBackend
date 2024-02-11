@@ -1,3 +1,134 @@
 {
-  "focale": []
+  "focale": [
+    {
+      "id": "dvLQDLUAXAvGy9sGq5QYC",
+      "titre": "Voir et Raconter",
+      "numero": 1,
+      "description": "Dédiée ce mois-ci au thème «Regards»,\nla rubrique Focale invite Ophélie Chaze pour une série intitulée :",
+      "auteur": "Ophélie Chaze",
+      "technique": "Photographie",
+      "date": "2022-03-08",
+      "private": false
+    },
+    {
+      "id": "M0fPUvPqIbSZrFN991i8p",
+      "titre": "rencontres anonymes du quotidien",
+      "numero": 2,
+      "description": "Ce mois-ci dans Focale, Ambre Belloeil nous\ninvite à nous perdre dans les rues de la capitale croate pour y célébrer les rencontres\nanonymes du quotidien",
+      "auteur": "Ambre Belloeil",
+      "technique": "Photographie",
+      "date": "2022-04-13",
+      "private": false
+    },
+    {
+      "id": "Zlb0zhRpv46X26Gn22GsA",
+      "titre": " ",
+      "numero": 3,
+      "description": "Ce mois-ci pour Focale, Solveig A. nous propose deux regards bien différents sur notre rapport au temps, comment certains le contemplent et accèptent son\ninépuisable écoulement, et comment d’autres l’investissent, même pour un cours instant, tirant profit de son caractère insaisissable et volatile pour expérimenter la vie sous un angle nouveau.",
+      "auteur": "Solveig A.",
+      "technique": "Photographie",
+      "date": "2022-09-14",
+      "private": false
+    },
+    {
+      "id": "27ZPjbKgCn7sqCIXdRjQb",
+      "titre": "Barbelés devant ciel bleu",
+      "numero": 4,
+      "description": "C ’est le week-end du patrimoine et du matrimoine. L’ancienne prison de Jacques Cartier est pour la première fois ouverte\nau public (Champs de Justice, 2022). En faisant la queue, nous recevons un livret d’information. Tout en sachant que des\npeines de mort y ont été exécutées et que des gens ont été envoyés d’ici dans des camps de concentration, on traverse la\nporte, on passe les forces de sécurité, on est dans la prison.",
+      "auteur": "Paula Gent",
+      "technique": "Photographie",
+      "date": "2022-10-12",
+      "private": false
+    },
+    {
+      "id": "Y92dlu-kjoRmBTGJq_qqH",
+      "titre": "Regard",
+      "numero": 5,
+      "description": " ",
+      "auteur": "EP",
+      "technique": "Photographie",
+      "date": "2022-11-02",
+      "private": false
+    },
+    {
+      "id": "XAmBe8JhRit-fnXRIIrSe",
+      "titre": "@le.belloeil",
+      "numero": 6,
+      "description": "B onjour ! Je m’appelle Ambre Belloeil et je suis en L3 info-com. Familière de la photographie depuis mon plus jeune\nâge grâce à ma grand-mère, je n’ai commencé à arpenter les rues, armée de mon Canon 1300D, qu’en début d’année\n2022 lors d’un voyage à Zagreb. Je vous propose une série de photos prises en Novembre dernier. Publier mes photos\ndans L’agrafe représente un réel défi personnel en tant que débutante mais aussi parce que je suis très peu à l’aise avec\nle noir et blanc.",
+      "auteur": "Ambre Belloeil",
+      "technique": "Photographie",
+      "date": "2023-01-11",
+      "private": false
+    },
+    {
+      "id": "YOuRDdT5PkVpuKfdUJE7B",
+      "titre": "24 décembre 2022 à Paris, place de la République",
+      "numero": 7,
+      "description": "  ",
+      "auteur": "KASTALI Soufyane",
+      "technique": "Photographie",
+      "date": "2023-02-08",
+      "private": false
+    },
+    {
+      "id": "67nL9vPF-3PePljn0V-nS",
+      "titre": "Accueil de réfugié.es à Rennes 2",
+      "numero": 8,
+      "description": "Balades entre les centre de réfugiés, l'hôtel et un\ncamp des Gayeulles... Ces dix-sept personnes\nmigrantes dont trois bébés ont trouvé refuge dans\ndeux salles du campus de Rennes 2 le 27 octobre\n2021 à l'aide de deux associations en bras de fer\navec la préfecture...",
+      "auteur": "Camille V.",
+      "technique": "Photographie",
+      "date": "2023-03-08",
+      "private": false
+    },
+    {
+      "id": "4AeldF3OpjdfyTG0XvsFn",
+      "titre": "Argentique, adjf :",
+      "numero": 9,
+      "description": "Procédé photographique qui implique l'utilisation de lumière et de\nchimie. Il se déroule en trois étapes : la prise de vue via un boitier prévu\nà cet effet ; le développement des pellicules via un procédé chimique ;\net le tirage via exposition à la lumière et chimie.",
+      "auteur": "@altplus15",
+      "technique": "Photographie/ Collage",
+      "date": "2023-03-12",
+      "private": false
+    },
+    {
+      "id": "hqjOA33HEa0tJmbZs_ubH",
+      "titre": "Exploration",
+      "numero": 10,
+      "description": " ",
+      "auteur": "@altplus15",
+      "technique": "Photographie",
+      "date": "2023-09-13",
+      "private": false
+    },
+    {
+      "id": "yg8uhv7U4p4sXuTcldr-e",
+      "titre": "SOUVENIRS",
+      "numero": 11,
+      "description": " ",
+      "auteur": "@ryan_bcr, @maxime_sdlr, @whoslouison",
+      "technique": "Photographie",
+      "date": "2023-11-10",
+      "private": false
+    },
+    {
+      "id": "F4KJXJJ4NW2x_KXEZjw-r",
+      "titre": "« Good things happen at the right time »",
+      "numero": 12,
+      "description": "  ",
+      "auteur": "@ryan_bcr",
+      "technique": "Photographie",
+      "date": "2023-11-13",
+      "private": false
+    },
+    {
+      "id": "4y-ZlpfqanO15KapT4orb",
+      "titre": "Les huits montagnes",
+      "numero": 13,
+      "description": "décembre 2023 L’agrafe 27\nFocale\n« Tu le vois le torrent ? dit-il.\nMettons que l’eau, c’est le temps qui coule :\nsi l’endroit où nous sommes, c’est le présent, tu dirais\nqu’il est où l’avenir ? »",
+      "auteur": "@zenoslumea",
+      "technique": "Photographie",
+      "date": "2023-12-13",
+      "private": false
+    }
+  ]
 }

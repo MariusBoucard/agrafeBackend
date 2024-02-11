@@ -8,7 +8,7 @@
       "information": "/",
       "nombreSecMin": 0,
       "nombreSecMax": 6000,
-      "nombreArticles": 3
+      "nombreArticles": 8
     },
     {
       "id": "_jQS8Uf8JZr33gZwX7qV6",
@@ -18,7 +18,7 @@
       "information": "/",
       "nombreSecMin": 0,
       "nombreSecMax": 12000,
-      "nombreArticles": 3
+      "nombreArticles": 5
     },
     {
       "id": "JGJwkAOryhk6apsLpXTfz",
@@ -28,7 +28,7 @@
       "information": "/",
       "nombreSecMin": 0,
       "nombreSecMax": 12000,
-      "nombreArticles": 1
+      "nombreArticles": 2
     },
     {
       "id": "j3H6kQQUrBkxXdQqiJDKw",
@@ -38,7 +38,7 @@
       "information": "/",
       "nombreSecMin": 0,
       "nombreSecMax": 12000,
-      "nombreArticles": 3
+      "nombreArticles": 8
     },
     {
       "id": "uhdZRV73VqTBNIN4tZmtd",
@@ -58,7 +58,7 @@
       "information": "/",
       "nombreSecMin": 0,
       "nombreSecMax": 12000,
-      "nombreArticles": 4
+      "nombreArticles": 6
     },
     {
       "id": "e4tFs7PHWCg0AQoGluFaS",
@@ -68,7 +68,7 @@
       "information": "/",
       "nombreSecMin": 0,
       "nombreSecMax": 6000,
-      "nombreArticles": 3
+      "nombreArticles": 6
     },
     {
       "id": "qr0CAgT5vUoyBiZqUfQyR",
@@ -78,7 +78,7 @@
       "information": "/",
       "nombreSecMin": 0,
       "nombreSecMax": 12000,
-      "nombreArticles": 2
+      "nombreArticles": 5
     },
     {
       "id": "NL_fBgWtM_W1jGZdPdYYO",
@@ -88,7 +88,7 @@
       "information": "/",
       "nombreSecMin": 0,
       "nombreSecMax": 12000,
-      "nombreArticles": 4
+      "nombreArticles": 5
     },
     {
       "id": "haiPvlrj3ILlIkP_c9T86",
@@ -98,7 +98,7 @@
       "information": "/",
       "nombreSecMin": 0,
       "nombreSecMax": 6000,
-      "nombreArticles": 3
+      "nombreArticles": 5
     },
     {
       "id": "0JGM34aN_KLF_4wxUJl-d",
@@ -128,7 +128,7 @@
       "information": "/",
       "nombreSecMin": 0,
       "nombreSecMax": 12000,
-      "nombreArticles": 3
+      "nombreArticles": 5
     }
   ]
 }
