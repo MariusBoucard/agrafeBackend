@@ -174,7 +174,6 @@ app.post('/api/uploadImage',userService.authenticateToken ,upload.single('imageL
     return res.status(200).json({ message: 'No image file received.' });
   }
   const infoString = req.body.articleId; // Access the string data
-  const imageBuffer = req.file.buffer; // Access the uploaded image buffer
   const filename = infoString+".png";
   const fileBuffer = fs.readFileSync(req.file.path);
   const imagePath = path.join(path.resolve(), 'save', 'saveArticle', 'cover', filename);
@@ -780,7 +779,8 @@ app.post('/api/uploadFilesProposer', upload.array('files'), (req, res) => {
   });
 
   for (let i = 0; i < uploadedFiles.length; i++) {
-    const imageBuffer = uploadedFiles[i].buffer;
+    const imageBuffer = fs.readFileSync(uploadedFiles[i].path);
+
   
     const filename = uploadedFiles[i].originalname;
   // Define the path to save the image file on your server
@@ -790,6 +790,7 @@ app.post('/api/uploadFilesProposer', upload.array('files'), (req, res) => {
     if (err) {
       console.error(err);
     }})
+    fs.rmSync(uploadedFiles[i].path)
   }
 
   res.status(200).json({ message: 'Files uploaded successfully' });
