@@ -24,7 +24,7 @@ const upload = multer({ dest: './' });
 const millisecondsInADay = 24 * 60 * 60 * 1000; // 24 hours * 60 minutes * 60 seconds * 1000 milliseconds
 const interval = setInterval(lectureService.updateLectures, millisecondsInADay);
 app.use(express.json());
-const allowedOrigins = ['http://localhost:8080','http://127.0.0.1:8080','http://192.168.0.13:8080/'];
+const allowedOrigins = ['http://localhost:8080','http://lagrafejournal.com','http://127.0.0.1:8080','http://192.168.0.13:8080/'];
 const corsOptions = {
   origin: (origin, callback) => {
     if (!origin || allowedOrigins.includes(origin), true) {
@@ -35,7 +35,7 @@ const corsOptions = {
   },
 };
 
-app.use('/save', cors(corsOptions), express.static('save'));
+app.use('/api/save', cors(corsOptions), express.static('save'));
 app.use(cors(corsOptions));
 
 // Schedule your function to run at 12:00 and 00:00 every day
