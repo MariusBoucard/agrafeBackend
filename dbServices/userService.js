@@ -154,6 +154,7 @@ getAllUser : async function getAllUser(){
 doUserExists : async function doUserExists(user){
   const rawData = await readDataFromFile()
   const users = rawData.users
+  console.log(users)
   const userFound = users.find((u) => u.mail === user.mail);
   if ((userFound===undefined) || !bcrypt.compareSync(user.password, userFound.hash)) {
     return false

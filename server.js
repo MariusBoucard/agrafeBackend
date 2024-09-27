@@ -90,6 +90,7 @@ app.post('/api/login', async (req, res) => {
     mail: mail,
     password : password
   })
+  console.log("prout")
   if(id !== false){
     const token = userService.generateToken(id)
     res.status(200).json({ token : token, connected : true });
