@@ -16,6 +16,7 @@ import lectureService from './dbServices/lectureService.js';
 import focaleService from './dbServices/focaleService.js';
 import axios from 'axios'
 import querystring from 'querystring'
+import cron from 'node-cron'
 /**
  * Here's the server class, where all the server is defined and all the routes because I haven't did several files
  */
@@ -37,6 +38,8 @@ const corsOptions = {
 app.use('/save', cors(corsOptions), express.static('save'));
 app.use(cors(corsOptions));
 
+// Schedule your function to run at 12:00 and 00:00 every day
+cron.schedule('0 0,12 * * *', lectureService.updateLectures);
 
 
 
@@ -46,6 +49,12 @@ app.use(cors(corsOptions));
 /*
 * Admin user registration
 */
+app.get('/api/up', (req, res) => {
+  lectureService.updateLectures()
+  res.send('Hello World!');
+
+})
+
 app.post('/api/register', userService.authenticateToken,(req, res) => {
   const { username ,mail, password } = req.body;
   console.log(password)

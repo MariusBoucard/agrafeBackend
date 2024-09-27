@@ -154,11 +154,19 @@
     },
     {
       "date": "9/10/2023",
-      "lectures": 100
+      "lectures": 3
     },
     {
       "date": "10/10/2023",
-      "lectures": 1000
+      "lectures": 10
+    },
+    {
+      "date": "28/9/2024",
+      "lectures": 42
+    },
+    {
+      "date": "28/9/2024",
+      "lectures": 46
     }
   ]
 }

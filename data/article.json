@@ -1,4 +1,5 @@
 {
+  "lectures": [],
   "articles": [
     {
       "id": "L_BudMXbTtVJ00JbCIAr2",
@@ -13,7 +14,7 @@
       "rubrique": "cbgmDLUFesIDwaVimzdEV",
       "misEnLigne": "dfs",
       "rang": 1,
-      "lectures": 0
+      "lectures": 1
     },
     {
       "id": "Jo4SGx2WvmYradepGfIDm",
@@ -28,7 +29,7 @@
       "rubrique": "cbgmDLUFesIDwaVimzdEV",
       "misEnLigne": "dfs",
       "rang": 1,
-      "lectures": 0
+      "lectures": 10
     },
     {
       "id": "ReiwLgG76p045bNlnU2Bk",
@@ -43,7 +44,7 @@
       "rubrique": "qr0CAgT5vUoyBiZqUfQyR",
       "misEnLigne": "dfs",
       "rang": 1,
-      "lectures": 0
+      "lectures": 30
     },
     {
       "id": "a_-wDVJ9kxpLmtRMSquBe",
@@ -403,7 +404,7 @@
       "rubrique": "_jQS8Uf8JZr33gZwX7qV6",
       "misEnLigne": "dfs",
       "rang": 1,
-      "lectures": 0
+      "lectures": 4
     },
     {
       "id": "CATsfekbDsyxuQe_nO7mq",
@@ -433,7 +434,7 @@
       "rubrique": "haiPvlrj3ILlIkP_c9T86",
       "misEnLigne": "dfs",
       "rang": 1,
-      "lectures": 0
+      "lectures": 1
     }
   ]
 }
