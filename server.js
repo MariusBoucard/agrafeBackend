@@ -20,7 +20,15 @@ import cron from 'node-cron'
 /**
  * Here's the server class, where all the server is defined and all the routes because I haven't did several files
  */
-const upload = multer({ dest: './' });
+// const bodyParser = require('body-parser');
+
+// app.use(bodyParser.json({ limit: '400mb' }));
+// app.use(bodyParser.urlencoded({ limit: '400mb', extended: true }));
+
+const upload = multer({ 
+  storage: multer.memoryStorage(),
+  limits: { fileSize: 50 * 1024 * 1024*8 }, // 50 MB
+ });
 const millisecondsInADay = 24 * 60 * 60 * 1000; // 24 hours * 60 minutes * 60 seconds * 1000 milliseconds
 const interval = setInterval(lectureService.updateLectures, millisecondsInADay);
 app.use(express.json());

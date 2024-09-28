@@ -1,0 +1,1 @@
+[{"type":"image","text":"","copyright":"","image":{},"auteur":"","imagePreview":"blob:http://localhost:8080/e57e2abb-3e90-4a81-970a-13b2bdac1621","id":"GyOPgx-AutKKai-7l3vHR"}]

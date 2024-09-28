@@ -104,7 +104,7 @@
       "rubrique": "j3H6kQQUrBkxXdQqiJDKw",
       "misEnLigne": "dfs",
       "rang": 1,
-      "lectures": 0
+      "lectures": 1
     },
     {
       "id": "MEobqA3xW2lp-HpnYkd00",
@@ -239,7 +239,7 @@
       "rubrique": "e4tFs7PHWCg0AQoGluFaS",
       "misEnLigne": "dfs",
       "rang": 1,
-      "lectures": 0
+      "lectures": 1
     },
     {
       "id": "SGX6rrXjfv9ZUYRmyfIEP",
@@ -329,7 +329,7 @@
       "rubrique": "JGJwkAOryhk6apsLpXTfz",
       "misEnLigne": "dfs",
       "rang": 1,
-      "lectures": 0
+      "lectures": 1
     },
     {
       "id": "7KP5EKCvdvorLqYON3UOF",
@@ -435,6 +435,21 @@
       "misEnLigne": "dfs",
       "rang": 1,
       "lectures": 1
+    },
+    {
+      "id": "ky27I0Hxfqn7Ee5SXMx70",
+      "titreFront": "sdf",
+      "description": "fds",
+      "imageLogo": "/save/saveArticle/cover/ky27I0Hxfqn7Ee5SXMx70",
+      "path": "dsf",
+      "auteur": "sdf",
+      "numeroParu": "fsd",
+      "date": "2024-09-06",
+      "private": true,
+      "rubrique": "JGJwkAOryhk6apsLpXTfz",
+      "misEnLigne": "dfs",
+      "rang": 1,
+      "lectures": 0
     }
   ]
 }
