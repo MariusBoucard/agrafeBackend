@@ -5,6 +5,8 @@ import { PDFDocument } from 'pdf-lib';
 import pdf2img from 'pdf-img-convert'
 import  path from 'path'
 import { raw } from 'express';
+import { config } from '../config/env.js';
+import * as repos from '../db/repos.js';
 // Function to read the JSON file
 function readDataFromFile() {
     return new Promise((resolve, reject) => {
@@ -55,11 +57,15 @@ const archiveService = {
                     private : true
                 }
                 //getdb,
-                const rawData = await readDataFromFile()
-                console.log(rawData)
-                const data  = rawData
-                data.archives.push(archiveToAdd);
-                saveToFile(data)
+                if (config.usePostgres) {
+                  await repos.archives.insert(archiveToAdd);
+                } else {
+                  const rawData = await readDataFromFile()
+                  console.log(rawData)
+                  const data  = rawData
+                  data.archives.push(archiveToAdd);
+                  saveToFile(data)
+                }
                 //save 
                 console.log("archive adddeedd")
                 return { code: 200, message: "archive ajoutée" , archive : archiveToAdd};
@@ -70,6 +76,11 @@ const archiveService = {
       }
     },
     addLecture : async function addLecture(id){
+      if (config.usePostgres) {
+        const archive = await repos.archives.byId(id);
+        if (archive) await repos.archives.incrementLectures(id);
+        return;
+      }
       const rawData = await readDataFromFile()
       const found = rawData.archives.find(a => a.id ===id)
       if(found){
@@ -81,6 +92,18 @@ const archiveService = {
 
 //delete a user 
 deleteArchive : async function deleteArchive(id){
+    if (config.usePostgres) {
+      const archive = await repos.archives.byId(id);
+      if (!archive) return { code: 404, message: "archive not deleted" };
+      await repos.archives.remove(id);
+      const pdf = path.join(path.resolve(),'save','saveArchive','pdf',id+".pdf")
+      const cover = path.join(path.resolve(),'save','saveArchive','cover',id+".png")
+      const back = path.join(path.resolve(),'save','saveArchive','back',id+".png")
+      fs.unlink(pdf, () => {});
+      fs.unlink(cover, () => {});
+      fs.unlink(back, () => {});
+      return { code: 200, message: "archive deleted" };
+    }
     const rawData = await readDataFromFile()
     
     const index = rawData.archives.findIndex(idd => id === idd.id)
@@ -120,6 +143,12 @@ deleteArchive : async function deleteArchive(id){
 },
 //modify a user
 modifyArchive : async function modifyArchive(archive){
+    if (config.usePostgres) {
+      const existing = await repos.archives.byId(archive.id);
+      if (!existing) return { code: 404, message: "archive not modified" };
+      await repos.archives.update({ ...existing, ...archive });
+      return { code: 200, message: "archive modified" };
+    }
     const rawData = await readDataFromFile()
     const arti = rawData.archives.find(idd => archive.id === idd.id)
     if(arti){
@@ -140,6 +169,11 @@ modifyArchive : async function modifyArchive(archive){
 },
 
 privateArchive : async function privateArchive(id){
+  if (config.usePostgres) {
+    const archive = await repos.archives.byId(id);
+    if (archive) await repos.archives.togglePrivate(id);
+    return;
+  }
   const rawData = await readDataFromFile()
   const userFound = rawData.archives.find(idd => id === idd.id)
   userFound.private = ! userFound.private
@@ -147,6 +181,11 @@ privateArchive : async function privateArchive(id){
 },
 //GetUser ATTention DTO MDP
 getArchive : async function getArchive(id){
+    if (config.usePostgres) {
+      const archive = await repos.archives.byId(id);
+      if (archive) return { code: 200, message: "voila l archive" , archive };
+      return { code: 404, message: "voila l archive" , archive : null};
+    }
     const rawData = await readDataFromFile()
     const userFound = rawData.archives.find(idd => id === idd.id)
     if(userFound){
@@ -156,6 +195,11 @@ getArchive : async function getArchive(id){
   },
   //GetUser ATTention DTO MDP
 getLastArchive : async function getLastArchive(){
+  if (config.usePostgres) {
+    const archive = await repos.archives.lastPublic();
+    if (archive) return { code: 200, message: "voila l archive" , archive };
+    return { code: 404, message: "voila l archive" , archive : null};
+  }
   const rawData = await readDataFromFile()
   const userFound = rawData.archives.filter(ar => ar.private === false).sort((a, b) => new Date(b.date) - new Date(a.date));
   if(userFound){
@@ -164,6 +208,12 @@ getLastArchive : async function getLastArchive(){
   return { code: 404, message: "voila l archive" , archive : null};
 },
 getArchivePublic : async function getArchivePublic(id){
+  if (config.usePostgres) {
+    const archive = await repos.archives.byId(id);
+    if (!archive) return { code: 404, message: "voila l archive" , archive : null};
+    if (!archive.private) return { code: 200, message: "voila l archive" , archive };
+    return { code: 401, message: "archive privée" , archive : null};
+  }
   const rawData = await readDataFromFile()
   const userFound = rawData.archives.find(idd => id === idd.id)
   if(userFound){
@@ -179,6 +229,10 @@ getArchivePublic : async function getArchivePublic(id){
 //getAllUser Attention DTO mdp
 //GetUser ATTention DTO MDP
 getAllArchives : async function getAllArchives(){
+  if (config.usePostgres) {
+    const archives = await repos.archives.all();
+    return { code: 200, message: "voila l archive" , archives};
+  }
   const rawData = await readDataFromFile()
   const userFound = rawData.archives
   if(userFound){
@@ -188,6 +242,10 @@ getAllArchives : async function getAllArchives(){
 
 },
 getPublicArchives : async function getPublicArchives(){
+  if (config.usePostgres) {
+    const archives = await repos.archives.publicAll();
+    return { code: 200, message: "voila l archive" , archives};
+  }
   const rawData = await readDataFromFile()
   const userFound = rawData.archives.filter(ar => ar.private === false)
   if(userFound){

@@ -2,7 +2,8 @@
   "users": [
     {
       "id": "7-_0PP1ekhL3fJPiSx8aU",
-      "type": "user",
+      "type": "contributor",
+      "role": "contributor",
       "name": "marius",
       "mail": "test@gaga.com",
       "hash": "$2b$10$7XLnpUHW4yq.Mrdpy4B6qOoz6bM5z3iCJDt3B9nIdoS.oiOTxFDim",
@@ -11,6 +12,7 @@
     {
       "id": "z3dT_MuACP9xMOt06dFBq",
       "type": "admin",
+      "role": "admin",
       "name": "Matteo",
       "mail": "lagrafejournal@protonmail.com",
       "hash": "$2b$10$2kp2nj1JV2Ss5qg7P5U2C.8bJtfVD1VjiKXmVOHT0gJrz1fTEafIW",
@@ -19,9 +21,19 @@
     {
       "id": "_6H7m6x0SKTfR83FYUoHM",
       "type": "admin",
+      "role": "admin",
       "name": "Emile",
       "mail": "chevallier.emile@gmail.com",
       "hash": "$2b$10$CahQ8iznf6iRNypZ07.EGeXXDNjxcTqyj3jGwXf8yGeJW6A.wXl36",
+      "mailCheck": true
+    },
+    {
+      "id": "_6H7m6x0SKzrghvszgHM",
+      "type": "admin",
+      "role": "admin",
+      "name": "Thibau",
+      "mail": "lasthib.tl@gmail.com",
+      "hash": "$2b$10$ho4tB/fgPvrusIW78p6lqOUXEjtlpXJQEr8lfeDbHweO.9qQvICNq",
       "mailCheck": true
     }
   ]

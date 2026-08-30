@@ -1,10 +1,12 @@
 import express from 'express'
 const app = express();
 import cors from 'cors';
-const port = process.env.PORT || 3000;
+import { config } from './config/env.js';
+const port = config.port;
 import fs from 'fs'
 import path from 'path'
 import userService from './dbServices/userService.js';
+import { loginLimiter, newsletterLimiter, proposerLimiter } from './middleware/rateLimit.js';
 import articleService from './dbServices/articlesService.js'
 import archiveService from './dbServices/archiveService.js';
 import multer from 'multer'
@@ -32,10 +34,10 @@ const upload = multer({
 const millisecondsInADay = 24 * 60 * 60 * 1000; // 24 hours * 60 minutes * 60 seconds * 1000 milliseconds
 const interval = setInterval(lectureService.updateLectures, millisecondsInADay);
 app.use(express.json());
-const allowedOrigins = ['http://localhost:8080','http://lagrafejournal.com','http://127.0.0.1:8080','http://192.168.0.13:8080/'];
+const allowedOrigins = config.corsOrigins;
 const corsOptions = {
   origin: (origin, callback) => {
-    if (!origin || allowedOrigins.includes(origin), true) {
+    if (!origin || allowedOrigins.includes(origin)) {
       callback(null, true);
     } else {
       callback(new Error('Not allowed by CORS'));
@@ -47,7 +49,10 @@ app.use('/api/save', cors(corsOptions), express.static('save'));
 app.use(cors(corsOptions));
 
 // Schedule your function to run at 12:00 and 00:00 every day
-cron.schedule('0 0,12 * * *', lectureService.updateLectures);
+cron.schedule('0 0,12 * * *', () => {
+  lectureService.updateLectures();
+  newsService.expireBanners();
+});
 
 
 
@@ -63,85 +68,65 @@ app.get('/api/up', (req, res) => {
 
 })
 
-app.post('/api/register', userService.authenticateToken,(req, res) => {
-  const { username ,mail, password } = req.body;
-  console.log(password)
-  // Hash the password before saving it in the database
+app.post('/api/register', userService.authenticateToken, userService.requireMinRole('admin'), async (req, res) => {
+  const { username, mail, password } = req.body;
   const hashedPassword = bcrypt.hashSync(password, 10);
-  console.log(hashedPassword)
-  const ret = userService.addUser(
-    {
-      name : username,
-      mail : mail,
-      password : hashedPassword
-    }
-  )
-  return res.status(ret.code).json({ message: ret.message });
-});
-/*
-* Admin user registration
-*/
-app.post('/api/registerAdmin' ,userService.authenticateToken,async (req, res) => {
-  const { username ,mail, password } = req.body;
-  // Hash the password before saving it in the database
-  const hashedPassword = bcrypt.hashSync(password, 10);
-  console.log(hashedPassword)
-
-  const ret = await userService.addAdminUser(
-    {
-      name : username,
-      mail : mail,
-      password : hashedPassword
-    }
-  )
+  const ret = await userService.addUser({
+    name: username,
+    mail,
+    password: hashedPassword,
+    role: req.body.role || 'contributor',
+  });
   return res.status(ret.code).json({ message: ret.message });
 });
 
-/*
-admin login
-*/
-app.post('/api/login', async (req, res) => {
+app.post('/api/registerAdmin', userService.authenticateToken, userService.requireMinRole('admin'), async (req, res) => {
+  const { username, mail, password } = req.body;
+  const hashedPassword = bcrypt.hashSync(password, 10);
+  const ret = await userService.addAdminUser({
+    name: username,
+    mail,
+    password: hashedPassword,
+  });
+  return res.status(ret.code).json({ message: ret.message });
+});
+
+app.post('/api/login', loginLimiter, async (req, res) => {
   const { username, password, mail } = req.body;
- const id = await userService.doUserExists({
-    name : username,
-    mail: mail,
-    password : password
-  })
-  console.log("prout")
-  if(id !== false){
-    const token = userService.generateToken(id)
-    res.status(200).json({ token : token, connected : true });
+  const user = await userService.doUserExists({
+    name: username,
+    mail,
+    password,
+  });
+  if (user !== false) {
+    const token = userService.generateToken(user);
+    return res.status(200).json({ token, connected: true, role: user.role || user.type });
   }
-  res.status(401)
+  return res.status(401).json({ message: 'Invalid credentials', connected: false });
 });
 
 /**
  * Admin delete user
  */
-app.post('/api/deleteUser', userService.authenticateToken, (req, res) => {
-    // Implement your logic to fetch and send data here
+app.post('/api/deleteUser', userService.authenticateToken, userService.requireMinRole('admin'), (req, res) => {
     const { id } = req.body;
-
     const resu = userService.deleteUser(id);
     return  res.status(resu.code).json({ message: resu.message });
-
   })
   
 /**
  * Admin modify user
  */
-app.post('/api/modifyUser',userService.authenticateToken ,(req, res) => {
+app.post('/api/modifyUser',userService.authenticateToken, userService.requireMinRole('admin'), async (req, res) => {
   const { user } = req.body;
-
-  const resu =userService.modifyUser(user);
-  return  res.status(resu.code).json({ message: resu.message });
-  // Implement your logic to fetch and send data here
+  const resu = await userService.modifyUser(user);
+  return res.status(resu.code).json({ message: resu.message });
 });
 
 /**
  * Admin get user
  */
-app.get('/api/getUser',userService.authenticateToken,async (req, res) => {
+app.get('/api/getUser',userService.authenticateToken, userService.requireMinRole('admin'), async (req, res) => {
   const { id } = req.body;
   const result = await userService.getUser(id);
   if (result.user) {
@@ -154,8 +139,7 @@ app.get('/api/getUser',userService.authenticateToken,async (req, res) => {
 /**
  * Admin get all user
  */
-app.get('/api/getAllUser',userService.authenticateToken ,async (req, res) => {
-  // Implement your logic to fetch and send data here
+app.get('/api/getAllUser',userService.authenticateToken, userService.requireMinRole('admin'), async (req, res) => {
   const resu = await userService.getAllUser()
   return res.status(resu.code).json(resu.users);
 });
@@ -163,8 +147,7 @@ app.get('/api/getAllUser',userService.authenticateToken ,async (req, res) => {
 /**
  * Admin delete user
  */
-app.delete('/api/deleteUser/:id',userService.authenticateToken ,async (req, res) => {
-  // Implement your logic to fetch and send data here
+app.delete('/api/deleteUser/:id',userService.authenticateToken, userService.requireMinRole('admin'), async (req, res) => {
   const { id } = req.params;
   const resu = await userService.deleteUser(id);
   return  res.status(resu.code).json({ message: resu.message });
@@ -176,7 +159,7 @@ app.delete('/api/deleteUser/:id',userService.authenticateToken ,async (req, res)
 /**
  * Admin add article
  */
-app.post('/api/addArticle',userService.authenticateToken ,upload.none(), async (req, res) => {
+app.post('/api/addArticle',userService.authenticateToken, userService.requireMinRole('contributor'), upload.none(), async (req, res) => {
   // Handle the FormData here
   const { article } = req.body;
  const resu= await articleService.addArticle(article)
@@ -187,7 +170,7 @@ return res.status(resu.code).json(resu.article.id)
 
 /* Admin upload image article
 */
-app.post('/api/uploadImage',userService.authenticateToken ,upload.single('imageLogo'), (req, res) => {
+app.post('/api/uploadImage',userService.authenticateToken, userService.requireMinRole('contributor'), upload.single('imageLogo'), (req, res) => {
   if (!req.file) {
     return res.status(200).json({ message: 'No image file received.' });
   }
@@ -207,7 +190,7 @@ app.post('/api/uploadImage',userService.authenticateToken ,upload.single('imageL
 /**
  * Admin api upload image article
  */
-app.post('/api/uploadArticleImages',userService.authenticateToken, upload.array('images'), (req, res) => {
+app.post('/api/uploadArticleImages',userService.authenticateToken, userService.requireMinRole('contributor'), upload.array('images'), (req, res) => {
   const uploadedFiles = req.files;
   const ids = req.body;
   const generalId = ids['generalId']
@@ -260,7 +243,7 @@ app.post('/api/uploadPdfArticle',userService.authenticateToken ,upload.single('a
 /**
  * Admin delete article
  */
-app.delete('/api/deleteArticle/:id',userService.authenticateToken , async (req, res) => {
+app.delete('/api/deleteArticle/:id',userService.authenticateToken, userService.requireMinRole('editor'), async (req, res) => {
     // Implement your logic to fetch and send data here
     const { id } = req.params;
     const resu = await articleService.deleteArticle(id);
@@ -271,7 +254,7 @@ app.delete('/api/deleteArticle/:id',userService.authenticateToken , async (req, 
 /**
  * Admin modify article
  */
-app.post('/api/modifyArticle',userService.authenticateToken , async (req, res) => {
+app.post('/api/modifyArticle',userService.authenticateToken, userService.requireMinRole('contributor'), async (req, res) => {
   const { article } = req.body;
   const resu = await articleService.modifyArticle(article);
   return  res.status(resu.code).json({ message: resu.message });
@@ -280,7 +263,7 @@ app.post('/api/modifyArticle',userService.authenticateToken , async (req, res) =
 /**
  * Admin private article
  */
-app.post('/api/privateArticle',userService.authenticateToken ,async (req, res) => {
+app.post('/api/privateArticle',userService.authenticateToken, userService.requireMinRole('editor'), async (req, res) => {
   const { id } = req.body;
   const resu = await articleService.publicArticle(id);
   return  res.status(resu.code).json({ message: resu.message });
@@ -352,7 +335,7 @@ app.post('/api/addLecture', async (req, res) => {
 /**
  * admin get lectures article
  */
-app.get('/api/getLectures',userService.authenticateToken ,async (req, res) => {
+app.get('/api/getLectures',userService.authenticateToken, userService.requireMinRole('admin'), async (req, res) => {
   return res.status(200).json( await lectureService.getLectures())
 })
 /// Lets go la suite
@@ -374,7 +357,7 @@ app.post('/api/addLectureArchive', async (req, res) => {
 /**
  * Admin add archive
  */
-app.post('/api/addArchive',userService.authenticateToken ,async (req, res) => {
+app.post('/api/addArchive',userService.authenticateToken, userService.requireMinRole('editor'), async (req, res) => {
   const { archive } = req.body;
   const resu = await archiveService.addArchive(archive)
 return res.status(resu.code).json(resu.archive.id)
@@ -405,7 +388,7 @@ app.post('/api/uploadPdfArchive',userService.authenticateToken ,upload.single('a
 /**
  * Admin delete archive
  */
-app.delete('/api/deleteArchive/:id',userService.authenticateToken ,async (req, res) => {
+app.delete('/api/deleteArchive/:id',userService.authenticateToken, userService.requireMinRole('editor'), async (req, res) => {
     // Implement your logic to fetch and send data here
     const { id } = req.params;
     const resu = await  archiveService.deleteArchive(id)
@@ -416,7 +399,7 @@ app.delete('/api/deleteArchive/:id',userService.authenticateToken ,async (req, r
 /**
  * Admin modify archive
  */
-app.post('/api/modifyArchive',userService.authenticateToken ,async (req, res) => {
+app.post('/api/modifyArchive',userService.authenticateToken, userService.requireMinRole('editor'), async (req, res) => {
   const { archive } = req.body;
   const resu = await archiveService.modifyArchive(archive)
   return  res.status(resu.code).json(resu.message);
@@ -467,7 +450,7 @@ app.get('/api/getPublicArchives',async (req, res) => {
 /**
  * Admin private archive
  */
-app.post('/api/privateArchive',userService.authenticateToken ,async (req, res) => {
+app.post('/api/privateArchive',userService.authenticateToken, userService.requireMinRole('editor'), async (req, res) => {
   const { id } = req.body;
   return res.status(200).json(await archiveService.privateArchive(id))
 })
@@ -482,7 +465,7 @@ app.get('/api/lastArchive',async (req,res) => {
  * Admin add rubriuqe
  */
 /// Lets go la suite
-app.post('/api/addRubrique',userService.authenticateToken ,async (req,res) => {
+app.post('/api/addRubrique',userService.authenticateToken, userService.requireMinRole('editor'), async (req,res) => {
   const { rubrique } = req.body;
   const resu = await  rubriqueService.addARubrique(rubrique)
   return  res.status(resu.code).json(resu.message);
@@ -497,7 +480,7 @@ app.get('/api/getrubriques', async (req, res)=> {
 /**
  * Public modify rubrique
  */
-app.post('/api/modifyRubrique',userService.authenticateToken ,async (req, res) => {
+app.post('/api/modifyRubrique',userService.authenticateToken, userService.requireMinRole('editor'), async (req, res) => {
   const { rubrique } = req.body;
   const resu = await rubriqueService.modifyRubrique(rubrique)
   return  res.status(resu.code).json(resu.message);
@@ -508,11 +491,14 @@ app.post('/api/modifyRubrique',userService.authenticateToken ,async (req, res) =
  * public add newsletter
  */
 // Newsletter
-app.post('/api/addNewsletter', async (req, res) => {
+app.post('/api/addNewsletter', newsletterLimiter, async (req, res) => {
   const { user } = req.body;
-  const resu = await  newsletterService.addNewsletter(user)
-  return  res.status(resu.code).json({ id : resu.newsletter.id, message : resu.message});
-})
+  const resu = await newsletterService.addNewsletter(user);
+  return res.status(resu.code).json({
+    id: resu.newsletter?.id || null,
+    message: resu.message,
+  });
+});
 /**
  * Admin get newsletter
  */
@@ -523,7 +509,7 @@ app.get('/api/getNewsletter',userService.authenticateToken ,async (req,res) => {
 /**
  * public delete newsletter
  */
-app.delete('/api/deleteNewsletter/:mail', async (req, res) => {
+app.delete('/api/deleteNewsletter/:mail', newsletterLimiter, async (req, res) => {
   const { mail } = req.params
   const resu = await newsletterService.deleteNewsletter(mail)
   return res.status(resu.code).json(resu.message)
@@ -533,7 +519,7 @@ app.delete('/api/deleteNewsletter/:mail', async (req, res) => {
 /**
  * Admin add news
  */
-app.post('/api/addNews',userService.authenticateToken ,async (req, res) => {
+app.post('/api/addNews',userService.authenticateToken, userService.requireMinRole('contributor'), async (req, res) => {
   const { news } = req.body
   const resu = await newsService.addNews(news)
   return res.status(resu.code).json(resu.news.id)
@@ -576,7 +562,7 @@ app.get('/api/getPublicNews',async (req,res) => {
 /**
  * Admin delete news
  */
-app.delete('/api/deleteNews/:id', userService.authenticateToken,async (req, res) => {
+app.delete('/api/deleteNews/:id', userService.authenticateToken, userService.requireMinRole('editor'), async (req, res) => {
   const { id } = req.params
   const resu = await newsService.deleteNews(id)
   return res.status(resu.code).json(resu.message)
@@ -584,7 +570,7 @@ app.delete('/api/deleteNews/:id', userService.authenticateToken,async (req, res)
 /**
  * Admin private news
  */
-app.post('/api/privateNews',userService.authenticateToken ,async (req,res) => {
+app.post('/api/privateNews',userService.authenticateToken, userService.requireMinRole('editor'), async (req,res) => {
   const { id } = req.body
   const resu = await newsService.privateNews(id)
   return res.status(resu.code).json(resu.message)
@@ -594,7 +580,7 @@ app.post('/api/privateNews',userService.authenticateToken ,async (req,res) => {
 /**
  * Admin  add focale
  *  */
-app.post('/api/addFocale', userService.authenticateToken, async (req, res) => {
+app.post('/api/addFocale', userService.authenticateToken, userService.requireMinRole('editor'), async (req, res) => {
   const { focale } = req.body; // Assuming the JSON object is sent in the request body
   const resu = await focaleService.addToFocale(focale)
   // Process and save the JSON object as needed
@@ -692,7 +678,7 @@ app.get('/api/getFocaleFromId/:id',  userService.authenticateToken,async (req,re
 /**
  * Admin private focale
  *  */
-app.post('/api/publicFocale',  async (req,res) => {
+app.post('/api/publicFocale', userService.authenticateToken, userService.requireMinRole('editor'), async (req, res) => {
   const { id } = req.body
   const resu = await focaleService.publicFocale(id)
   return res.status(resu.code).json(resu)
@@ -722,7 +708,7 @@ app.get('/api/getPublicFocale', async (req,res) => {
 /**
  * Admin  delete add focale
  *  */
-app.delete('/api/deleteFocale/:id', async (req,res) => {
+app.delete('/api/deleteFocale/:id', userService.authenticateToken, userService.requireMinRole('editor'), async (req, res) => {
   const { id }= req.params
   const resu = await focaleService.deleteFocale(id)
   return res.status(resu.code).json(resu)
@@ -762,8 +748,10 @@ app.post('/verifyRecaptcha' , async (req,res) => {
 
 // Proposer Article
 import proposerArticleService from './dbServices/proposerArticleService.js';
+import dossierService from './dbServices/dossierService.js';
+import pageService from './dbServices/pageService.js';
 
-app.post('/api/proposerArticle',upload.none(), async (req, res) => {
+app.post('/api/proposerArticle', proposerLimiter, upload.none(), async (req, res) => {
   // Handle the FormData here
   const { article } = req.body;
   console.log(article)
@@ -772,7 +760,7 @@ return res.status(resu.code).json(resu.article.id)
 });
 
 
-app.get('/api/getPropalArticles', async (req, res) => {
+app.get('/api/getPropalArticles', userService.authenticateToken, userService.requireMinRole('editor'), async (req, res) => {
   // Handle the FormData here
  const resu= await proposerArticleService.getAllArticles()
  console.log(resu)
@@ -780,7 +768,7 @@ return res.status(resu.code).json(resu.articles)
 });
 
 
-app.post('/api/uploadFilesProposer', upload.array('files'), (req, res) => {
+app.post('/api/uploadFilesProposer', proposerLimiter, upload.array('files'), (req, res) => {
   const uploadedFiles = req.files;
   const ids = req.body;
 
@@ -811,7 +799,7 @@ app.post('/api/uploadFilesProposer', upload.array('files'), (req, res) => {
   res.status(200).json({ message: 'Files uploaded successfully' });
 });
 
-app.delete('/api/deletePropalArticle/:id', async (req, res) => {
+app.delete('/api/deletePropalArticle/:id', userService.authenticateToken, userService.requireMinRole('editor'), async (req, res) => {
   // Handle the FormData here
   const { id } = req.params;
  const resu= await proposerArticleService.deleteArticle(id)
@@ -819,7 +807,7 @@ app.delete('/api/deletePropalArticle/:id', async (req, res) => {
 
 })
 
-app.get('/api/downloadPropal/:id', async (req, res) => {
+app.get('/api/downloadPropal/:id', userService.authenticateToken, userService.requireMinRole('editor'), async (req, res) => {
   const { id } = req.params;
 
   const filePath = path.join(path.resolve(), 'propal', id+".zip");
@@ -846,115 +834,133 @@ app.get('/api/downloadPropal/:id', async (req, res) => {
 });
 
 
-app.post('/deletefile',  userService.authenticateToken,(req, res) => {
-  const { pathfile } = req.body; // Assuming the request body contains the path of the file or directory to delete
-
-  let directoryPath = path.join(process.cwd(), pathfile);
-
-    fs.stat(directoryPath, (err, stats) => {
-        if (err) {
-            console.error(`Error getting file/directory stats: ${err.message}`);
-            res.status(500).send(`Error getting file/directory stats: ${err.message}`);
-            return;
-        }
-
-        if (stats.isDirectory()) {
-            fs.rmdir(directoryPath, { recursive: true }, (err) => {
-                if (err) {
-                    console.error(`Error deleting directory: ${err.message}`);
-                    res.status(500).send(`Error deleting directory: ${err.message}`);
-                    return;
-                }
-
-                res.send('Directory deleted successfully');
-            });
-        } else {
-            fs.unlink(directoryPath, (err) => {
-                if (err) {
-                    console.error(`Error deleting file: ${err.message}`);
-                    res.status(500).send(`Error deleting file: ${err.message}`);
-                    return;
-                }
-
-                res.send('File deleted successfully');
-            });
-        }
-    });
+// Disabled file manager routes (security)
+app.post('/deletefile', userService.authenticateToken, (req, res) => {
+  res.status(410).json({ message: 'This endpoint has been disabled for security reasons.' });
 });
 
-app.post('/fileList/',  userService.authenticateToken,(req, res) => {
-    console.log(process.cwd())
- 
-    let cwd = process.cwd();
-    let directoryPath = path.join(cwd);
-    const { pathfile }= req.body; // Assuming the request body is a string
-    console.log(pathfile);
-
-    if(pathfile){
-     directoryPath = path.join(directoryPath, pathfile);
-    } 
-    fs.readdir(directoryPath, (err, files) => {
-        if (err) {
-            console.error(`Error reading directory: ${err.message}`);
-            res.status(500).send(`Error reading directory: ${err.message}`);
-            return;
-        }
-
-        const fileObjects = files.map((file) => {
-            const filePath = path.join(directoryPath, file);
-            const stats = fs.statSync(filePath);
-            const fileType = stats.isDirectory() ? 'directory' : 'file';
-            return { name: file, type: fileType };
-        });
-
-        res.send(fileObjects);
-    });
+app.post('/fileList/', userService.authenticateToken, (req, res) => {
+  res.status(410).json({ message: 'This endpoint has been disabled for security reasons.' });
 });
 
-app.post('/upload', upload.single('file'),  userService.authenticateToken,(req, res) => {
-  const file = req.file; // the uploaded file
-  const destinationPath = req.body.path; // the path provided by the user
-
-  // Check if path is provided
-  if (!destinationPath) {
-      res.status(400).send('No path provided');
-      return;
-  }
-
-  // Create the destination directory if it doesn't exist
-  const finalDest = path.join(process.cwd(), destinationPath);
-  fs.mkdirSync(finalDest, { recursive: true });
-
-  // Move the file to the desired location
-  const newFilePath = path.join(finalDest, file.originalname);
-
-  fs.rename(file.path, newFilePath, err => {
-      if (err) {
-          console.error(`Error moving file: ${err.message}`);
-          res.status(500).send(`Error moving file: ${err.message}`);
-          return;
-      }
-
-      res.send('File uploaded successfully');
-  });
+app.post('/upload', userService.authenticateToken, (req, res) => {
+  res.status(410).json({ message: 'This endpoint has been disabled for security reasons.' });
 });
 
 app.post('/getFile', (req, res) => {
-  const { pathfile } = req.body;
+  res.status(410).json({ message: 'This endpoint has been disabled for security reasons.' });
+});
 
-  // Join the pathfile with the current working directory
-  const filePath = path.join(process.cwd(), pathfile);
+// --- Dossiers ---
+app.get('/api/dossiers', async (req, res) => {
+  const resu = await dossierService.getPublic();
+  return res.status(resu.code).json(resu.dossiers);
+});
 
-  // Read the file and send its content as the response
-  fs.readFile(filePath, 'utf8', (err, data) => {
-      if (err) {
-          console.error(`Error reading file: ${err.message}`);
-          res.status(500).send(`Error reading file: ${err.message}`);
-          return;
-      }
+app.get('/api/dossiers/:id', async (req, res) => {
+  const resu = await dossierService.getById(req.params.id);
+  if (resu.code !== 200) return res.status(resu.code).json({ message: 'Not found' });
+  const articles = await articleService.getAllPublicArticles();
+  const dossierArticles = (articles.article || []).filter((a) => a.dossier_id === req.params.id);
+  return res.json({ ...resu.dossier, articles: dossierArticles });
+});
 
-      res.send(data);
+app.post('/api/dossiers', userService.authenticateToken, userService.requireMinRole('editor'), async (req, res) => {
+  const resu = await dossierService.add(req.body.dossier);
+  return res.status(resu.code).json(resu.dossier);
+});
+
+app.put('/api/dossiers/:id', userService.authenticateToken, userService.requireMinRole('editor'), async (req, res) => {
+  const resu = await dossierService.modify({ ...req.body.dossier, id: req.params.id });
+  return res.status(resu.code).json(resu.dossier);
+});
+
+app.delete('/api/dossiers/:id', userService.authenticateToken, userService.requireMinRole('editor'), async (req, res) => {
+  const resu = await dossierService.delete(req.params.id);
+  return res.status(resu.code).json({ message: resu.message });
+});
+
+// --- Pages éditables ---
+app.get('/api/pages/:slug', async (req, res) => {
+  const resu = await pageService.getPage(req.params.slug);
+  return res.status(resu.code).json(resu.page);
+});
+
+app.put('/api/pages/:slug', userService.authenticateToken, userService.requireMinRole('editor'), async (req, res) => {
+  const resu = await pageService.updatePage(req.params.slug, req.body);
+  return res.status(resu.code).json(resu.page);
+});
+
+// --- Bandeau actu ---
+app.get('/api/activeBanner', async (req, res) => {
+  const resu = await newsService.getActiveBanner();
+  return res.json(resu.banner);
+});
+
+// --- Équipe / portfolio ---
+app.get('/api/equipe/:slug', async (req, res) => {
+  const slug = req.params.slug;
+  const articlesRes = await articleService.getAllPublicArticles();
+  const allArticles = articlesRes.article || [];
+  const { articleMatchesAuthor, slugifyAuthor } = await import('./utils/authorSlug.js');
+
+  const userRes = await userService.getUserBySlug(slug);
+  if (userRes.user) {
+    const userArticles = allArticles.filter((a) =>
+      articleMatchesAuthor(a, { name: userRes.user.name, slug })
+    );
+    return res.json({ user: userRes.user, articles: userArticles });
+  }
+
+  const userArticles = allArticles.filter((a) => articleMatchesAuthor(a, { slug }));
+  if (!userArticles.length) return res.status(404).json({ message: 'Not found' });
+
+  const displayName = userArticles[0].auteur;
+  return res.json({
+    user: {
+      name: displayName,
+      bio: '',
+      profile_slug: slugifyAuthor(displayName) || slug,
+    },
+    articles: userArticles,
   });
+});
+
+// --- Newsletter confirm & campaigns ---
+app.get('/api/newsletter/confirm/:token', async (req, res) => {
+  const resu = await newsletterService.confirmSubscription(req.params.token);
+  return res.status(resu.code).json({ message: resu.message });
+});
+
+app.post('/api/newsletter/campaigns', userService.authenticateToken, userService.requireMinRole('admin'), async (req, res) => {
+  const resu = await newsletterService.createCampaign({ ...req.body, created_by: req.user.id });
+  return res.status(resu.code).json(resu.campaign);
+});
+
+app.put('/api/newsletter/campaigns/:id', userService.authenticateToken, userService.requireMinRole('admin'), async (req, res) => {
+  const resu = await newsletterService.updateCampaign(req.params.id, req.body);
+  if (resu.code !== 200) return res.status(resu.code).json({ message: resu.message });
+  return res.status(200).json(resu.campaign);
+});
+
+app.post('/api/newsletter/campaigns/:id/send', userService.authenticateToken, userService.requireMinRole('admin'), async (req, res) => {
+  const resu = await newsletterService.sendCampaign(req.params.id);
+  return res.status(resu.code).json(resu);
+});
+
+app.get('/api/newsletter/campaigns', userService.authenticateToken, userService.requireMinRole('admin'), async (req, res) => {
+  const resu = await newsletterService.getCampaigns();
+  return res.status(resu.code).json(resu.campaigns);
+});
+
+app.get('/api/newsletter/subscribers/count', userService.authenticateToken, userService.requireMinRole('editor'), async (req, res) => {
+  const mails = await newsletterService.getVerifiedSubscribers();
+  return res.status(200).json({ verified: mails.length });
+});
+
+app.post('/api/newsletter/subscribers/:id/verify', userService.authenticateToken, userService.requireMinRole('admin'), async (req, res) => {
+  const resu = await newsletterService.verifySubscriber(req.params.id);
+  return res.status(resu.code).json(resu);
 });
 
 

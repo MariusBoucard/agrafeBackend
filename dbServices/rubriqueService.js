@@ -1,5 +1,7 @@
 import {nanoid } from 'nanoid'
 import fs from 'fs'
+import { config } from '../config/env.js';
+import * as repos from '../db/repos.js';
 
 // Function to read the JSON file
 function readDataFromFile() {
@@ -50,10 +52,14 @@ const rubriqueService = {
                     "nombreArticles" : 0
                 }
                 //getdb,
-                const rawData = await readDataFromFile()
-                const data  = rawData
-                data.rubriques.push(rubriqueToAdd);
-                saveToFile(data)
+                if (config.usePostgres) {
+                  await repos.rubriques.insert(rubriqueToAdd);
+                } else {
+                  const rawData = await readDataFromFile()
+                  const data  = rawData
+                  data.rubriques.push(rubriqueToAdd);
+                  saveToFile(data)
+                }
                 return { code: 200, message: "Rubrique added" };
 
     } else {
@@ -64,6 +70,10 @@ const rubriqueService = {
 
 //delete a user 
 deleteRubrique : async function deleteRubrique(id){
+    if (config.usePostgres) {
+      if (await repos.rubriques.remove(id)) return { code: 200, message: "Rubrique deleted" };
+      return { code: 404, message: "Rubrique not found" };
+    }
     const rawData = await readDataFromFile()
     
     const index = rawData.rubriques.findIndex(idd => id === idd.id)
@@ -77,6 +87,12 @@ deleteRubrique : async function deleteRubrique(id){
 },
 //modify a user
 modifyRubrique : async function modifyRubrique(rubrique){
+  if (config.usePostgres) {
+    const existing = await repos.rubriques.byId(rubrique.id);
+    if (!existing) return { code: 404, message: "Rubrique not found" };
+    await repos.rubriques.update({ ...existing, ...rubrique });
+    return { code: 200, message: "Rubrique Modified" };
+  }
   const rawData = await readDataFromFile()
   const arti = rawData.rubriques.find(idd => rubrique.id === idd.id)
   if(arti){ 
@@ -94,6 +110,11 @@ modifyRubrique : async function modifyRubrique(rubrique){
 
 //GetUser ATTention DTO MDP
 getRubrique : async function getRubrique(id){
+    if (config.usePostgres) {
+      const rubrique = await repos.rubriques.byId(id);
+      if (rubrique) return { code: 200, message: "Rubrique found" , rubrique};
+      return { code: 404, message: "Rubrique not found" , rubrique : null};
+    }
     const rawData = await readDataFromFile()
     const userFound = rawData.rubriques.find(idd => id === idd.id)
     if(userFound){
@@ -106,6 +127,10 @@ getRubrique : async function getRubrique(id){
 //getAllUser Attention DTO mdp
 //GetUser ATTention DTO MDP
 getAllRubriques : async function getAllRubriques(){
+  if (config.usePostgres) {
+    const rubriques = await repos.rubriques.all();
+    return { code: 200, message: "Rubrique found" , rubriques};
+  }
   const rawData = await readDataFromFile()
   const userFound = rawData.rubriques
     if(userFound){
@@ -115,6 +140,14 @@ getAllRubriques : async function getAllRubriques(){
 
 },
 addArticleToRubrique : async function addArticleToRubrique(id){
+  if (config.usePostgres) {
+    const rubrique = await repos.rubriques.byId(id);
+    if (rubrique) {
+      await repos.rubriques.bumpArticles(id, 1);
+      return { code: 200, message: "article added to rubrique" };
+    }
+    return { code: 404, message: "article not added to rubrique" };
+  }
   const rawData = await readDataFromFile()
   const userFound = rawData.rubriques
   const found = userFound.find(rub => rub.id === id)
@@ -126,6 +159,14 @@ addArticleToRubrique : async function addArticleToRubrique(id){
   return { code: 404, message: "article not added to rubrique" };
 },
 removeArticleFromRubrique : async function removeArticleFromRubrique(id){
+  if (config.usePostgres) {
+    const rubrique = await repos.rubriques.byId(id);
+    if (rubrique) {
+      await repos.rubriques.bumpArticles(id, -1);
+      return { code: 200, message: "article deleted" };
+    }
+    return { code: 404, message: "article not deleted" };
+  }
   const rawData = await readDataFromFile()
   const userFound = rawData.rubriques
   const found = userFound.find(rub => rub.id === id)
