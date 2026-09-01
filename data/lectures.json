@@ -1,0 +1,172 @@
+{
+  "lectures": [
+    {
+      "date": 3,
+      "lectures": 4
+    },
+    {
+      "date": 3,
+      "lectures": 4
+    },
+    {
+      "date": 3,
+      "lectures": 4
+    },
+    {
+      "date": "3/10/2023",
+      "lectures": 4
+    },
+    {
+      "date": "3/10/2023",
+      "lectures": 4
+    },
+    {
+      "date": "3/10/2023",
+      "lectures": 4
+    },
+    {
+      "date": "3/10/2023",
+      "lectures": 4
+    },
+    {
+      "date": "3/10/2023",
+      "lectures": 5
+    },
+    {
+      "date": "3/10/2023",
+      "lectures": 10
+    },
+    {
+      "date": "3/10/2023",
+      "lectures": 10
+    },
+    {
+      "date": "3/10/2023",
+      "lectures": 10
+    },
+    {
+      "date": "3/10/2023",
+      "lectures": 10
+    },
+    {
+      "date": "3/10/2023",
+      "lectures": 10
+    },
+    {
+      "date": "3/10/2023",
+      "lectures": 10
+    },
+    {
+      "date": "3/10/2023",
+      "lectures": 10
+    },
+    {
+      "date": "3/10/2023",
+      "lectures": 10
+    },
+    {
+      "date": "3/10/2023",
+      "lectures": 10
+    },
+    {
+      "date": "3/10/2023",
+      "lectures": 10
+    },
+    {
+      "date": "3/10/2023",
+      "lectures": 10
+    },
+    {
+      "date": "3/10/2023",
+      "lectures": 10
+    },
+    {
+      "date": "3/10/2023",
+      "lectures": 10
+    },
+    {
+      "date": "3/10/2023",
+      "lectures": 10
+    },
+    {
+      "date": "3/10/2023",
+      "lectures": 10
+    },
+    {
+      "date": "3/10/2023",
+      "lectures": 10
+    },
+    {
+      "date": "3/10/2023",
+      "lectures": 10
+    },
+    {
+      "date": "3/10/2023",
+      "lectures": 10
+    },
+    {
+      "date": "3/10/2023",
+      "lectures": 10
+    },
+    {
+      "date": "3/10/2023",
+      "lectures": 10
+    },
+    {
+      "date": "3/10/2023",
+      "lectures": 10
+    },
+    {
+      "date": "3/10/2023",
+      "lectures": 10
+    },
+    {
+      "date": "3/10/2023",
+      "lectures": 10
+    },
+    {
+      "date": "3/10/2023",
+      "lectures": 10
+    },
+    {
+      "date": "3/10/2023",
+      "lectures": 10
+    },
+    {
+      "date": "3/10/2023",
+      "lectures": 10
+    },
+    {
+      "date": "5/10/2023",
+      "lectures": 3
+    },
+    {
+      "date": "6/10/2023",
+      "lectures": 4
+    },
+    {
+      "date": "7/10/2023",
+      "lectures": 5
+    },
+    {
+      "date": "8/10/2023",
+      "lectures": 6
+    },
+    {
+      "date": "9/10/2023",
+      "lectures": 3
+    },
+    {
+      "date": "10/10/2023",
+      "lectures": 10
+    },
+    {
+      "date": "28/9/2024",
+      "lectures": 42
+    },
+    {
+      "date": "28/9/2024",
+      "lectures": 46
+    }
+  ]
+}
