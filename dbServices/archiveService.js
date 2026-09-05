@@ -4,6 +4,7 @@ import { PDFDocument } from 'pdf-lib';
 
 import pdf2img from 'pdf-img-convert'
 import  path from 'path'
+import { raw } from 'express';
 // Function to read the JSON file
 function readDataFromFile() {
     return new Promise((resolve, reject) => {
@@ -156,9 +157,9 @@ getArchive : async function getArchive(id){
   //GetUser ATTention DTO MDP
 getLastArchive : async function getLastArchive(){
   const rawData = await readDataFromFile()
-  const userFound = rawData.archives.filter(ar => ar.private === false).sort((a, b) => new Date(b.date) - new Date(a.date))[0];
+  const userFound = rawData.archives.filter(ar => ar.private === false).sort((a, b) => new Date(b.date) - new Date(a.date));
   if(userFound){
-    return { code: 200, message: "voila l archive" , archive : userFound};
+    return { code: 200, message: "voila l archive" , archive : userFound[0]};
   }
   return { code: 404, message: "voila l archive" , archive : null};
 },
@@ -195,15 +196,7 @@ getPublicArchives : async function getPublicArchives(){
  return { code: 404, message: "voila l archive" , archives : null};   
 
 },
-getLastArchive : async function getLastArchive(){
-  const rawData = await readDataFromFile()
-  let userFound = rawData.archives.filter(ar => ar.private === false)
-  if(userFound){
-    userFound = userFound.sort((a,b)=>a.date - b.date)
-    return { code: 200, message: "voila l archive" , archive: userFound[0]};   
- }
- return { code: 404, message: "voila l archive" , archives : null};   
-},
+
 extractPdf : async function extractPdf(filename) {
   try {
     // Read the PDF file

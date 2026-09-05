@@ -52,7 +52,7 @@ const lectureService = {
         const day = currentDate.getDate();
         const month = currentDate.getMonth() + 1; // Note: Months are zero-based, so add 1
         const year = currentDate.getFullYear();
-
+        console.log(day, month, year)
         // Format the date as "day/month/year"
         const formattedDate = `${day}/${month}/${year}`;
         lectures.lectures.push(

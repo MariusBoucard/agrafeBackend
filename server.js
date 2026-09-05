@@ -16,14 +16,23 @@ import lectureService from './dbServices/lectureService.js';
 import focaleService from './dbServices/focaleService.js';
 import axios from 'axios'
 import querystring from 'querystring'
+import cron from 'node-cron'
 /**
  * Here's the server class, where all the server is defined and all the routes because I haven't did several files
  */
-const upload = multer({ dest: './' });
+// const bodyParser = require('body-parser');
+
+// app.use(bodyParser.json({ limit: '400mb' }));
+// app.use(bodyParser.urlencoded({ limit: '400mb', extended: true }));
+
+const upload = multer({ 
+  storage: multer.memoryStorage(),
+  limits: { fileSize: 50 * 1024 * 1024*8 }, // 50 MB
+ });
 const millisecondsInADay = 24 * 60 * 60 * 1000; // 24 hours * 60 minutes * 60 seconds * 1000 milliseconds
 const interval = setInterval(lectureService.updateLectures, millisecondsInADay);
 app.use(express.json());
-const allowedOrigins = ['http://localhost:8080','http://127.0.0.1:8080','http://192.168.0.13:8080/','http://92.91.215.221:8080'];
+const allowedOrigins = ['http://localhost:8080','http://lagrafejournal.com','http://127.0.0.1:8080','http://192.168.0.13:8080/'];
 const corsOptions = {
   origin: (origin, callback) => {
     if (!origin || allowedOrigins.includes(origin), true) {
@@ -34,9 +43,11 @@ const corsOptions = {
   },
 };
 
-app.use('/save', cors(corsOptions), express.static('save'));
+app.use('/api/save', cors(corsOptions), express.static('save'));
 app.use(cors(corsOptions));
 
+// Schedule your function to run at 12:00 and 00:00 every day
+cron.schedule('0 0,12 * * *', lectureService.updateLectures);
 
 
 
@@ -46,6 +57,12 @@ app.use(cors(corsOptions));
 /*
 * Admin user registration
 */
+app.get('/api/up', (req, res) => {
+  lectureService.updateLectures()
+  res.send('Hello World!');
+
+})
+
 app.post('/api/register', userService.authenticateToken,(req, res) => {
   const { username ,mail, password } = req.body;
   console.log(password)
@@ -90,6 +107,7 @@ app.post('/api/login', async (req, res) => {
     mail: mail,
     password : password
   })
+  console.log("prout")
   if(id !== false){
     const token = userService.generateToken(id)
     res.status(200).json({ token : token, connected : true });

@@ -170,8 +170,13 @@ getArticle : async function getArticle(id){
 getPublicArticle : async function getPublicArticle(id){
   const rawData = await readDataFromFile()
   const userFound = rawData.articles.find(idd => id === idd.id)
+  // Add a lecture and write to file
+
   if(userFound){
     if(!userFound.private){
+      userFound.lectures +=1
+      saveToFile(rawData)
+      
       // Read the content from file 
       const filePath = 'save/saveArticle/articleText/'+id+'.txt';
       const fileContent = fs.readFileSync(filePath, 'utf8');
