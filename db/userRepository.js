@@ -1,6 +1,7 @@
 import { config } from '../config/env.js';
 import { query } from '../db.js';
 import fs from 'fs';
+import { parseSocials } from '../utils/socials.js';
 
 function readDataFromFile() {
   return new Promise((resolve, reject) => {
@@ -26,6 +27,7 @@ function rowToUser(row) {
     profile_slug: row.profile_slug,
     bio: row.bio,
     avatar: row.avatar,
+    socials: parseSocials(row.socials),
     mailCheck: row.mail_check,
   };
 }
@@ -41,29 +43,48 @@ export async function pgGetUserByMail(mail) {
 }
 
 export async function pgGetUserBySlug(slug) {
-  const res = await query('SELECT id, name, mail, role, profile_slug, bio, avatar FROM users WHERE profile_slug = $1', [slug]);
+  const res = await query('SELECT id, name, mail, role, profile_slug, bio, avatar, socials FROM users WHERE profile_slug = $1', [slug]);
   return rowToUser(res.rows[0]);
 }
 
 export async function pgGetAllUsers() {
-  const res = await query('SELECT id, name, mail, role, profile_slug, bio, avatar FROM users ORDER BY name');
+  const res = await query('SELECT id, name, mail, role, profile_slug, bio, avatar, socials FROM users ORDER BY name');
   return res.rows.map(rowToUser);
 }
 
 export async function pgInsertUser(user) {
   await query(
-    `INSERT INTO users (id, name, mail, hash, role, profile_slug, bio, mail_check)
-     VALUES ($1,$2,$3,$4,$5,$6,$7,$8)`,
-    [user.id, user.name, user.mail, user.hash, user.role, user.profile_slug, user.bio || '', user.mailCheck ?? true]
+    `INSERT INTO users (id, name, mail, hash, role, profile_slug, bio, socials, mail_check)
+     VALUES ($1,$2,$3,$4,$5,$6,$7,$8::jsonb,$9)`,
+    [
+      user.id,
+      user.name,
+      user.mail,
+      user.hash,
+      user.role,
+      user.profile_slug,
+      user.bio || '',
+      JSON.stringify(user.socials || {}),
+      user.mailCheck ?? true,
+    ]
   );
 }
 
 export async function pgUpdateUser(user) {
   await query(
     `UPDATE users
-     SET name=$2, mail=$3, role=$4, profile_slug=$5, bio=$6, hash=COALESCE($7, hash)
+     SET name=$2, mail=$3, role=$4, profile_slug=$5, bio=$6, socials=$7::jsonb, hash=COALESCE($8, hash)
      WHERE id=$1`,
-    [user.id, user.name, user.mail, user.role, user.profile_slug, user.bio, user.hash ?? null]
+    [
+      user.id,
+      user.name,
+      user.mail,
+      user.role,
+      user.profile_slug,
+      user.bio,
+      JSON.stringify(user.socials || {}),
+      user.hash ?? null,
+    ]
   );
 }
 

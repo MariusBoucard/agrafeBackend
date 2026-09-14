@@ -6,6 +6,7 @@
   "scripts": {
     "start": "node server.js",
     "migrate:pg": "node scripts/migrate-json-to-pg.js",
+    "migrate:image-credits": "node scripts/migrate-image-copyright-to-auteur.js",
     "db:init": "node scripts/init-db.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },

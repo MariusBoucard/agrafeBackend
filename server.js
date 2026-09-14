@@ -123,6 +123,17 @@ app.post('/api/modifyUser',userService.authenticateToken, userService.requireMin
   return res.status(resu.code).json({ message: resu.message });
 });
 
+app.get('/api/me', userService.authenticateToken, userService.requireMinRole('contributor'), async (req, res) => {
+  const result = await userService.getUser(req.user.id);
+  if (result.code !== 200) return res.status(result.code).json({ message: result.message });
+  return res.status(200).json(result.user);
+});
+
+app.put('/api/me/profile', userService.authenticateToken, userService.requireMinRole('contributor'), async (req, res) => {
+  const resu = await userService.updateOwnProfile(req.user.id, req.body || {});
+  return res.status(resu.code).json({ message: resu.message });
+});
+
 /**
  * Admin get user
  */
@@ -898,6 +909,12 @@ app.get('/api/activeBanner', async (req, res) => {
 });
 
 // --- Équipe / portfolio ---
+app.get('/api/auteurs', async (req, res) => {
+  const authorsService = (await import('./dbServices/authorsService.js')).default;
+  const resu = await authorsService.listAuthors();
+  return res.status(resu.code).json({ authors: resu.authors });
+});
+
 app.get('/api/equipe/:slug', async (req, res) => {
   const slug = req.params.slug;
   const articlesRes = await articleService.getAllPublicArticles();
@@ -916,11 +933,27 @@ app.get('/api/equipe/:slug', async (req, res) => {
   if (!userArticles.length) return res.status(404).json({ message: 'Not found' });
 
   const displayName = userArticles[0].auteur;
+  const linked = await userService.findUserByAuthorName(displayName);
+  if (linked) {
+    const linkedArticles = allArticles.filter((a) =>
+      articleMatchesAuthor(a, { name: linked.name, slug: linked.profile_slug || slug })
+    );
+    return res.json({
+      user: {
+        ...linked,
+        name: linked.name || displayName,
+        profile_slug: linked.profile_slug || slugifyAuthor(displayName) || slug,
+      },
+      articles: linkedArticles.length ? linkedArticles : userArticles,
+    });
+  }
+
   return res.json({
     user: {
       name: displayName,
       bio: '',
       profile_slug: slugifyAuthor(displayName) || slug,
+      socials: {},
     },
     articles: userArticles,
   });

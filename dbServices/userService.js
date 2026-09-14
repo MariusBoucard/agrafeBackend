@@ -5,6 +5,7 @@ import jsonWebToken from 'jsonwebtoken';
 import { config } from '../config/env.js';
 import * as userRepo from '../db/userRepository.js';
 import { normalizeRole, requireMinRole, requireRole } from '../middleware/roles.js';
+import { normalizeSocials, parseSocials } from '../utils/socials.js';
 
 function readDataFromFile() {
   return new Promise((resolve, reject) => {
@@ -30,6 +31,8 @@ function sanitizeUser(user) {
   const { hash, ...safe } = user;
   safe.role = normalizeRole(safe.role || safe.type);
   safe.type = safe.role;
+  safe.socials = parseSocials(safe.socials);
+  safe.bio = safe.bio || '';
   return safe;
 }
 
@@ -47,6 +50,7 @@ const userService = {
         profile_slug: user.name.toLowerCase().replace(/\s+/g, '-'),
         bio: '',
         avatar: null,
+        socials: {},
       };
       if (config.usePostgres) {
         if (!await userRepo.pgGetUserByMail(userToAdd.mail)) {
@@ -79,6 +83,7 @@ const userService = {
         profile_slug: user.name.toLowerCase().replace(/\s+/g, '-'),
         bio: '',
         avatar: null,
+        socials: {},
       };
       if (config.usePostgres) {
         if (!await userRepo.pgGetUserByMail(userToAdd.mail)) {
@@ -126,6 +131,7 @@ const userService = {
         type: role,
         bio: user.bio !== undefined ? user.bio : existing.bio,
         profile_slug: user.profile_slug !== undefined ? user.profile_slug : existing.profile_slug,
+        socials: user.socials !== undefined ? normalizeSocials(user.socials) : parseSocials(existing.socials),
       };
       if (user.password && String(user.password).length >= 6) {
         updated.hash = bcrypt.hashSync(user.password, 10);
@@ -145,6 +151,7 @@ const userService = {
       }
       if (user.bio !== undefined) userFound.bio = user.bio;
       if (user.profile_slug !== undefined) userFound.profile_slug = user.profile_slug;
+      if (user.socials !== undefined) userFound.socials = normalizeSocials(user.socials);
       if (user.password && String(user.password).length >= 6) {
         userFound.hash = bcrypt.hashSync(user.password, 10);
       }
@@ -152,6 +159,25 @@ const userService = {
       return { code: 200, message: 'User modified' };
     }
     return { code: 404, message: 'User not found' };
+  },
+
+  /** Mise à jour du profil par le compte connecté (bio, slug, réseaux, mot de passe). */
+  updateOwnProfile: async function updateOwnProfile(userId, payload) {
+    const existingRes = await this.getUser(userId);
+    const existing = existingRes.user;
+    let profileSlug = payload.profile_slug;
+    if (profileSlug !== undefined && !String(profileSlug || '').trim() && existing?.name) {
+      const { slugifyAuthor } = await import('../utils/authorSlug.js');
+      profileSlug = slugifyAuthor(existing.name);
+    }
+    const allowed = {
+      id: userId,
+      bio: payload.bio,
+      profile_slug: profileSlug,
+      socials: payload.socials,
+    };
+    if (payload.password) allowed.password = payload.password;
+    return this.modifyUser(allowed);
   },
 
   getUser: async function getUser(id) {
@@ -173,17 +199,49 @@ const userService = {
   },
 
   getUserBySlug: async function getUserBySlug(slug) {
+    const { slugifyAuthor } = await import('../utils/authorSlug.js');
+    const needle = String(slug || '').toLowerCase();
+
+    const pickFromUsers = (users) => {
+      if (!needle) return null;
+      const list = users || [];
+      const bySlug = list.find((u) => u.profile_slug && u.profile_slug === needle);
+      if (bySlug) return bySlug;
+      const byNameSlug = list.find((u) => u?.name && slugifyAuthor(u.name) === needle);
+      if (byNameSlug) return byNameSlug;
+      // ex. slug article "lasblei-thibau" → compte "Thibau"
+      const byPartial = list
+        .filter((u) => u?.name && needle.includes(slugifyAuthor(u.name)))
+        .sort((a, b) => String(b.name).length - String(a.name).length)[0];
+      return byPartial || null;
+    };
+
     if (config.usePostgres) {
-      const user = await userRepo.pgGetUserBySlug(slug);
-      if (user) return { code: 200, user, message: 'User found' };
+      const byExact = await userRepo.pgGetUserBySlug(slug);
+      if (byExact) return { code: 200, user: byExact, message: 'User found' };
+      const all = await userRepo.pgGetAllUsers();
+      const found = pickFromUsers(all);
+      if (found) return { code: 200, user: found, message: 'User found' };
       return { code: 404, user: null, message: 'User not found' };
     }
     const rawData = await readDataFromFile();
-    const userFound = rawData.users.find((u) => u.profile_slug === slug);
-    if (userFound) {
-      return { code: 200, user: sanitizeUser(userFound), message: 'User found' };
+    const found = pickFromUsers(rawData.users.map(sanitizeUser));
+    if (found) {
+      return { code: 200, user: found, message: 'User found' };
     }
     return { code: 404, user: null, message: 'User not found' };
+  },
+
+  /** Trouve un compte à partir du nom d’auteur d’un article. */
+  findUserByAuthorName: async function findUserByAuthorName(auteur) {
+    const { normalizeAuthor } = await import('../utils/authorSlug.js');
+    const auteurNorm = normalizeAuthor(auteur);
+    if (!auteurNorm) return null;
+    const all = await this.getAllUser();
+    const users = all.users || [];
+    return users
+      .filter((u) => u?.name && auteurNorm.includes(normalizeAuthor(u.name)))
+      .sort((a, b) => String(b.name).length - String(a.name).length)[0] || null;
   },
 
   getAllUser: async function getAllUser() {

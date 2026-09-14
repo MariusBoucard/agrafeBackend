@@ -9,10 +9,13 @@ CREATE TABLE IF NOT EXISTS users (
   profile_slug TEXT UNIQUE,
   bio TEXT DEFAULT '',
   avatar TEXT,
+  socials JSONB DEFAULT '{}'::jsonb,
   mail_check BOOLEAN DEFAULT false,
   active BOOLEAN DEFAULT true,
   created_at TIMESTAMPTZ DEFAULT NOW()
 );
+
+ALTER TABLE users ADD COLUMN IF NOT EXISTS socials JSONB DEFAULT '{}'::jsonb;
 
 CREATE TABLE IF NOT EXISTS rubriques (
   id TEXT PRIMARY KEY,

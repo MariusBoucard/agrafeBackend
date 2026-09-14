@@ -3,6 +3,22 @@ import fs from 'fs';
 import { config } from '../config/env.js';
 import * as repos from '../db/repos.js';
 import { sendMail, sendBatchMail } from '../services/mailService.js';
+import { buildConfirmSubscriptionEmail, buildWelcomeEmail } from '../services/emailTemplates.js';
+
+async function sendWelcomeEmail(subscriber) {
+  if (!subscriber?.mail) return;
+  const mail = buildWelcomeEmail({ name: subscriber.name });
+  try {
+    await sendMail({
+      to: subscriber.mail,
+      subject: mail.subject,
+      html: mail.html,
+      text: mail.text,
+    });
+  } catch (e) {
+    console.error('Welcome email failed for', subscriber.mail, e.message);
+  }
+}
 
 function readDataFromFile() {
   return JSON.parse(fs.readFileSync('data/newsletter.json', 'utf8'));
@@ -69,11 +85,12 @@ const newsletterService = {
     }
 
     const confirmUrl = `${config.siteUrl}/newsletter?confirm=${token}`;
+    const mail = buildConfirmSubscriptionEmail({ name: userToAdd.name, confirmUrl });
     await sendMail({
       to: user.mail,
-      subject: "Confirmez votre inscription à la newsletter L'Agrafe",
-      html: `<p>Bonjour ${userToAdd.name},</p><p>Cliquez pour confirmer : <a href="${confirmUrl}">${confirmUrl}</a></p>`,
-      text: `Confirmez votre inscription : ${confirmUrl}`,
+      subject: mail.subject,
+      html: mail.html,
+      text: mail.text,
     });
 
     return { code: 200, message: 'Email de confirmation envoyé', newsletter: { mail: userToAdd.mail, id: userToAdd.id } };
@@ -83,15 +100,19 @@ const newsletterService = {
     if (config.usePostgres) {
       const sub = await repos.newsletter.byToken(token);
       if (!sub) return { code: 404, message: 'Token invalide' };
+      if (sub.verified === true) return { code: 200, message: 'Inscription déjà confirmée' };
       await repos.newsletter.verify(sub.id);
+      await sendWelcomeEmail(sub);
       return { code: 200, message: 'Inscription confirmée' };
     }
     const rawData = await readDataFromFile();
     const sub = rawData.newsletter.find((n) => n.token === token);
     if (!sub) return { code: 404, message: 'Token invalide' };
+    if (sub.verified === true) return { code: 200, message: 'Inscription déjà confirmée' };
     sub.verified = true;
     sub.token = null;
     saveToFile(rawData);
+    await sendWelcomeEmail(sub);
     return { code: 200, message: 'Inscription confirmée' };
   },
 
@@ -100,15 +121,19 @@ const newsletterService = {
     if (config.usePostgres) {
       const sub = await repos.newsletter.byId(id);
       if (!sub) return { code: 404, message: 'Abonné introuvable' };
+      const wasVerified = sub.verified === true;
       await repos.newsletter.verify(id);
+      if (!wasVerified) await sendWelcomeEmail(sub);
       return { code: 200, message: 'Abonné confirmé', subscriber: { ...sub, verified: true, token: null } };
     }
     const rawData = await readDataFromFile();
     const sub = rawData.newsletter.find((n) => n.id === id);
     if (!sub) return { code: 404, message: 'Abonné introuvable' };
+    const wasVerified = sub.verified === true;
     sub.verified = true;
     sub.token = null;
     saveToFile(rawData);
+    if (!wasVerified) await sendWelcomeEmail(sub);
     return { code: 200, message: 'Abonné confirmé', subscriber: sub };
   },
 

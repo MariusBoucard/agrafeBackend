@@ -14,7 +14,7 @@
       "rubrique": "cbgmDLUFesIDwaVimzdEV",
       "misEnLigne": "dfs",
       "rang": 1,
-      "lectures": 1
+      "lectures": 2
     },
     {
       "id": "Jo4SGx2WvmYradepGfIDm",
@@ -269,7 +269,7 @@
       "rubrique": "_jQS8Uf8JZr33gZwX7qV6",
       "misEnLigne": "dfs",
       "rang": 1,
-      "lectures": 0
+      "lectures": 1
     },
     {
       "id": "wr19SeBUUAUIvJ6ZNkV3y",
@@ -329,7 +329,7 @@
       "rubrique": "JGJwkAOryhk6apsLpXTfz",
       "misEnLigne": "dfs",
       "rang": 1,
-      "lectures": 1
+      "lectures": 3
     },
     {
       "id": "7KP5EKCvdvorLqYON3UOF",
@@ -404,7 +404,7 @@
       "rubrique": "_jQS8Uf8JZr33gZwX7qV6",
       "misEnLigne": "dfs",
       "rang": 1,
-      "lectures": 4
+      "lectures": 5
     },
     {
       "id": "CATsfekbDsyxuQe_nO7mq",
@@ -450,6 +450,25 @@
       "misEnLigne": "dfs",
       "rang": 1,
       "lectures": 0
+    },
+    {
+      "id": "1hIoHzY3srDV8f0PvERbd",
+      "titreFront": "test",
+      "description": "test",
+      "imageLogo": "/save/saveArticle/cover/1hIoHzY3srDV8f0PvERbd",
+      "path": "dsf",
+      "auteur": "lasblei Thibau",
+      "numeroParu": "fsd",
+      "date": "2026-09-14",
+      "created_at": "2026-09-14",
+      "updated_at": "2026-09-14T15:56:43.504Z",
+      "private": false,
+      "rubrique": "cbgmDLUFesIDwaVimzdEV",
+      "dossier_id": null,
+      "misEnLigne": "dfs",
+      "rang": 1,
+      "lectures": 21,
+      "fileType": ""
     }
   ]
 }

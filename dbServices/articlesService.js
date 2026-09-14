@@ -6,6 +6,23 @@ import { config } from '../config/env.js';
 import * as repos from '../db/repos.js';
 import userService from './userService.js';
 import { resolveAuthorSlug } from '../utils/authorSlug.js';
+import { sanitizeImageCredits } from '../utils/imageCredit.js';
+
+const contenuFilePath = (id) => 'save/saveArticle/articleText/' + id + '.txt';
+
+function readContenu(id) {
+  const filePath = contenuFilePath(id);
+  if (!fs.existsSync(filePath)) return [];
+  try {
+    return sanitizeImageCredits(JSON.parse(fs.readFileSync(filePath, 'utf8')));
+  } catch {
+    return [];
+  }
+}
+
+function writeContenu(id, contenu) {
+  fs.writeFileSync(contenuFilePath(id), JSON.stringify(sanitizeImageCredits(contenu || [])));
+}
 
 async function withAuthorSlugs(payload) {
   if (!payload) return payload;
@@ -99,8 +116,8 @@ const articleService = {
                   rubriqueService.addArticleToRubrique(article.rubrique)
                 }
 
-                const filePath = 'save/saveArticle/articleText/'+idd+'.txt';
-                const fileContent = JSON.stringify(article.contenu) ;
+                const filePath = contenuFilePath(idd);
+                const fileContent = JSON.stringify(sanitizeImageCredits(article.contenu || []));
                 // ON a pas get le contenu !!!!!
                 fs.writeFile(filePath, fileContent, (err) => {
                   if (err) {
@@ -189,7 +206,7 @@ modifyArticle : async function modifyArticle(article){
       };
       await repos.articles.update(updated);
       if (article.contenu) {
-        fs.writeFileSync('save/saveArticle/articleText/'+article.id+'.txt', JSON.stringify(article.contenu));
+        writeContenu(article.id, article.contenu);
       }
       return { code: 200, message: "article modified" };
     }
@@ -214,8 +231,7 @@ modifyArticle : async function modifyArticle(article){
         arti.updated_at = new Date().toISOString()
         saveToFile(rawData)
         if (article.contenu) {
-          const filePath = 'save/saveArticle/articleText/'+article.id+'.txt';
-          fs.writeFileSync(filePath, JSON.stringify(article.contenu));
+          writeContenu(article.id, article.contenu);
         }
         return { code: 200, message: "article modified" };
     }
@@ -246,8 +262,7 @@ getArticle : async function getArticle(id){
     if (config.usePostgres) {
       const article = await repos.articles.byId(id);
       if (article) {
-        const filePath = 'save/saveArticle/articleText/'+id+'.txt';
-        article.contenu = fs.existsSync(filePath) ? JSON.parse(fs.readFileSync(filePath, 'utf8')) : [];
+        article.contenu = readContenu(id);
         return { code: 200, message: "Voila l'article bg" , article };
       }
       return { code: 404, message: "Voila l'article bg" , article : null};
@@ -255,12 +270,7 @@ getArticle : async function getArticle(id){
     const rawData = await readDataFromFile()
     const userFound = rawData.articles.find(idd => id === idd.id)
     if(userFound){
-      const filePath = 'save/saveArticle/articleText/'+id+'.txt';
-      if (fs.existsSync(filePath)) {
-        userFound.contenu = JSON.parse(fs.readFileSync(filePath, 'utf8'));
-      } else {
-        userFound.contenu = [];
-      }
+      userFound.contenu = readContenu(id);
       if (!userFound.created_at) userFound.created_at = userFound.date;
       return { code: 200, message: "Voila l'article bg" , article : userFound};
     }
@@ -271,8 +281,7 @@ getPublicArticle : async function getPublicArticle(id){
     const article = await repos.articles.byId(id);
     if (article && !article.private) {
       await repos.articles.incrementLectures(id);
-      const filePath = 'save/saveArticle/articleText/'+id+'.txt';
-      article.contenu = fs.existsSync(filePath) ? JSON.parse(fs.readFileSync(filePath, 'utf8')) : [];
+      article.contenu = readContenu(id);
       article.lectures = (article.lectures ?? 0) + 1;
       return { code: 200, message: "Voila le article bg" , article: await withAuthorSlugs(article) };
     }
@@ -289,9 +298,7 @@ getPublicArticle : async function getPublicArticle(id){
       saveToFile(rawData)
       
       // Read the content from file 
-      const filePath = 'save/saveArticle/articleText/'+id+'.txt';
-      const fileContent = fs.readFileSync(filePath, 'utf8');
-      userFound.contenu = JSON.parse(fileContent)
+      userFound.contenu = readContenu(id);
       return { code: 200, message: "Voila le article bg" , article: await withAuthorSlugs(userFound) };
     }
     return { code: 404, message: "pas d article bg" , article : null};

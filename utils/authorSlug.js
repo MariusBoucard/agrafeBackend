@@ -25,6 +25,7 @@ export function resolveAuthorSlug(auteur, users = []) {
     .filter((u) => u?.name && auteurNorm.includes(normalizeAuthor(u.name)))
     .sort((a, b) => b.name.length - a.name.length)[0];
   if (match?.profile_slug) return match.profile_slug;
+  if (match?.name) return slugifyAuthor(match.name);
   return slugifyAuthor(auteur) || null;
 }
 

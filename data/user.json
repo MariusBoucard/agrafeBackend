@@ -34,7 +34,16 @@
       "name": "Thibau",
       "mail": "lasthib.tl@gmail.com",
       "hash": "$2b$10$ho4tB/fgPvrusIW78p6lqOUXEjtlpXJQEr8lfeDbHweO.9qQvICNq",
-      "mailCheck": true
+      "mailCheck": true,
+      "bio": "",
+      "profile_slug": "thibau",
+      "socials": {
+        "instagram": "https://www.instagram.com/ici_thib_dev/",
+        "facebook": "https://www.instagram.com/ici_thib_dev/",
+        "linkedin": "https://www.instagram.com/ici_thib_dev/",
+        "x": "https://www.instagram.com/ici_thib_dev/",
+        "website": "https://lastblei.thibau.fr"
+      }
     }
   ]
 }

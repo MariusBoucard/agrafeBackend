@@ -11,6 +11,7 @@ export function mapUser(row) {
     profile_slug: row.profile_slug,
     bio: row.bio || '',
     avatar: row.avatar,
+    socials: row.socials && typeof row.socials === 'object' ? row.socials : {},
     mailCheck: row.mail_check,
   };
 }
