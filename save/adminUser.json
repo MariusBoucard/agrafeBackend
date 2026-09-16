@@ -1,0 +1,27 @@
+{"users": [
+    {
+      "id": "ICII-aomgz087XhfOOuSp",
+      "type": "admin",
+      "name": "cacaboudine",
+      "mail": "putepute",
+      "hash": {},
+      "mailCheck": true
+    },
+    {
+      "id": "Arrw8IfOw0l7gwoTQWqt4",
+      "type": "admin",
+      "name": "cacaprout",
+      "mail": "tortischloag",
+      "hash": {},
+      "mailCheck": true
+    },
+    {
+      "id": "QgA2UpNU2I9E7WcrZu8q9",
+      "type": "admin",
+      "name": "cacaboudine",
+      "mail": "putepute",
+      "hash": {},
+      "mailCheck": true
+    }
+  ]
+}

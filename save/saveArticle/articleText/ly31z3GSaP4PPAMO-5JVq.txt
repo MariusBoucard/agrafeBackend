@@ -1,0 +1,1 @@
+[{"type":"Citation","text":"sfs","id":"A0ISE0xZeHvxvaKzJ6rb9"},{"type":"Citation","text":"","id":"VLyIIxmOjeHT1HqUNP4EM"},{"type":"image","text":"bvc","copyright":"bc","image":{},"auteur":"cvb","imagePreview":"blob:http://localhost:8080/c2eb4b9c-10b2-40c3-bae5-412f5486e545","id":"DBM-dUQ08b_D4LSIn3amK"}]

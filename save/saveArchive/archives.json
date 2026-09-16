@@ -1,0 +1,88 @@
+{
+    "articles": [
+        {
+          "id": "gb45hztVlBaYh8loB5_NQ",
+          "titreFront": "gb45hztVlBaYh8loB5_NQ",
+          "description": "fdsfdfdfdds",
+          "imageLogo": "imagePath",
+          "path": "articlepath",
+          "auteur": "auteur",
+          "numeroParu": "numeroParu",
+          "date": "date",
+          "private": "true",
+          "rubrique": "rubriuqe",
+          "misEnLigne": "misEnLigne",
+          "fileType": "fileType"
+        },
+        {
+          "id": "sLG37e-Dibhp8H16VQynZ",
+          "titreFront": "tamere",
+          "description": "desc",
+          "imageLogo": "imagePath",
+          "path": "articlepath",
+          "auteur": "auteur",
+          "numeroParu": "numeroParu",
+          "date": "date",
+          "private": "true",
+          "rubrique": "rubriuqe",
+          "misEnLigne": "misEnLigne",
+          "fileType": "fileType"
+        },
+        {
+          "id": "UIIgg4OzQCVG0F7nK1Or9",
+          "titreFront": "tamere",
+          "description": "desc",
+          "imageLogo": "imagePath",
+          "path": "articlepath",
+          "auteur": "auteur",
+          "numeroParu": "numeroParu",
+          "date": "date",
+          "private": "true",
+          "rubrique": "rubriuqe",
+          "misEnLigne": "misEnLigne",
+          "fileType": "fileType"
+        },
+        {
+          "id": "Gui5ws4iG-Z2n_oIp0OGQ",
+          "titreFront": "tamere",
+          "description": "desc",
+          "imageLogo": "imagePath",
+          "path": "articlepath",
+          "auteur": "auteur",
+          "numeroParu": "numeroParu",
+          "date": "date",
+          "private": "true",
+          "rubrique": "rubriuqe",
+          "misEnLigne": "misEnLigne",
+          "fileType": "fileType"
+        },
+        {
+          "id": "mkUx-zbzxdXOcMvnTbLYP",
+          "titreFront": "tamere",
+          "description": "desc",
+          "imageLogo": "imagePath",
+          "path": "articlepath",
+          "auteur": "auteur",
+          "numeroParu": "numeroParu",
+          "date": "date",
+          "private": "true",
+          "rubrique": "rubriuqe",
+          "misEnLigne": "misEnLigne",
+          "fileType": "fileType"
+        },
+        {
+          "id": "Uam0IYgF0lZQg8haayErB",
+          "titreFront": "tamere",
+          "description": "desc",
+          "imageLogo": "imagePath",
+          "path": "articlepath",
+          "auteur": "auteur",
+          "numeroParu": "numeroParu",
+          "date": "date",
+          "private": "true",
+          "rubrique": "rubriuqe",
+          "misEnLigne": "misEnLigne",
+          "fileType": "fileType"
+        }
+      ]
+}

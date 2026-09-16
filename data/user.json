@@ -1,0 +1,76 @@
+{
+  "users": [
+    {
+      "id": "cpvhzz3SyrCPzkboUjaSh",
+      "type": "admin",
+      "name": "kevin",
+      "mail": "kevin@protonmail.com",
+      "hash": "$2b$10$uvuEdwXD9EDLkwMd1Dp1YeQrwR2vIbIjYJWXKgyKJ.jngNMXREwWq",
+      "mailCheck": true
+    },
+    {
+      "id": "djnYFr6abfTqRiCrBWBQ1",
+      "type": "admin",
+      "name": "solene",
+      "mail": "solene@protonmail.com",
+      "hash": "$2b$10$JrsNFq1KPZqRrOuI0xZJBOwwzhwysr0Ew9SBveMSlpQfEnD84uNge",
+      "mailCheck": true
+    },
+    {
+      "id": "cm5GWzQZ1kef33oQhLktb",
+      "type": "admin",
+      "name": "louise",
+      "mail": "louise@protonmail.com",
+      "hash": "$2b$10$PcOMBrN4fTlrjxs6c6.tjOEULMI6dIb02vqkk2khhTKmbMSig5dkW",
+      "mailCheck": true
+    },
+    {
+      "id": "J_Zot3W0C6OQ17q7qEyqr",
+      "type": "admin",
+      "name": "constance",
+      "mail": "constance@protonmail.com",
+      "hash": "$2b$10$vC7lvzd7uDtky7w38AyD/.EK1fSmGfa2bWv0G/hRKJojjbIBZNPay",
+      "mailCheck": true
+    },
+    {
+      "id": "blQTxE35-JAoBtD9dC_Y7",
+      "type": "admin",
+      "name": "julien",
+      "mail": "julien@protonmail.com",
+      "hash": "$2b$10$rli/64da5F0MKH4kLWFg2eHYeWpr0G4h/o69PoHahUCRrzDWVDcb.",
+      "mailCheck": true
+    },
+    {
+      "id": "EVC9404IEDA8NYLv-Y62-",
+      "type": "admin",
+      "name": "lagrafe",
+      "mail": "lagrafejournal-article@protonmail.com",
+      "hash": "$2b$10$tSH.P/OmlVYodC5.Wa7L5ODhBRK0HVG43tfMw8YypYyeOdjL7ppAi",
+      "mailCheck": true
+    },
+    {
+      "id": "WB6lbMRyYm3QsclbVu6js",
+      "type": "admin",
+      "name": "Claire",
+      "mail": "c.pierratsaout@gmail.com",
+      "hash": "$2b$10$wQariB2bOa9Vgnc8XqG6mejdPiaky/UL/tzwnqQdbAfxzwN2MB9rO",
+      "mailCheck": true
+    },
+    {
+      "id": "e9aNFxhTWHndVadWhIMni",
+      "type": "admin",
+      "name": "Syriane",
+      "mail": "syriane.jacq@gmail.com",
+      "hash": "$2b$10$0Zmr28hdXFrnKu/LiTKmKutJ180cR8BMZIJxTBElC9hhjr824.Tt.",
+      "mailCheck": true
+    },
+    {
+      "id": "UbEOgXwxR5vhbllnJhGHd",
+      "type": "admin",
+      "name": "marius",
+      "mail": "test@gaga.com",
+      "hash": "$2b$10$W4GDaEgFG2jm0ypbSf099e/GCZPL0hifgao0ArhC/RDrjzCaVelS.",
+      "mailCheck": true
+    }
+  ]
+}
