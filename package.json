@@ -11,7 +11,8 @@
   "dependencies": {
     "archiver": "^6.0.1",
     "axios": "^1.6.0",
-    "bcrypt": "^5.1.1",
+    "bcrypt": "^6.0.0",
+    "canvas": "^3.2.3",
     "cors": "^2.8.5",
     "express": "^4.18.2",
     "fs": "^0.0.1-security",
@@ -19,11 +20,12 @@
     "jsonwebtoken": "^9.0.2",
     "multer": "^1.4.5-lts.1",
     "mysql2": "^3.6.1",
-    "nanoid": "4",
-    "node-cron": "^3.0.3",
-    "pdf-img-convert": "^1.2.1",
+    "nanoid": "^6.0.1",
+    "node-cron": "^4.6.0",
+    "pdf-img-convert": "^1.0.3",
     "pdf-lib": "^1.17.1",
     "pdf2pic": "^3.0.3",
+    "pdfjs-dist": "2.4.456",
     "rimraf": "^5.0.5"
   },
   "type": "module"

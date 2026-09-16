@@ -1,0 +1,1 @@
+[{"type":"Citation","text":"fs","id":"5Z0HIAcvPF7XKbzBFxpOI"},{"type":"image","text":"sf","copyright":"sdf","image":{},"auteur":"sdf","imagePreview":"blob:https://lagrafejournal.com/df6605ee-fff5-482a-ab1c-81cded105292","id":"9wgfd89g2zcpLTBUz0jTZ"}]

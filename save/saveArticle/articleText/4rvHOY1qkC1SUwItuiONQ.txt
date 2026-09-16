@@ -1,0 +1,1 @@
+[{"type":"image","text":"sd","copyright":"sd","image":{},"auteur":"sd","imagePreview":"blob:http://localhost:8080/536ae3a9-36fd-4444-98b9-d3f4c344c692","id":"-tFubq7WX3jQ21C0vccnS"},{"type":"image","text":"dsf","copyright":"sdf","image":{},"auteur":"ssfd","imagePreview":"blob:http://localhost:8080/356b075c-e188-4150-8d95-6275b32b0cc6","id":"TxZYj1acZeLqk31gtCnvr"}]
