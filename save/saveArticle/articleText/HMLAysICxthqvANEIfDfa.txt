@@ -1,0 +1,1 @@
+[{"type":"Citation","text":"cwx","id":"z7DV2skFJGfOpP81JoKsZ"},{"type":"paragraphe","text":"wxc","id":"pmXso3wRZkOj4GLiTnIFL"},{"type":"image","text":"cxw","copyright":"cxw","image":{},"auteur":"cwx","imagePreview":"blob:http://localhost:8080/db7e8d9f-f7a2-469f-90b8-f7494b1afb35","id":"SpTyZ8cox7-f2DLRbpSfW"}]

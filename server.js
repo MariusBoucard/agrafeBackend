@@ -1,24 +1,24 @@
-import express from 'express'
-const app = express();
+import axios from 'axios';
+import bcrypt from 'bcrypt';
 import cors from 'cors';
+import express from 'express';
+import fs from 'fs';
+import multer from 'multer';
+import cron from 'node-cron';
+import path from 'path';
+import querystring from 'querystring';
 import { config } from './config/env.js';
-const port = config.port;
-import fs from 'fs'
-import path from 'path'
-import userService from './dbServices/userService.js';
-import { loginLimiter, newsletterLimiter, proposerLimiter } from './middleware/rateLimit.js';
-import articleService from './dbServices/articlesService.js'
 import archiveService from './dbServices/archiveService.js';
-import multer from 'multer'
-import bcrypt from 'bcrypt'
-import rubriqueService from './dbServices/rubriqueService.js';
+import articleService from './dbServices/articlesService.js';
+import focaleService from './dbServices/focaleService.js';
+import lectureService from './dbServices/lectureService.js';
 import newsletterService from './dbServices/newsletterService.js';
 import newsService from './dbServices/newsService.js';
-import lectureService from './dbServices/lectureService.js';
-import focaleService from './dbServices/focaleService.js';
-import axios from 'axios'
-import querystring from 'querystring'
-import cron from 'node-cron'
+import rubriqueService from './dbServices/rubriqueService.js';
+import userService from './dbServices/userService.js';
+import { loginLimiter, newsletterLimiter, proposerLimiter } from './middleware/rateLimit.js';
+const app = express();
+const port = config.port;
 /**
  * Here's the server class, where all the server is defined and all the routes because I haven't did several files
  */
@@ -80,27 +80,36 @@ app.post('/api/register', userService.authenticateToken, userService.requireMinR
   return res.status(ret.code).json({ message: ret.message });
 });
 
-app.post('/api/registerAdmin', userService.authenticateToken, userService.requireMinRole('admin'), async (req, res) => {
-  const { username, mail, password } = req.body;
+
+/*
+* Admin user registration
+*/
+app.post('/api/registerAdmin' ,userService.authenticateToken,async (req, res) => {
+  const { username ,mail, password } = req.body;
+  // Hash the password before saving it in the database
   const hashedPassword = bcrypt.hashSync(password, 10);
-  const ret = await userService.addAdminUser({
-    name: username,
-    mail,
-    password: hashedPassword,
-  });
+  
+  const ret = await userService.addAdminUser(
+    {
+      name : username,
+      mail : mail,
+      password : hashedPassword
+    }
+  )
   return res.status(ret.code).json({ message: ret.message });
 });
 
 app.post('/api/login', loginLimiter, async (req, res) => {
   const { username, password, mail } = req.body;
-  const user = await userService.doUserExists({
-    name: username,
-    mail,
-    password,
-  });
-  if (user !== false) {
-    const token = userService.generateToken(user);
-    return res.status(200).json({ token, connected: true, role: user.role || user.type });
+ const id = await userService.doUserExists({
+    name : username,
+    mail: mail,
+    password : password
+  })
+ 
+  if(id !== false){
+    const token = userService.generateToken(id)
+    res.status(200).json({ token : token, connected : true });
   }
   return res.status(401).json({ message: 'Invalid credentials', connected: false });
 });
@@ -186,15 +195,17 @@ app.post('/api/uploadImage',userService.authenticateToken, userService.requireMi
     return res.status(200).json({ message: 'No image file received.' });
   }
   const infoString = req.body.articleId; // Access the string data
+	console.log('REQ FILE:', req.file);
   const filename = infoString+".png";
-  const fileBuffer = fs.readFileSync(req.file.path);
+//  const fileBuffer = fs.readFileSync(req.file.path);
   const imagePath = path.join(path.resolve(), 'save', 'saveArticle', 'cover', filename);
-  fs.writeFile(imagePath, fileBuffer, err => {
+
+  fs.writeFile(imagePath, req.file.buffer, err => {
     if (err) {
       console.error(err);
     }
   });
-  fs.rmSync(req.file.path)
+//  fs.rmSync(req.file.path)
   return res.status(200).json({ message: 'Image uploaded successfully.' });
 });
 
@@ -202,58 +213,44 @@ app.post('/api/uploadImage',userService.authenticateToken, userService.requireMi
 /**
  * Admin api upload image article
  */
-app.post('/api/uploadArticleImages',userService.authenticateToken, userService.requireMinRole('contributor'), upload.array('images'), (req, res) => {
-  const uploadedFiles = req.files;
-  const ids = req.body;
-  const generalId = ids['generalId']
-  console.log(generalId)
-  const directoryPath = path.join(path.resolve(), 'save', 'saveArticle','images', generalId );
 
-  fs.mkdirSync(directoryPath, { recursive: true }, (err) => {
-    if (err) {
-      console.error('Error creating directory:', err);
-    } else {
-      console.log('Directory created successfully');
+app.post('/api/uploadArticleImages', userService.authenticateToken, upload.array('images'), async (req, res) => {
+  try {
+    const uploadedFiles = req.files;
+    const ids = req.body;
+    const generalId = ids['generalId'];
+
+    if (!uploadedFiles || uploadedFiles.length === 0) {
+      return res.status(400).json({ message: 'No images received.' });
     }
-  });
 
-  for (let i = 0; i < uploadedFiles.length; i++) {
-    const imageBufferPath = uploadedFiles[i].path;
-    const imageBuffer = fs.readFileSync(imageBufferPath);
-    const imgId = ids[`id${i}`];
-    const filename = imgId+".png";
-    const imagePath = path.join(path.resolve(), 'save', 'saveArticle','images', generalId , filename);
-  fs.writeFile(imagePath, imageBuffer, err => {
-    if (err) {
-      console.error(err);
-    }})
-    fs.rmSync(imageBufferPath)
+    const directoryPath = path.join(path.resolve(), 'save', 'saveArticle', 'images', generalId);
+
+
+    fs.mkdirSync(directoryPath, { recursive: true });
+
+    for (let i = 0; i < uploadedFiles.length; i++) {
+      const file = uploadedFiles[i];
+      const imgId = ids[`id${i}`];
+      const filename = `${imgId}.png`;
+      const imagePath = path.join(directoryPath, filename);
+
+      if (file.path) {
+        const imageBuffer = fs.readFileSync(file.path);
+        fs.writeFileSync(imagePath, imageBuffer);
+        fs.rmSync(file.path);
+      } else if (file.buffer) {
+        fs.writeFileSync(imagePath, file.buffer);
+      }
+    }
+
+    return res.status(200).json({ message: 'Images uploaded successfully' });
+  } catch (error) {
+    console.error('Error uploading article images:', error);
+    return res.status(500).json({ message: 'Server error during image upload.' });
   }
-  console.log(uploadedFiles)
-  console.log(ids)
-  res.status(200).json({ message: 'Images uploaded successfully' });
 });
 
-
-// Handle the image upload separately
-// app.post('/api/uploadPdfArticle',userService.authenticateToken ,upload.single('articlePdf'), (req, res) => {
-//   if (!req.file) {
-//     return res.status(400).json({ message: 'No pdf file received.' });
-//   }
-//   const infoString = req.body.articleId; // Access the string data
-//   const imageBuffer = req.file.buffer; // Access the uploaded image buffer
-//   const filename = infoString+".pdf";
-//   // Define the path to save the image file on your server
-//   const imagePath = path.join(path.resolve(), 'save', 'saveArticle', 'pdf', filename);
-//   // Use the fs module to write the image buffer to the file
-//   fs.writeFile(imagePath, imageBuffer, err => {
-//     if (err) {
-//       console.error(err);
-//     }
-//     // At this point, the image has been successfully saved to the server
-//   });
-//   return res.status(200).json({ message: 'pdf uploaded successfully.' });
-// });
 /**
  * Admin delete article
  */
@@ -381,28 +378,39 @@ return res.status(resu.code).json(resu.archive.id)
  * Admin upload pdf archive
  */
 // Handle the image upload separately
-app.post('/api/uploadPdfArchive',userService.authenticateToken ,upload.single('archivePdf'), (req, res) => {
-  if (!req.file) {
-    return res.status(400).json({ message: 'No pdf file received.' });
-  }
-  console.log(req.file)
-  const infoString = req.body.archiveId; // Access the string data
-  const imageBuffer = req.file.buffer; // Access the uploaded image buffer
-  const filename = infoString+".pdf";
-  const fileBuffer = fs.readFileSync(req.file.path);
-
-  // console.log(fileBuffer)
-  const pdfPath = path.join(path.resolve(), 'save', 'saveArchive', 'pdf', filename);
-  // Use the fs module to write the image buffer to the file
-  fs.writeFileSync(pdfPath, fileBuffer, err => {
-    if (err) {
-      console.error(err);
+app.post('/api/uploadPdfArchive', userService.authenticateToken, upload.single('archivePdf'), async (req, res) => {
+  try {
+    if (!req.file) {
+      return res.status(400).json({ message: 'No pdf file received.' });
     }
-    // At this point, the image has been successfully saved to the server
-  });
-  archiveService.extractPdf(infoString)
-  fs.rmSync(req.file.path)
-  return res.status(200).json({ message: 'pdf uploaded successfully.' });
+
+    const infoString = req.body.archiveId;
+    const filename = `${infoString}.pdf`;
+    const pdfPath = path.join(path.resolve(), 'save', 'saveArchive', 'pdf', filename);
+
+    // Support both memory storage and disk storage seamlessly
+    if (req.file.buffer) {
+      // Memory storage: write buffer directly
+      fs.writeFileSync(pdfPath, req.file.buffer);
+    } else if (req.file.path) {
+      // Disk storage: read temp file, write to destination, then clean up temp file
+      const fileBuffer = fs.readFileSync(req.file.path);
+      fs.writeFileSync(pdfPath, fileBuffer);
+      fs.rmSync(req.file.path);
+    } else {
+      return res.status(400).json({ message: 'Invalid file upload configuration.' });
+    }
+
+    // Call extraction service (awaited in case it's asynchronous)
+    if (typeof archiveService.extractPdf === 'function') {
+      await archiveService.extractPdf(infoString);
+    }
+
+    return res.status(200).json({ message: 'PDF uploaded successfully.' });
+  } catch (error) {
+    console.error('Error uploading PDF archive:', error);
+    return res.status(500).json({ message: 'Server error during PDF upload.' });
+  }
 });
 /**
  * Admin delete archive
@@ -546,23 +554,38 @@ app.post('/api/addNews',userService.authenticateToken, userService.requireMinRol
 /**
  * Admin add image news
  */
-app.post('/api/uploadImageNews',userService.authenticateToken ,upload.single('imageLogo'), (req, res) => {
-  console.log("upload image")
-  if (!req.file) {
-    return res.status(400).json({ message: 'No image file received.' });
-  }
-  const infoString = req.body.newsId; // Access the string data
-  const filename = infoString+".png";
-  const fileBuffer = fs.readFileSync(req.file.path);
-
-  const imagePath = path.join(path.resolve(), 'save', 'newsImage', filename);
-  fs.writeFile(imagePath, fileBuffer, err => {
-    if (err) {
-      console.error(err);
+app.post('/api/uploadImageNews', userService.authenticateToken, upload.single('imageLogo'), async (req, res) => {
+  try {
+    console.log("upload image");
+    if (!req.file) {
+      return res.status(400).json({ message: 'No image file received.' });
     }
-  });
 
-  return res.status(200).json({ message: 'Image uploaded successfully.' });
+    const infoString = req.body.newsId; 
+    const filename = `${infoString}.png`;
+    const imagePath = path.join(path.resolve(), 'save', 'newsImage', filename);
+
+
+    fs.mkdirSync(path.dirname(imagePath), { recursive: true });
+
+
+    if (req.file.buffer) {
+
+      fs.writeFileSync(imagePath, req.file.buffer);
+    } else if (req.file.path) {
+
+      const fileBuffer = fs.readFileSync(req.file.path);
+      fs.writeFileSync(imagePath, fileBuffer);
+      fs.rmSync(req.file.path);
+    } else {
+      return res.status(400).json({ message: 'Invalid file upload configuration.' });
+    }
+
+    return res.status(200).json({ message: 'Image uploaded successfully.' });
+  } catch (error) {
+    console.error('Error uploading news image:', error);
+    return res.status(500).json({ message: 'Server error during image upload.' });
+  }
 });
 /**
  * Admin get news
@@ -644,40 +667,44 @@ app.post('/api/addFocale', userService.authenticateToken, userService.requireMin
 //   console.log(ids)
 //   res.status(200).json({ message: 'Images uploaded successfully' });
 // });
-app.post('/api/uploadPDFFocale', userService.authenticateToken, upload.array('focalePDF'), (req, res) => {
-  const uploadedFiles = req.files;
-  const ids = req.body;
-  const generalId = ids['focaleID']
-  console.log(generalId)
-  const directoryPath = path.join(path.resolve(), 'save', 'saveFocale', generalId );
+app.post('/api/uploadPDFFocale', userService.authenticateToken, upload.array('focalePDF'), async (req, res) => {
+  try {
+    const uploadedFiles = req.files;
+    const ids = req.body;
+    const generalId = ids['focaleID'];
 
-  fs.mkdirSync(directoryPath, { recursive: true }, (err) => {
-    if (err) {
-      console.error('Error creating directory:', err);
-    } else {
-      console.log('Directory created successfully');
+    if (!uploadedFiles || uploadedFiles.length === 0) {
+      return res.status(400).json({ message: 'No PDF files received.' });
     }
-  });
 
-  const filename1 = "1.pdf";
-  const file1 = path.join(directoryPath, filename1);
-  fs.copyFile(uploadedFiles[0].path, file1, (err) => {
-    if (err) {
-      console.error(err);
+    const directoryPath = path.join(path.resolve(), 'save', 'saveFocale', generalId);
+
+    // Fixed: fs.mkdirSync does not accept a callback
+    fs.mkdirSync(directoryPath, { recursive: true });
+
+    // Loop through files dynamically (names them 1.pdf, 2.pdf, etc.)
+    for (let i = 0; i < uploadedFiles.length; i++) {
+      const file = uploadedFiles[i];
+      const filename = `${i + 1}.pdf`; 
+      const targetPath = path.join(directoryPath, filename);
+
+      if (file.path) {
+        const fileBuffer = fs.readFileSync(file.path);
+        fs.writeFileSync(targetPath, fileBuffer);
+        fs.rmSync(file.path); // Clean up Multer's temp file
+      } else if (file.buffer) {
+        fs.writeFileSync(targetPath, file.buffer);
+      }
     }
-  });
 
-  const filename2 = "2.pdf";
-  const file2 = path.join(directoryPath, filename2);
-  fs.copyFile(uploadedFiles[1].path, file2, (err) => {
-    if (err) {
-      console.error(err);
-    }
-  });
-
-  console.log(uploadedFiles)
-  console.log(ids)
-  res.status(200).json({ message: 'Images uploaded successfully' });
+    console.log('Uploaded Files:', uploadedFiles);
+    console.log('IDs:', ids);
+    
+    return res.status(200).json({ message: 'PDFs uploaded successfully' });
+  } catch (error) {
+    console.error('Error uploading Focale PDFs:', error);
+    return res.status(500).json({ message: 'Server error during PDF upload.' });
+  }
 });
 /**
  * Admin  get focale
@@ -759,9 +786,9 @@ app.post('/verifyRecaptcha' , async (req,res) => {
 
 
 // Proposer Article
-import proposerArticleService from './dbServices/proposerArticleService.js';
 import dossierService from './dbServices/dossierService.js';
 import pageService from './dbServices/pageService.js';
+import proposerArticleService from './dbServices/proposerArticleService.js';
 
 app.post('/api/proposerArticle', proposerLimiter, upload.none(), async (req, res) => {
   // Handle the FormData here
@@ -900,103 +927,79 @@ app.get('/api/pages/:slug', async (req, res) => {
   return res.status(resu.code).json(resu.page);
 });
 
-app.put('/api/pages/:slug', userService.authenticateToken, userService.requireMinRole('editor'), async (req, res) => {
-  const resu = await pageService.updatePage(req.params.slug, req.body);
-  return res.status(resu.code).json(resu.page);
-});
+app.post('/fileList/',  userService.authenticateToken,(req, res) => {
+    console.log(process.cwd())
+ 
+    let cwd = process.cwd();
+    let directoryPath = path.join(cwd);
+    const { pathfile }= req.body; // Assuming the request body is a string
+    console.log(pathfile);
 
-// --- Bandeau actu ---
-app.get('/api/activeBanner', async (req, res) => {
-  const resu = await newsService.getActiveBanner();
-  return res.json(resu.banner);
-});
+    if(pathfile){
+     directoryPath = path.join(directoryPath, pathfile);
+    } 
+    fs.readdir(directoryPath, (err, files) => {
+        if (err) {
+            console.error(`Error reading directory: ${err.message}`);
+            res.status(500).send(`Error reading directory: ${err.message}`);
+            return;
+        }
 
-// --- Équipe / portfolio ---
-app.get('/api/auteurs', async (req, res) => {
-  const authorsService = (await import('./dbServices/authorsService.js')).default;
-  const resu = await authorsService.listAuthors();
-  return res.status(resu.code).json({ authors: resu.authors });
-});
+        const fileObjects = files.map((file) => {
+            const filePath = path.join(directoryPath, file);
+            const stats = fs.statSync(filePath);
+            const fileType = stats.isDirectory() ? 'directory' : 'file';
+            return { name: file, type: fileType };
+        });
 
-app.get('/api/equipe/:slug', async (req, res) => {
-  const slug = req.params.slug;
-  const articlesRes = await articleService.getAllPublicArticles();
-  const allArticles = articlesRes.article || [];
-  const { articleMatchesAuthor, slugifyAuthor } = await import('./utils/authorSlug.js');
-
-  const userRes = await userService.getUserBySlug(slug);
-  if (userRes.user) {
-    const userArticles = allArticles.filter((a) =>
-      articleMatchesAuthor(a, { name: userRes.user.name, slug })
-    );
-    return res.json({ user: userRes.user, articles: userArticles });
-  }
-
-  const userArticles = allArticles.filter((a) => articleMatchesAuthor(a, { slug }));
-  if (!userArticles.length) return res.status(404).json({ message: 'Not found' });
-
-  const displayName = userArticles[0].auteur;
-  const linked = await userService.findUserByAuthorName(displayName);
-  if (linked) {
-    const linkedArticles = allArticles.filter((a) =>
-      articleMatchesAuthor(a, { name: linked.name, slug: linked.profile_slug || slug })
-    );
-    return res.json({
-      user: {
-        ...linked,
-        name: linked.name || displayName,
-        profile_slug: linked.profile_slug || slugifyAuthor(displayName) || slug,
-      },
-      articles: linkedArticles.length ? linkedArticles : userArticles,
+        res.send(fileObjects);
     });
+});
+
+app.post('/upload', upload.single('file'),  userService.authenticateToken,(req, res) => {
+  const file = req.file; 
+  const destinationPath = req.body.path;
+
+
+  if (!destinationPath) {
+      res.status(400).send('No path provided');
+      return;
   }
 
-  return res.json({
-    user: {
-      name: displayName,
-      bio: '',
-      profile_slug: slugifyAuthor(displayName) || slug,
-      socials: {},
-    },
-    articles: userArticles,
+
+  const finalDest = path.join(process.cwd(), destinationPath);
+  fs.mkdirSync(finalDest, { recursive: true });
+
+
+  const newFilePath = path.join(finalDest, file.originalname);
+
+  fs.rename(file.path, newFilePath, err => {
+      if (err) {
+          console.error(`Error moving file: ${err.message}`);
+          res.status(500).send(`Error moving file: ${err.message}`);
+          return;
+      }
+
+      res.send('File uploaded successfully');
   });
 });
 
-// --- Newsletter confirm & campaigns ---
-app.get('/api/newsletter/confirm/:token', async (req, res) => {
-  const resu = await newsletterService.confirmSubscription(req.params.token);
-  return res.status(resu.code).json({ message: resu.message });
-});
+app.post('/getFile', (req, res) => {
+  const { pathfile } = req.body;
 
-app.post('/api/newsletter/campaigns', userService.authenticateToken, userService.requireMinRole('admin'), async (req, res) => {
-  const resu = await newsletterService.createCampaign({ ...req.body, created_by: req.user.id });
-  return res.status(resu.code).json(resu.campaign);
-});
 
-app.put('/api/newsletter/campaigns/:id', userService.authenticateToken, userService.requireMinRole('admin'), async (req, res) => {
-  const resu = await newsletterService.updateCampaign(req.params.id, req.body);
-  if (resu.code !== 200) return res.status(resu.code).json({ message: resu.message });
-  return res.status(200).json(resu.campaign);
-});
+  const filePath = path.join(process.cwd(), pathfile);
 
-app.post('/api/newsletter/campaigns/:id/send', userService.authenticateToken, userService.requireMinRole('admin'), async (req, res) => {
-  const resu = await newsletterService.sendCampaign(req.params.id);
-  return res.status(resu.code).json(resu);
-});
 
-app.get('/api/newsletter/campaigns', userService.authenticateToken, userService.requireMinRole('admin'), async (req, res) => {
-  const resu = await newsletterService.getCampaigns();
-  return res.status(resu.code).json(resu.campaigns);
-});
+  fs.readFile(filePath, 'utf8', (err, data) => {
+      if (err) {
+          console.error(`Error reading file: ${err.message}`);
+          res.status(500).send(`Error reading file: ${err.message}`);
+          return;
+      }
 
-app.get('/api/newsletter/subscribers/count', userService.authenticateToken, userService.requireMinRole('editor'), async (req, res) => {
-  const mails = await newsletterService.getVerifiedSubscribers();
-  return res.status(200).json({ verified: mails.length });
-});
-
-app.post('/api/newsletter/subscribers/:id/verify', userService.authenticateToken, userService.requireMinRole('admin'), async (req, res) => {
-  const resu = await newsletterService.verifySubscriber(req.params.id);
-  return res.status(resu.code).json(resu);
+      res.send(data);
+  });
 });
 
 
