@@ -27,10 +27,9 @@
     "mysql2": "^3.6.1",
     "nanoid": "^6.0.1",
     "node-cron": "^4.6.0",
-    "pdf-img-convert": "^1.0.3",
+    "nodemailer": "^10.0.10",
     "pdf-lib": "^1.17.1",
-    "pdf2pic": "^3.0.3",
-    "pdfjs-dist": "2.4.456",
+    "pdfjs-dist": "^4.10.38",
     "rimraf": "^5.0.5"
   },
   "type": "module"

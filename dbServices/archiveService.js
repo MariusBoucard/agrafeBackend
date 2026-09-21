@@ -2,8 +2,9 @@ import {nanoid } from 'nanoid'
 import fs from 'fs'
 import { PDFDocument } from 'pdf-lib';
 
-import pdf2img from 'pdf-img-convert'
 import  path from 'path'
+import fsPromises from 'fs/promises'
+import { firstAndLastPageToPng } from '../utils/pdfPagesToPng.js'
 import { raw } from 'express';
 import { config } from '../config/env.js';
 import * as repos from '../db/repos.js';
@@ -257,24 +258,16 @@ getPublicArchives : async function getPublicArchives(){
 
 extractPdf : async function extractPdf(filename) {
   try {
-    // Read the PDF file
-    const pdfPath = path.join(path.resolve(), 'save', 'saveArchive', 'pdf', filename);
-    var outputImages = pdf2img.convert(pdfPath+".pdf");
-    const coverPath = path.join(path.resolve(), 'save', 'saveArchive', 'cover', filename+".png");
-    const backPath = path.join(path.resolve(), 'save', 'saveArchive', 'back', filename+".png");
-
-outputImages.then(function(outputImages) {
-  fs.writeFile(coverPath, outputImages[0], function (error) {
-    if (error) { console.error("Error: " + error); }
-  });
-  fs.writeFile(backPath, outputImages[outputImages.length-1], function (error) {
-    if (error) { console.error("Error: " + error); }
-  });
-});
-  
+    const pdfPath = path.join(path.resolve(), 'save', 'saveArchive', 'pdf', filename + '.pdf');
+    const coverPath = path.join(path.resolve(), 'save', 'saveArchive', 'cover', filename + '.png');
+    const backPath = path.join(path.resolve(), 'save', 'saveArchive', 'back', filename + '.png');
+    const { cover, back } = await firstAndLastPageToPng(pdfPath);
+    await fsPromises.writeFile(coverPath, cover);
+    await fsPromises.writeFile(backPath, back);
     console.log('Images extracted and saved successfully');
   } catch (error) {
     console.error('Error:', error);
+    throw error;
   }
 }
 }
