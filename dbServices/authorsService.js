@@ -42,4 +42,30 @@ async function listAuthors() {
   return { code: 200, authors };
 }
 
-export default { listAuthors };
+async function getPublicProfile(slug) {
+  const userRes = await userService.getUserBySlug(slug);
+  const articlesRes = await articleService.getAllPublicArticles();
+  const articles = articlesRes.article || [];
+  const { articleMatchesAuthor } = await import('../utils/authorSlug.js');
+
+  let user = userRes.user || null;
+  const matching = articles.filter((a) =>
+    articleMatchesAuthor(a, { name: user?.name, slug })
+  );
+
+  if (!user && matching.length) {
+    user = {
+      name: matching[0].auteur,
+      bio: '',
+      socials: {},
+      profile_slug: slug,
+    };
+  }
+
+  if (!user) return { code: 404, user: null, articles: [] };
+
+  const { mail, hash, ...publicUser } = user;
+  return { code: 200, user: publicUser, articles: matching };
+}
+
+export default { listAuthors, getPublicProfile };

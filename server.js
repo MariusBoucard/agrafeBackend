@@ -14,6 +14,7 @@ import focaleService from './dbServices/focaleService.js';
 import lectureService from './dbServices/lectureService.js';
 import newsletterService from './dbServices/newsletterService.js';
 import newsService from './dbServices/newsService.js';
+import authorsService from './dbServices/authorsService.js';
 import rubriqueService from './dbServices/rubriqueService.js';
 import userService from './dbServices/userService.js';
 import { loginLimiter, newsletterLimiter, proposerLimiter } from './middleware/rateLimit.js';
@@ -84,7 +85,7 @@ app.post('/api/register', userService.authenticateToken, userService.requireMinR
 /*
 * Admin user registration
 */
-app.post('/api/registerAdmin' ,userService.authenticateToken,async (req, res) => {
+app.post('/api/registerAdmin', userService.authenticateToken, userService.requireMinRole('admin'), async (req, res) => {
   const { username ,mail, password } = req.body;
   // Hash the password before saving it in the database
   const hashedPassword = bcrypt.hashSync(password, 10);
@@ -101,15 +102,20 @@ app.post('/api/registerAdmin' ,userService.authenticateToken,async (req, res) =>
 
 app.post('/api/login', loginLimiter, async (req, res) => {
   const { username, password, mail } = req.body;
- const id = await userService.doUserExists({
-    name : username,
+  const user = await userService.doUserExists({
+    name: username,
     mail: mail,
-    password : password
-  })
- 
-  if(id !== false){
-    const token = userService.generateToken(id)
-    res.status(200).json({ token : token, connected : true });
+    password: password,
+  });
+
+  if (user !== false) {
+    const token = userService.generateToken(user);
+    return res.status(200).json({
+      token,
+      connected: true,
+      role: user.role,
+      name: user.name,
+    });
   }
   return res.status(401).json({ message: 'Invalid credentials', connected: false });
 });
@@ -332,10 +338,21 @@ app.get('/api/getAllArticles', userService.authenticateToken,async (req, res) =>
  * Public get all article
  */
 app.get('/api/getAllPublicArticles', async (req, res) => {
-  // Implement your logic to fetch and send data here
   const resu = await articleService.getAllPublicArticles()
-  return res.status(resu.code).json(resu.articles);
+  return res.status(resu.code).json(resu.article);
 });
+app.get('/api/getArticlesFromRubrique/:rubId', async (req, res) => {
+  const resu = await articleService.getArticlesFromRubrique(req.params.rubId)
+  return res.status(resu.code).json(resu.articles)
+})
+app.get('/api/getArticlesPage/:number', async (req, res) => {
+  const resu = await articleService.getArticlesPage(Number(req.params.number))
+  return res.status(resu.code).json(resu.articles)
+})
+app.get('/api/getArticleFromName/:name', async (req, res) => {
+  const resu = await articleService.getArticleFromName(req.params.name)
+  return res.status(resu.code).json(resu.articles)
+})
 /**
  * Public add lecture article
  */
@@ -504,15 +521,19 @@ app.get('/api/getrubriques', async (req, res)=> {
   const resu = await rubriqueService.getAllRubriques()
   return res.status(resu.code).json(resu.rubriques);
 })
-/**
- * Public modify rubrique
- */
+app.get('/api/getRubriques', async (req, res)=> {
+  const resu = await rubriqueService.getAllRubriques()
+  return res.status(resu.code).json(resu.rubriques);
+})
 app.post('/api/modifyRubrique',userService.authenticateToken, userService.requireMinRole('editor'), async (req, res) => {
   const { rubrique } = req.body;
   const resu = await rubriqueService.modifyRubrique(rubrique)
   return  res.status(resu.code).json(resu.message);
-  // Implement your logic to fetch and send data here
 });
+app.delete('/api/deleteRubrique/:id', userService.authenticateToken, userService.requireMinRole('editor'), async (req, res) => {
+  const resu = await rubriqueService.deleteRubrique(req.params.id)
+  return res.status(resu.code).json(resu.message)
+})
 
 /**
  * public add newsletter
@@ -540,7 +561,53 @@ app.delete('/api/deleteNewsletter/:mail', newsletterLimiter, async (req, res) =>
   const { mail } = req.params
   const resu = await newsletterService.deleteNewsletter(mail)
   return res.status(resu.code).json(resu.message)
+})
 
+app.get('/api/newsletter/confirm/:token', async (req, res) => {
+  const resu = await newsletterService.confirmSubscription(req.params.token)
+  return res.status(resu.code).json({ message: resu.message })
+})
+
+app.post('/api/newsletter/subscribers/:id/verify', userService.authenticateToken, userService.requireMinRole('editor'), async (req, res) => {
+  const resu = await newsletterService.verifySubscriber(req.params.id)
+  return res.status(resu.code).json({ message: resu.message, subscriber: resu.subscriber })
+})
+
+app.get('/api/newsletter/subscribers/count', userService.authenticateToken, userService.requireMinRole('editor'), async (req, res) => {
+  const mails = await newsletterService.getVerifiedSubscribers()
+  return res.status(200).json({ verified: (mails || []).length })
+})
+
+app.get('/api/newsletter/campaigns', userService.authenticateToken, userService.requireMinRole('editor'), async (req, res) => {
+  const resu = await newsletterService.getCampaigns()
+  return res.status(resu.code).json(resu.campaigns)
+})
+
+app.post('/api/newsletter/campaigns', userService.authenticateToken, userService.requireMinRole('editor'), async (req, res) => {
+  const resu = await newsletterService.createCampaign({
+    subject: req.body.subject,
+    html_body: req.body.html_body,
+    created_by: req.user?.id,
+  })
+  return res.status(resu.code).json(resu.campaign || { message: resu.message })
+})
+
+app.put('/api/newsletter/campaigns/:id', userService.authenticateToken, userService.requireMinRole('editor'), async (req, res) => {
+  const resu = await newsletterService.updateCampaign(req.params.id, {
+    subject: req.body.subject,
+    html_body: req.body.html_body,
+  })
+  return res.status(resu.code).json(resu.campaign || { message: resu.message })
+})
+
+app.post('/api/newsletter/campaigns/:id/send', userService.authenticateToken, userService.requireMinRole('editor'), async (req, res) => {
+  const resu = await newsletterService.sendCampaign(req.params.id)
+  return res.status(resu.code).json({
+    message: resu.message,
+    results: resu.results,
+    campaign: resu.campaign,
+    code: resu.code,
+  })
 })
 
 /**
@@ -602,6 +669,22 @@ app.get('/api/getPublicNews',async (req,res) => {
   return res.status(resu.code).json(resu.news)
 })
 
+app.get('/api/activeBanner', async (req, res) => {
+  const resu = await newsService.getActiveBanner()
+  return res.status(200).json(resu.banner || null)
+})
+
+app.get('/api/auteurs', async (req, res) => {
+  const resu = await authorsService.listAuthors()
+  return res.status(resu.code).json({ authors: resu.authors })
+})
+
+app.get('/api/equipe/:slug', async (req, res) => {
+  const resu = await authorsService.getPublicProfile(req.params.slug)
+  if (resu.code !== 200) return res.status(resu.code).json({ message: 'Not found' })
+  return res.json({ user: resu.user, articles: resu.articles })
+})
+
 /**
  * Admin delete news
  */
@@ -635,38 +718,24 @@ app.post('/api/addFocale', userService.authenticateToken, userService.requireMin
 /**
  * Admin  upload image focale
  *  */
-// app.post('/api/uploadFocale',userService.authenticateToken, upload.array('images'), (req, res) => {
-//   const uploadedFiles = req.files;
-//   const ids = req.body;
-//   const generalId = ids['generalId']
-//   console.log(generalId)
-//   const directoryPath = path.join(path.resolve(), 'save', 'saveFocale', generalId );
-
-//   fs.mkdirSync(directoryPath, { recursive: true }, (err) => {
-//     if (err) {
-//       console.error('Error creating directory:', err);
-//     } else {
-//       console.log('Directory created successfully');
-//     }
-//   });
-
-//   for (let i = 0; i < uploadedFiles.length; i++) {
-//     const imageBuffer = uploadedFiles[i].buffer;
-//     const imgId = ids[`id${i}`];
-  
-//     const filename = imgId+".png";
-//   // Define the path to save the image file on your server
-//     const imagePath = path.join(path.resolve(), 'save', 'saveFocale', generalId , filename);
-//   // Use the fs module to write the image buffer to the file
-//   fs.writeFile(imagePath, imageBuffer, err => {
-//     if (err) {
-//       console.error(err);
-//     }})
-//   }
-//   console.log(uploadedFiles)
-//   console.log(ids)
-//   res.status(200).json({ message: 'Images uploaded successfully' });
-// });
+app.post('/api/uploadFocale', userService.authenticateToken, userService.requireMinRole('editor'), upload.array('images'), (req, res) => {
+  const uploadedFiles = req.files || [];
+  const ids = req.body;
+  const generalId = ids['generalId'];
+  if (!generalId) {
+    return res.status(400).json({ message: 'Missing focale id' });
+  }
+  const directoryPath = path.join(path.resolve(), 'save', 'saveFocale', generalId);
+  fs.mkdirSync(directoryPath, { recursive: true });
+  for (let i = 0; i < uploadedFiles.length; i++) {
+    const imageBuffer = uploadedFiles[i].buffer;
+    const imgId = ids[`id${i}`];
+    const filename = `${imgId}.png`;
+    const imagePath = path.join(directoryPath, filename);
+    fs.writeFileSync(imagePath, imageBuffer);
+  }
+  return res.status(200).json({ message: 'Images uploaded successfully' });
+});
 app.post('/api/uploadPDFFocale', userService.authenticateToken, upload.array('focalePDF'), async (req, res) => {
   try {
     const uploadedFiles = req.files;
@@ -924,6 +993,11 @@ app.delete('/api/dossiers/:id', userService.authenticateToken, userService.requi
 // --- Pages éditables ---
 app.get('/api/pages/:slug', async (req, res) => {
   const resu = await pageService.getPage(req.params.slug);
+  return res.status(resu.code).json(resu.page);
+});
+
+app.put('/api/pages/:slug', userService.authenticateToken, userService.requireMinRole('editor'), async (req, res) => {
+  const resu = await pageService.updatePage(req.params.slug, req.body);
   return res.status(resu.code).json(resu.page);
 });
 

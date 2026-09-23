@@ -30,6 +30,7 @@
     "nodemailer": "^10.0.10",
     "pdf-lib": "^1.17.1",
     "pdfjs-dist": "^4.10.38",
+    "pg": "^8.23.0",
     "rimraf": "^5.0.5"
   },
   "type": "module"
