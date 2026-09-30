@@ -3,6 +3,8 @@ import fs from 'fs'
 import path from 'path'
 import archiver from 'archiver'
 import { rimraf } from 'rimraf';
+import { config } from '../config/env.js';
+import * as repos from '../db/repos.js';
 // Function to read the JSON file
 function readDataFromFile() {
     return new Promise((resolve, reject) => {
@@ -51,14 +53,18 @@ const articleService = {
                     commentaire : article.commentaire
                 }
                 //getdb,
-                const rawData = await readDataFromFile()
-                const data  = rawData
-                if(data.articles.length >10){
+                const rawData = config.usePostgres ? null : await readDataFromFile()
+                const count = config.usePostgres ? await repos.proposer.count() : rawData.articles.length
+                if(count >10){
                     return { code: 400, message: "Trop d'articles en attente" , article : articleToAdd};
 
                 }
-                data.articles.push(articleToAdd);
-                saveToFile(data)
+                if (config.usePostgres) {
+                    await repos.proposer.insert(articleToAdd);
+                } else {
+                    rawData.articles.push(articleToAdd);
+                    saveToFile(rawData)
+                }
                 return { code: 200, message: "article added" , article : articleToAdd};
     
     },
@@ -66,6 +72,14 @@ const articleService = {
 
         //delete a user 
         deleteArticle : async function deleteArticle(id){
+            if (config.usePostgres) {
+                const article = await repos.proposer.byId(id);
+                if (!article) return { code: 404, message: "article not found"};
+                await repos.proposer.remove(id);
+                const folderPath = path.join(path.resolve(), 'save', 'propalArticle', id);
+                rimraf(folderPath, {}, () => {});
+                return { code: 200, message: 'article deleted' };
+            }
             const rawData = await readDataFromFile()
             const index = rawData.articles.findIndex(idd => id === idd.id)
 
@@ -92,6 +106,11 @@ const articleService = {
 
 //GetUser ATTention DTO MDP
 getArticle : async function getArticle(id){
+    if (config.usePostgres) {
+      const article = await repos.proposer.byId(id);
+      if(article) return { code: 200, message: "Voila l'article bg" , article};
+      return { code: 404, message: "Voila l'article bg" , article : null};
+    }
     const rawData = await readDataFromFile()
     const userFound = rawData.articles.find(idd => id === idd.id)
     if(userFound){
@@ -103,6 +122,10 @@ getArticle : async function getArticle(id){
 //getAllUser Attention DTO mdp
 //GetUser ATTention DTO MDP
 getAllArticles : async function getAllArticles(){
+  if (config.usePostgres) {
+    const articles = await repos.proposer.all();
+    return { code: 200, message: "Voila les articles bg" , articles};
+  }
   const rawData = await readDataFromFile()
   const userFound = rawData.articles
   if(userFound){
@@ -112,8 +135,10 @@ getAllArticles : async function getAllArticles(){
 },
 
 createArchive : async function createArchive(id){
-    const rawData = await readDataFromFile()
-    const article = rawData.articles.find(idd => id === idd.id)
+    const rawData = config.usePostgres ? null : await readDataFromFile()
+    const article = config.usePostgres
+      ? await repos.proposer.byId(id)
+      : rawData.articles.find(idd => id === idd.id)
     let fileContent = '';
 
         for (let key in article) {

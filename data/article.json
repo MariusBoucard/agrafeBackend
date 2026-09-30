@@ -436,31 +436,19 @@
       "lectures": 28
     },
     {
-      "id": "g4_mLw8JM_djAGghmRcrr",
-      "titreFront": "La renaissance de La Bascule",
-      "description": "14 juillet 2022, j’entre pour la\npremière fois dans ce lieu atypique qu’est La Bascule, afin de\npouvoir participer à une soirée\nde Blandices Moroses, collectif Rennais mettant en avant la\ncomposition électronique par\nl’organisation de live machines\nambitieux et singuliers.",
-      "imageLogo": "/save/saveArticle/cover/g4_mLw8JM_djAGghmRcrr",
+      "id": "1hIoHzY3srDV8f0PvERbd",
+      "titreFront": "test",
+      "description": "test",
+      "imageLogo": "/save/saveArticle/cover/1hIoHzY3srDV8f0PvERbd",
       "path": "dsf",
-      "auteur": "Chloé L.M ",
-      "numeroParu": "10",
-      "date": "2023-09-13",
-      "private": false,
-      "rubrique": "e4tFs7PHWCg0AQoGluFaS",
-      "misEnLigne": "dfs",
-      "rang": 1,
-      "lectures": 0
-    },
-    {
-      "id": "LVpGzefi_VdI4Wm3MQM29",
-      "titreFront": "JDD JPP",
-      "description": "Une lecture du monde partiale et une mise en \nforme partielle, voici ce que sont les premiers \nnuméros du JDD sous le règne de Geoffroy \nLejeune, ex-rédacteur en chef de Valeurs \nActuelles.",
-      "imageLogo": "/save/saveArticle/cover/LVpGzefi_VdI4Wm3MQM29",
-      "path": "dsf",
-      "auteur": "Jean Le Goaziou",
-      "numeroParu": "10",
-      "date": "2023-09-13",
+      "auteur": "lasblei Thibau",
+      "numeroParu": "fsd",
+      "date": "2026-09-14",
+      "created_at": "2026-09-14",
+      "updated_at": "2026-09-14T15:56:43.504Z",
       "private": false,
       "rubrique": "cbgmDLUFesIDwaVimzdEV",
+      "dossier_id": null,
       "misEnLigne": "dfs",
       "rang": 1,
       "lectures": 1
@@ -1333,7 +1321,7 @@
       "rubrique": "n5nWNPCjOwd1hb51T1y6j",
       "misEnLigne": "dfs",
       "rang": 1,
-      "lectures": 4
+      "lectures": 7
     },
     {
       "id": "X_8D_2VESERCPcbdqqeEK",

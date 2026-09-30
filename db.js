@@ -1,23 +1,31 @@
-import mysql from 'mysql2/promise'; // Import the MySQL2 promise-based library
+import pg from 'pg';
+import { config } from './config/env.js';
 
-// MySQL connection configuration
-const mysqlConfig = {
-  host: 'localhost',
-  user: 'agrafe',
-  password: 'Metallica1234',
-  database: 'agrafe',
-};
+const { Pool } = pg;
 
-// Function to establish a MySQL connection
-async function connectToMySQL() {
-  try {
-    const connection = await mysql.createConnection(mysqlConfig);
-    console.log('Connected to MySQL');
-    return connection;
-  } catch (err) {
-    console.error('Error connecting to MySQL:', err);
-    throw err;
+let pool = null;
+
+export function getPool() {
+  if (!pool) {
+    pool = new Pool({
+      host: config.pg.host,
+      port: config.pg.port,
+      user: config.pg.user,
+      password: config.pg.password,
+      database: config.pg.database,
+    });
   }
+  return pool;
 }
 
-export default connectToMySQL;
+export async function query(text, params) {
+  return getPool().query(text, params);
+}
+
+export async function connectToPostgres() {
+  const client = await getPool().connect();
+  console.log('Connected to PostgreSQL');
+  return client;
+}
+
+export default connectToPostgres;

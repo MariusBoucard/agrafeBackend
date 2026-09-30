@@ -1,0 +1,62 @@
+{
+  "pages": {
+    "apropos": {
+      "title": "À propos",
+      "content": {
+        "sections": [
+          {
+            "title": "Notre idée",
+            "body": "L'agrafe est issu de la volonté d'un groupe d'étudiants de faire (re) vivre l'esprit du journal étudiant à Rennes 2, en y ajoutant une dimension collaborative qui nous a parue essentielle pour faire subsister nos convictions au travers de notre projet."
+          },
+          {
+            "title": "L'équipe",
+            "body": "À l'origine, quatre étudiants en Infocom' avec la volonté de partager un projet associatif avec la communauté étudiante. Depuis, l'équipe a bien grandi et continue de vivre et d'évoluer au quotidien."
+          }
+        ]
+      }
+    },
+    "mentions-legales": {
+      "title": "Mentions légales",
+      "content": {
+        "sections": [
+          {
+            "title": "Éditeur du site",
+            "body": "Le site lagrafejournal.com est édité par l'association étudiante L'Agrafe, journal associatif de l'Université Rennes 2 (campus Villejean, Rennes).\n\nContact : lagrafejournal@protonmail.com\nInstagram : @lagrafejournal\nFacebook : facebook.com/lagrafejournal\n\nLes informations complémentaires relatives à l'association (siège social, n° RNA / SIRET, identité du ou de la président·e) peuvent être complétées par le bureau via l'espace d'administration."
+          },
+          {
+            "title": "Directeur·rice de la publication",
+            "body": "La direction de la publication est assurée par le bureau de l'association L'Agrafe, représenté par son ou sa président·e.\n\nPour toute question éditoriale : lagrafejournal@protonmail.com"
+          },
+          {
+            "title": "Hébergement",
+            "body": "Le site est hébergé sur une infrastructure cloud dont l'adresse IP publique appartient à DigitalOcean, LLC :\n\nDigitalOcean, LLC\n101 Avenue of the Americas, 10th Floor\nNew York, NY 10013\nÉtats-Unis\nhttps://www.digitalocean.com\n\nLe nom de domaine lagrafejournal.com est géré via OVH (serveurs DNS ns18.ovh.net / dns18.ovh.net) :\n\nOVH SAS\n2 rue Kellermann\n59100 Roubaix\nFrance\nhttps://www.ovhcloud.com"
+          },
+          {
+            "title": "Propriété intellectuelle",
+            "body": "L'ensemble des contenus publiés sur ce site (textes, photographies, illustrations, logos, éléments graphiques, archives PDF, etc.) est protégé par le droit d'auteur.\n\nSauf mention contraire, ces contenus sont la propriété de L'Agrafe et/ou de leurs auteur·rice·s. Toute reproduction, représentation, modification, publication ou adaptation, totale ou partielle, est interdite sans autorisation écrite préalable de L'Agrafe ou des ayants droit.\n\nLes marques, logos et noms de partenaires éventuels restent la propriété de leurs titulaires respectifs."
+          },
+          {
+            "title": "Données personnelles (RGPD)",
+            "body": "L'Agrafe s'engage à traiter les données personnelles conformément au Règlement (UE) 2016/679 (RGPD) et à la loi Informatique et Libertés.\n\nResponsable de traitement : association L'Agrafe — lagrafejournal@protonmail.com\n\nDonnées susceptibles d'être collectées :\n• Newsletter : nom ou pseudonyme, adresse e-mail, date d'inscription, statut de confirmation\n• Proposition d'article : informations renseignées dans le formulaire\n• Compte contributeur (espace interne) : identifiants, e-mail, rôle, éventuelle bio / photo de profil\n• Données techniques minimales liées au fonctionnement du serveur (journaux d'accès)\n\nFinalités : gestion de la newsletter, relation avec les contributeur·rice·s, publication éditoriale, sécurité et maintenance du site.\n\nBase légale : consentement (newsletter), intérêt légitime / exécution d'une mission associative (gestion éditoriale), obligation de sécurité.\n\nDurée de conservation : les données newsletter sont conservées tant que l'abonnement est actif, puis supprimées ou anonymisées après désinscription ; les autres données sont conservées le temps nécessaire aux finalités ci-dessus.\n\nVos droits : accès, rectification, effacement, limitation, opposition, portabilité lorsque applicable. Pour les exercer, écrivez à lagrafejournal@protonmail.com. Vous pouvez également introduire une réclamation auprès de la CNIL (www.cnil.fr)."
+          },
+          {
+            "title": "Newsletter",
+            "body": "L'inscription à la newsletter repose sur un double opt-in (confirmation par e-mail), sauf confirmation manuelle par un administrateur de L'Agrafe.\n\nLes messages envoyés concernent uniquement l'actualité du journal (parutions, événements, appels à contribution). Aucune donnée n'est cédée à des tiers à des fins commerciales.\n\nDésinscription : via le lien prévu dans les e-mails, ou sur demande à lagrafejournal@protonmail.com, ou via la fonction de désinscription proposée sur le site."
+          },
+          {
+            "title": "Cookies et traceurs",
+            "body": "Le site n'utilise pas de cookies publicitaires ni d'outils de mesure d'audience tiers de type tracking commercial.\n\nDes cookies ou stockages techniques locaux (par exemple sessionStorage pour l'espace d'administration) peuvent être utilisés uniquement pour le bon fonctionnement du service (connexion, préférences techniques).\n\nCes éléments ne nécessitent pas de consentement au sens des recommandations CNIL lorsqu'ils sont strictement nécessaires au service demandé."
+          },
+          {
+            "title": "Responsabilité",
+            "body": "L'Agrafe s'efforce d'assurer l'exactitude et la mise à jour des informations diffusées. Toutefois, des erreurs ou omissions peuvent survenir. L'association ne saurait être tenue responsable des dommages directs ou indirects résultant de l'accès au site, de son utilisation, ou de l'impossibilité d'y accéder.\n\nLes articles reflètent les points de vue de leurs auteur·rice·s et n'engagent pas nécessairement l'association dans son ensemble, sauf mention contraire.\n\nLe site peut contenir des liens vers des sites tiers ; L'Agrafe n'exerce aucun contrôle sur ces contenus et décline toute responsabilité à leur égard."
+          },
+          {
+            "title": "Droit applicable",
+            "body": "Les présentes mentions sont régies par le droit français. En cas de litige, et à défaut de résolution amiable, les tribunaux français compétents seront seuls saisis.\n\nPour toute question relative à ces mentions : lagrafejournal@protonmail.com"
+          }
+        ]
+      }
+    }
+  }
+}
