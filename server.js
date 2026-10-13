@@ -341,6 +341,22 @@ app.get('/api/getAllPublicArticles', async (req, res) => {
   const resu = await articleService.getAllPublicArticles()
   return res.status(resu.code).json(resu.article);
 });
+app.get('/api/publicArticles', async (req, res) => {
+  const resu = await articleService.getPublicArticlesPage({
+    page: req.query.page,
+    pageSize: req.query.pageSize,
+    rubriqueId: req.query.rubrique || null,
+    search: req.query.search || '',
+    excludeId: req.query.excludeId || null,
+  });
+  return res.status(resu.code).json({
+    articles: resu.articles,
+    total: resu.total,
+    page: resu.page,
+    pageSize: resu.pageSize,
+    pageCount: resu.pageCount,
+  });
+});
 app.get('/api/getArticlesFromRubrique/:rubId', async (req, res) => {
   const resu = await articleService.getArticlesFromRubrique(req.params.rubId)
   return res.status(resu.code).json(resu.articles)

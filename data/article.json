@@ -43,7 +43,7 @@
       "rubrique": "qr0CAgT5vUoyBiZqUfQyR",
       "misEnLigne": "dfs",
       "rang": 1,
-      "lectures": 69
+      "lectures": 71
     },
     {
       "id": "a_-wDVJ9kxpLmtRMSquBe",
@@ -58,7 +58,7 @@
       "rubrique": "cbgmDLUFesIDwaVimzdEV",
       "misEnLigne": "dfs",
       "rang": 1,
-      "lectures": 1
+      "lectures": 4
     },
     {
       "id": "Vv62rLD24Bt8J88-WsspH",
@@ -253,7 +253,7 @@
       "rubrique": "n5nWNPCjOwd1hb51T1y6j",
       "misEnLigne": "dfs",
       "rang": 1,
-      "lectures": 1
+      "lectures": 2
     },
     {
       "id": "nFQ6mXkt0Kr00q6S0JzpY",
@@ -298,7 +298,7 @@
       "rubrique": "_jQS8Uf8JZr33gZwX7qV6",
       "misEnLigne": "dfs",
       "rang": 1,
-      "lectures": 1
+      "lectures": 2
     },
     {
       "id": "AZQ_R5rO3nGQoMnqXiAcc",
@@ -358,7 +358,7 @@
       "rubrique": "NL_fBgWtM_W1jGZdPdYYO",
       "misEnLigne": "dfs",
       "rang": 1,
-      "lectures": 1
+      "lectures": 2
     },
     {
       "id": "5cQgqkrzTvwcmNot-Dud6",
@@ -403,7 +403,7 @@
       "rubrique": "_jQS8Uf8JZr33gZwX7qV6",
       "misEnLigne": "dfs",
       "rang": 1,
-      "lectures": 73
+      "lectures": 76
     },
     {
       "id": "CATsfekbDsyxuQe_nO7mq",
@@ -436,19 +436,31 @@
       "lectures": 28
     },
     {
-      "id": "1hIoHzY3srDV8f0PvERbd",
-      "titreFront": "test",
-      "description": "test",
-      "imageLogo": "/save/saveArticle/cover/1hIoHzY3srDV8f0PvERbd",
+      "id": "g4_mLw8JM_djAGghmRcrr",
+      "titreFront": "La renaissance de La Bascule",
+      "description": "14 juillet 2022, j’entre pour la\npremière fois dans ce lieu atypique qu’est La Bascule, afin de\npouvoir participer à une soirée\nde Blandices Moroses, collectif Rennais mettant en avant la\ncomposition électronique par\nl’organisation de live machines\nambitieux et singuliers.",
+      "imageLogo": "/save/saveArticle/cover/g4_mLw8JM_djAGghmRcrr",
       "path": "dsf",
-      "auteur": "lasblei Thibau",
-      "numeroParu": "fsd",
-      "date": "2026-09-14",
-      "created_at": "2026-09-14",
-      "updated_at": "2026-09-14T15:56:43.504Z",
+      "auteur": "Chloé L.M ",
+      "numeroParu": "10",
+      "date": "2023-09-13",
+      "private": false,
+      "rubrique": "e4tFs7PHWCg0AQoGluFaS",
+      "misEnLigne": "dfs",
+      "rang": 1,
+      "lectures": 0
+    },
+    {
+      "id": "LVpGzefi_VdI4Wm3MQM29",
+      "titreFront": "JDD JPP",
+      "description": "Une lecture du monde partiale et une mise en \nforme partielle, voici ce que sont les premiers \nnuméros du JDD sous le règne de Geoffroy \nLejeune, ex-rédacteur en chef de Valeurs \nActuelles.",
+      "imageLogo": "/save/saveArticle/cover/LVpGzefi_VdI4Wm3MQM29",
+      "path": "dsf",
+      "auteur": "Jean Le Goaziou",
+      "numeroParu": "10",
+      "date": "2023-09-13",
       "private": false,
       "rubrique": "cbgmDLUFesIDwaVimzdEV",
-      "dossier_id": null,
       "misEnLigne": "dfs",
       "rang": 1,
       "lectures": 1
@@ -511,7 +523,7 @@
       "rubrique": "_jQS8Uf8JZr33gZwX7qV6",
       "misEnLigne": "dfs",
       "rang": 1,
-      "lectures": 1
+      "lectures": 2
     },
     {
       "id": "1TB4CrKXmLH062LqNjuWz",
@@ -556,7 +568,7 @@
       "rubrique": "NL_fBgWtM_W1jGZdPdYYO",
       "misEnLigne": "dfs",
       "rang": 1,
-      "lectures": 0
+      "lectures": 1
     },
     {
       "id": "m8czZQCwz4LJh4shDnTzc",
@@ -601,7 +613,10 @@
       "rubrique": "j3H6kQQUrBkxXdQqiJDKw",
       "misEnLigne": "dfs",
       "rang": 1,
-      "lectures": 0
+      "lectures": 3,
+      "created_at": "2023-09-13",
+      "fileType": "",
+      "updated_at": "2026-10-07T21:32:11.115Z"
     },
     {
       "id": "VECuPhfWSZtEU4Kgf_vPo",
@@ -646,7 +661,7 @@
       "rubrique": "_jQS8Uf8JZr33gZwX7qV6",
       "misEnLigne": "dfs",
       "rang": 1,
-      "lectures": 2
+      "lectures": 3
     },
     {
       "id": "zPk6iqbZbJmkAelBTH3Mp",
@@ -691,7 +706,7 @@
       "rubrique": "cbgmDLUFesIDwaVimzdEV",
       "misEnLigne": "dfs",
       "rang": 1,
-      "lectures": 0
+      "lectures": 1
     },
     {
       "id": "cEoCJPjWIkG1GE0oypjS1",
@@ -706,7 +721,7 @@
       "rubrique": "n5nWNPCjOwd1hb51T1y6j",
       "misEnLigne": "dfs",
       "rang": 1,
-      "lectures": 2
+      "lectures": 3
     },
     {
       "id": "dPecOcU2y2jb0m6BTVec1",
@@ -736,7 +751,7 @@
       "rubrique": "QTjGEYRiT06jU4sn3LXnB",
       "misEnLigne": "dfs",
       "rang": 1,
-      "lectures": 0
+      "lectures": 1
     },
     {
       "id": "UEyBdE1PRGFMg0xY5P7vf",
@@ -781,7 +796,7 @@
       "rubrique": "JGJwkAOryhk6apsLpXTfz",
       "misEnLigne": "dfs",
       "rang": 1,
-      "lectures": 4
+      "lectures": 5
     },
     {
       "id": "pyR9B79vPskutEsFAjvYq",
@@ -796,7 +811,7 @@
       "rubrique": "qr0CAgT5vUoyBiZqUfQyR",
       "misEnLigne": "dfs",
       "rang": 1,
-      "lectures": 2
+      "lectures": 3
     },
     {
       "id": "o4xYMRSAaUCb_WKQBPJoX",
@@ -856,7 +871,7 @@
       "rubrique": "qr0CAgT5vUoyBiZqUfQyR",
       "misEnLigne": "dfs",
       "rang": 1,
-      "lectures": 42
+      "lectures": 43
     },
     {
       "id": "Bu5HpBEhzFG0kh74b5ia3",
@@ -886,7 +901,7 @@
       "rubrique": "QTjGEYRiT06jU4sn3LXnB",
       "misEnLigne": "dfs",
       "rang": 1,
-      "lectures": 33
+      "lectures": 34
     },
     {
       "id": "q2xnLLYESLfJ6_jr2CS9z",
@@ -1006,7 +1021,7 @@
       "rubrique": "NL_fBgWtM_W1jGZdPdYYO",
       "misEnLigne": "dfs",
       "rang": 1,
-      "lectures": 63
+      "lectures": 64
     },
     {
       "id": "pGOCWpmCmk0CPJ7uvTQBq",
@@ -1111,7 +1126,7 @@
       "rubrique": "n5nWNPCjOwd1hb51T1y6j",
       "misEnLigne": "dfs",
       "rang": 1,
-      "lectures": 17
+      "lectures": 18
     },
     {
       "id": "f_NDnYEO334RwTJt7EygX",
@@ -1126,7 +1141,7 @@
       "rubrique": "NL_fBgWtM_W1jGZdPdYYO",
       "misEnLigne": "dfs",
       "rang": 1,
-      "lectures": 11
+      "lectures": 12
     },
     {
       "id": "NdN0sRbW06BgThKrrEHyh",
@@ -1246,7 +1261,7 @@
       "rubrique": "haiPvlrj3ILlIkP_c9T86",
       "misEnLigne": "dfs",
       "rang": 1,
-      "lectures": 2
+      "lectures": 3
     },
     {
       "id": "Q1qhSR2THnfsGua2IBGdi",
@@ -1291,7 +1306,7 @@
       "rubrique": "NL_fBgWtM_W1jGZdPdYYO",
       "misEnLigne": "dfs",
       "rang": 1,
-      "lectures": 77
+      "lectures": 80
     },
     {
       "id": "ii2foBNCWdvahxr4NnJj6",
@@ -1321,7 +1336,7 @@
       "rubrique": "n5nWNPCjOwd1hb51T1y6j",
       "misEnLigne": "dfs",
       "rang": 1,
-      "lectures": 7
+      "lectures": 4
     },
     {
       "id": "X_8D_2VESERCPcbdqqeEK",
@@ -1411,7 +1426,7 @@
       "rubrique": "cbgmDLUFesIDwaVimzdEV",
       "misEnLigne": "dfs",
       "rang": 1,
-      "lectures": 1
+      "lectures": 2
     },
     {
       "id": "Z4lPlbLIv21r-3wW6V8kc",
@@ -1426,7 +1441,7 @@
       "rubrique": "n5nWNPCjOwd1hb51T1y6j",
       "misEnLigne": "dfs",
       "rang": 1,
-      "lectures": 4
+      "lectures": 5
     },
     {
       "id": "HuSI-BUZE4nr6RqI4g-Vv",
@@ -1441,7 +1456,7 @@
       "rubrique": "0JGM34aN_KLF_4wxUJl-d",
       "misEnLigne": "dfs",
       "rang": 1,
-      "lectures": 17
+      "lectures": 19
     },
     {
       "id": "tA_qgzA3GSZAukZOSQtwg",
@@ -1561,7 +1576,7 @@
       "rubrique": "QTjGEYRiT06jU4sn3LXnB",
       "misEnLigne": "dfs",
       "rang": 1,
-      "lectures": 56
+      "lectures": 58
     },
     {
       "id": "Gf6Q-4zqNdIhXB5KUPJAV",
@@ -1576,7 +1591,7 @@
       "rubrique": "NL_fBgWtM_W1jGZdPdYYO",
       "misEnLigne": "dfs",
       "rang": 1,
-      "lectures": 29
+      "lectures": 30
     },
     {
       "id": "T8BEW-H0QRifdL12dyabs",
@@ -1696,7 +1711,7 @@
       "rubrique": "NL_fBgWtM_W1jGZdPdYYO",
       "misEnLigne": "dfs",
       "rang": 1,
-      "lectures": 63
+      "lectures": 65
     },
     {
       "id": "SlOPOQGHmP3SQSbvepdSz",
@@ -1711,7 +1726,7 @@
       "rubrique": "NL_fBgWtM_W1jGZdPdYYO",
       "misEnLigne": "dfs",
       "rang": 1,
-      "lectures": 58
+      "lectures": 60
     },
     {
       "id": "4iwBfxxgx8hMti0dXiLV4",
@@ -1726,7 +1741,7 @@
       "rubrique": "cbgmDLUFesIDwaVimzdEV",
       "misEnLigne": "dfs",
       "rang": 1,
-      "lectures": 52
+      "lectures": 54
     },
     {
       "id": "JgnTYNG5rWDK_4gzalYU3",
@@ -1756,7 +1771,7 @@
       "rubrique": "QTjGEYRiT06jU4sn3LXnB",
       "misEnLigne": "dfs",
       "rang": 1,
-      "lectures": 48
+      "lectures": 50
     },
     {
       "id": "em1hy1eWC1qksETWFV1tb",
@@ -1771,7 +1786,7 @@
       "rubrique": "e4tFs7PHWCg0AQoGluFaS",
       "misEnLigne": "dfs",
       "rang": 1,
-      "lectures": 104
+      "lectures": 108
     },
     {
       "id": "gUTnJVBG6aTN0lCX1b7bf",
@@ -1801,7 +1816,7 @@
       "rubrique": "12SMgFqXM7vKEVuv4Z-ce",
       "misEnLigne": "dfs",
       "rang": 1,
-      "lectures": 3
+      "lectures": 4
     },
     {
       "id": "VaBrIKRF8deNltrYwKfTX",
@@ -1846,7 +1861,7 @@
       "rubrique": "_jQS8Uf8JZr33gZwX7qV6",
       "misEnLigne": "dfs",
       "rang": 1,
-      "lectures": 30
+      "lectures": 32
     },
     {
       "id": "_uYbafuI5BchriKLaRwKo",
@@ -1891,7 +1906,7 @@
       "rubrique": "NL_fBgWtM_W1jGZdPdYYO",
       "misEnLigne": "dfs",
       "rang": 1,
-      "lectures": 1
+      "lectures": 2
     },
     {
       "id": "Nt0-KA5Ude41U4TYj_GzS",
@@ -1906,7 +1921,7 @@
       "rubrique": "NL_fBgWtM_W1jGZdPdYYO",
       "misEnLigne": "dfs",
       "rang": 1,
-      "lectures": 10
+      "lectures": 12
     },
     {
       "id": "TtJ5AgvWnncyHGleXHx7A",
@@ -1936,7 +1951,7 @@
       "rubrique": "JGJwkAOryhk6apsLpXTfz",
       "misEnLigne": "dfs",
       "rang": 1,
-      "lectures": 9
+      "lectures": 10
     },
     {
       "id": "PSVgsJWI0wuYHxLSXh9RF",
@@ -1951,7 +1966,7 @@
       "rubrique": "12SMgFqXM7vKEVuv4Z-ce",
       "misEnLigne": "dfs",
       "rang": 1,
-      "lectures": 23
+      "lectures": 25
     },
     {
       "id": "rXLTOQuQTDA1pasGZZ819",
@@ -2026,7 +2041,7 @@
       "rubrique": "NL_fBgWtM_W1jGZdPdYYO",
       "misEnLigne": "dfs",
       "rang": 1,
-      "lectures": 18
+      "lectures": 21
     },
     {
       "id": "mLUJh8zLif78hNNOU2Osf",
@@ -2041,7 +2056,7 @@
       "rubrique": "QTjGEYRiT06jU4sn3LXnB",
       "misEnLigne": "dfs",
       "rang": 1,
-      "lectures": 32
+      "lectures": 34
     },
     {
       "id": "xzaRyJDkxRXQlUghSOyHr",
@@ -2056,7 +2071,7 @@
       "rubrique": "JGJwkAOryhk6apsLpXTfz",
       "misEnLigne": "dfs",
       "rang": 1,
-      "lectures": 18
+      "lectures": 20
     },
     {
       "id": "JMDeKLCuyNfFAkc1Gq4vd",
@@ -2071,7 +2086,7 @@
       "rubrique": "12SMgFqXM7vKEVuv4Z-ce",
       "misEnLigne": "dfs",
       "rang": 1,
-      "lectures": 20
+      "lectures": 22
     },
     {
       "id": "Q8dkEs4mtR7QHvKPHldnu",
@@ -2086,7 +2101,7 @@
       "rubrique": "qr0CAgT5vUoyBiZqUfQyR",
       "misEnLigne": "dfs",
       "rang": 1,
-      "lectures": 5
+      "lectures": 6
     },
     {
       "id": "O82U2ZsiEX-2WttKYaX39",
@@ -2161,7 +2176,7 @@
       "rubrique": "QTjGEYRiT06jU4sn3LXnB",
       "misEnLigne": "dfs",
       "rang": 1,
-      "lectures": 16
+      "lectures": 18
     },
     {
       "id": "bGDOgfo27XzrkcHM6x2Pj",
@@ -2176,7 +2191,7 @@
       "rubrique": "NL_fBgWtM_W1jGZdPdYYO",
       "misEnLigne": "dfs",
       "rang": 1,
-      "lectures": 14
+      "lectures": 15
     },
     {
       "id": "I6wC_n5PBTwF4GGTC5ugr",
@@ -2191,7 +2206,7 @@
       "rubrique": "qr0CAgT5vUoyBiZqUfQyR",
       "misEnLigne": "dfs",
       "rang": 1,
-      "lectures": 20
+      "lectures": 21
     },
     {
       "id": "FUobcgGFwatJUxWjPoGyF",
@@ -2206,7 +2221,7 @@
       "rubrique": "_jQS8Uf8JZr33gZwX7qV6",
       "misEnLigne": "dfs",
       "rang": 1,
-      "lectures": 17
+      "lectures": 18
     },
     {
       "id": "jgXZr3UTcRxhumEMHgN_g",
@@ -2221,7 +2236,7 @@
       "rubrique": "_jQS8Uf8JZr33gZwX7qV6",
       "misEnLigne": "dfs",
       "rang": 1,
-      "lectures": 14
+      "lectures": 16
     },
     {
       "id": "HclUaNg-T9bdq6sh8TcCi",
@@ -2281,7 +2296,7 @@
       "rubrique": "cbgmDLUFesIDwaVimzdEV",
       "misEnLigne": "dfs",
       "rang": 1,
-      "lectures": 1
+      "lectures": 2
     },
     {
       "id": "AUNK2ueItj40LPydy5p7r",
@@ -2296,7 +2311,7 @@
       "rubrique": "cbgmDLUFesIDwaVimzdEV",
       "misEnLigne": "dfs",
       "rang": 1,
-      "lectures": 0
+      "lectures": 1
     },
     {
       "id": "WVRswygXljTKJBeb9_zV8",
@@ -2326,7 +2341,7 @@
       "rubrique": "QTjGEYRiT06jU4sn3LXnB",
       "misEnLigne": "dfs",
       "rang": 1,
-      "lectures": 19
+      "lectures": 23
     },
     {
       "id": "Ip2g-jQN-heEa2W28H72t",
@@ -2341,7 +2356,7 @@
       "rubrique": "j3H6kQQUrBkxXdQqiJDKw",
       "misEnLigne": "dfs",
       "rang": 1,
-      "lectures": 11
+      "lectures": 13
     },
     {
       "id": "omiXj2aJAPH_HsuEYfyGl",
@@ -2356,7 +2371,7 @@
       "rubrique": "haiPvlrj3ILlIkP_c9T86",
       "misEnLigne": "dfs",
       "rang": 1,
-      "lectures": 12
+      "lectures": 13
     },
     {
       "id": "4y0ireeBOuVMjV6oAPYnd",
@@ -2371,7 +2386,7 @@
       "rubrique": "NL_fBgWtM_W1jGZdPdYYO",
       "misEnLigne": "dfs",
       "rang": 1,
-      "lectures": 10
+      "lectures": 12
     },
     {
       "id": "VRReVsxv4LNuW1KycKrUk",
@@ -2386,7 +2401,7 @@
       "rubrique": "wiw5OpfvYfCxR4wO1zR9T",
       "misEnLigne": "dfs",
       "rang": 1,
-      "lectures": 3
+      "lectures": 4
     },
     {
       "id": "24_RghVj05Fmuer_L9-DQ",
@@ -2401,7 +2416,7 @@
       "rubrique": "qr0CAgT5vUoyBiZqUfQyR",
       "misEnLigne": "dfs",
       "rang": 1,
-      "lectures": 6
+      "lectures": 7
     },
     {
       "id": "lBLgN-JATM5b89YJnw-Qj",
@@ -2491,7 +2506,7 @@
       "rubrique": "QTjGEYRiT06jU4sn3LXnB",
       "misEnLigne": "dfs",
       "rang": 1,
-      "lectures": 10
+      "lectures": 12
     },
     {
       "id": "wYsw5GWsOeBdi92s2mRDO",
@@ -2506,7 +2521,7 @@
       "rubrique": "j3H6kQQUrBkxXdQqiJDKw",
       "misEnLigne": "dfs",
       "rang": 1,
-      "lectures": 6
+      "lectures": 9
     },
     {
       "id": "-CaYBy3EZu5sho9Qb6V4k",
@@ -2521,7 +2536,7 @@
       "rubrique": "qr0CAgT5vUoyBiZqUfQyR",
       "misEnLigne": "dfs",
       "rang": 1,
-      "lectures": 14
+      "lectures": 19
     },
     {
       "id": "WAJnuOKdfE5Q3vqKL2hb3",
@@ -2536,7 +2551,7 @@
       "rubrique": "cbgmDLUFesIDwaVimzdEV",
       "misEnLigne": "dfs",
       "rang": 1,
-      "lectures": 7
+      "lectures": 10
     },
     {
       "id": "AbdIhgd50WtF4Y1DLYE7O",
@@ -2551,7 +2566,7 @@
       "rubrique": "cbgmDLUFesIDwaVimzdEV",
       "misEnLigne": "dfs",
       "rang": 1,
-      "lectures": 15
+      "lectures": 19
     },
     {
       "id": "sBijTvW_mx-e7OrnT750P",
@@ -2626,7 +2641,7 @@
       "rubrique": "NL_fBgWtM_W1jGZdPdYYO",
       "misEnLigne": "dfs",
       "rang": 1,
-      "lectures": 59
+      "lectures": 83
     },
     {
       "id": "hePLm1nklyPcQvzDjT1d2",
@@ -2671,7 +2686,7 @@
       "rubrique": "qr0CAgT5vUoyBiZqUfQyR",
       "misEnLigne": "dfs",
       "rang": 1,
-      "lectures": 14
+      "lectures": 16
     },
     {
       "id": "yVfG5XtEV6VICstA5Ivgy",
@@ -2686,7 +2701,7 @@
       "rubrique": "QTjGEYRiT06jU4sn3LXnB",
       "misEnLigne": "dfs",
       "rang": 1,
-      "lectures": 18
+      "lectures": 21
     },
     {
       "id": "GS9NhSsyitxyNi7IXNZz4",
@@ -2701,7 +2716,7 @@
       "rubrique": "JGJwkAOryhk6apsLpXTfz",
       "misEnLigne": "dfs",
       "rang": 1,
-      "lectures": 15
+      "lectures": 25
     },
     {
       "id": "82DTv4GDZiozlbWAfjyU0",
@@ -2731,7 +2746,7 @@
       "rubrique": "_jQS8Uf8JZr33gZwX7qV6",
       "misEnLigne": "dfs",
       "rang": 1,
-      "lectures": 18
+      "lectures": 21
     },
     {
       "id": "ZVt94UOmen75w0rHvj0KJ",
@@ -2746,7 +2761,7 @@
       "rubrique": "_jQS8Uf8JZr33gZwX7qV6",
       "misEnLigne": "dfs",
       "rang": 1,
-      "lectures": 9
+      "lectures": 17
     },
     {
       "id": "Bg9Et3k3veAdbIOcXuJMM",
@@ -2761,7 +2776,7 @@
       "rubrique": "qr0CAgT5vUoyBiZqUfQyR",
       "misEnLigne": "dfs",
       "rang": 1,
-      "lectures": 11
+      "lectures": 12
     },
     {
       "id": "5QHX9_Mfx6BuuJgKWedsS",
@@ -2791,7 +2806,7 @@
       "rubrique": "e4tFs7PHWCg0AQoGluFaS",
       "misEnLigne": "dfs",
       "rang": 1,
-      "lectures": 3
+      "lectures": 4
     },
     {
       "id": "PZt4u1xTrp7HJRizJ2T4m",
@@ -2806,7 +2821,7 @@
       "rubrique": "NL_fBgWtM_W1jGZdPdYYO",
       "misEnLigne": "dfs",
       "rang": 1,
-      "lectures": 1
+      "lectures": 2
     },
     {
       "id": "8bIPIN0cz_bktBNW_TSbL",
@@ -2821,7 +2836,7 @@
       "rubrique": "NL_fBgWtM_W1jGZdPdYYO",
       "misEnLigne": "dfs",
       "rang": 1,
-      "lectures": 17
+      "lectures": 18
     },
     {
       "id": "qI4zZbHMooCtrbNbTJsXS",
@@ -2851,7 +2866,7 @@
       "rubrique": "wiw5OpfvYfCxR4wO1zR9T",
       "misEnLigne": "dfs",
       "rang": 1,
-      "lectures": 10
+      "lectures": 11
     },
     {
       "id": "1k9oHMMSTvQclP80aOEd4",
@@ -2866,7 +2881,7 @@
       "rubrique": "12SMgFqXM7vKEVuv4Z-ce",
       "misEnLigne": "dfs",
       "rang": 1,
-      "lectures": 4
+      "lectures": 5
     },
     {
       "id": "UZiXUw29JJ5So7ekPUfmd",
@@ -2911,7 +2926,7 @@
       "rubrique": "0JGM34aN_KLF_4wxUJl-d",
       "misEnLigne": "dfs",
       "rang": 1,
-      "lectures": 43
+      "lectures": 45
     },
     {
       "id": "AT3egeQA_VAmh9nPGkVf8",
@@ -2926,7 +2941,7 @@
       "rubrique": "QTjGEYRiT06jU4sn3LXnB",
       "misEnLigne": "dfs",
       "rang": 1,
-      "lectures": 23
+      "lectures": 25
     },
     {
       "id": "pD62kZQej8u9H0hyYX1E1",
@@ -2956,7 +2971,7 @@
       "rubrique": "_jQS8Uf8JZr33gZwX7qV6",
       "misEnLigne": "dfs",
       "rang": 1,
-      "lectures": 18
+      "lectures": 20
     },
     {
       "id": "UfDs2TBhoDml1cztobnws",
@@ -2971,7 +2986,7 @@
       "rubrique": "cbgmDLUFesIDwaVimzdEV",
       "misEnLigne": "dfs",
       "rang": 1,
-      "lectures": 29
+      "lectures": 31
     },
     {
       "id": "yLi_IaynXfWKQm0IsVzOJ",
@@ -2986,7 +3001,7 @@
       "rubrique": "NL_fBgWtM_W1jGZdPdYYO",
       "misEnLigne": "dfs",
       "rang": 1,
-      "lectures": 8
+      "lectures": 9
     },
     {
       "id": "I90LbAkHfudkxD5JZ3C6l",
@@ -3001,7 +3016,7 @@
       "rubrique": "NL_fBgWtM_W1jGZdPdYYO",
       "misEnLigne": "dfs",
       "rang": 1,
-      "lectures": 9
+      "lectures": 12
     },
     {
       "id": "srRfsZ1Zy7DhP5L3SVbgV",
@@ -3076,7 +3091,7 @@
       "rubrique": "JGJwkAOryhk6apsLpXTfz",
       "misEnLigne": "dfs",
       "rang": 1,
-      "lectures": 2
+      "lectures": 3
     },
     {
       "id": "5EgT4TCit-odx195R95Z6",
@@ -3106,7 +3121,7 @@
       "rubrique": "12SMgFqXM7vKEVuv4Z-ce",
       "misEnLigne": "dfs",
       "rang": 1,
-      "lectures": 8
+      "lectures": 9
     },
     {
       "id": "UWN5YaG8WP4oIOFn_W0kk",
@@ -3136,7 +3151,7 @@
       "rubrique": "NI2sX0Xy6jVTjID3TdMmk",
       "misEnLigne": "dfs",
       "rang": 1,
-      "lectures": 22
+      "lectures": 25
     },
     {
       "id": "DgdN8hRxVcaEYFrBKGo2e",
@@ -3151,7 +3166,7 @@
       "rubrique": "NL_fBgWtM_W1jGZdPdYYO",
       "misEnLigne": "dfs",
       "rang": 1,
-      "lectures": 2
+      "lectures": 3
     },
     {
       "id": "cDK1cA0bJZtKWnJDfNLyL",
@@ -3181,7 +3196,7 @@
       "rubrique": "NL_fBgWtM_W1jGZdPdYYO",
       "misEnLigne": "dfs",
       "rang": 1,
-      "lectures": 31
+      "lectures": 32
     },
     {
       "id": "JMSaV1Z67jPerB-iNh2ru",
@@ -3226,7 +3241,7 @@
       "rubrique": "wiw5OpfvYfCxR4wO1zR9T",
       "misEnLigne": "dfs",
       "rang": 1,
-      "lectures": 29
+      "lectures": 33
     },
     {
       "id": "vBgMalbfJ3lqYtMY0Jbhh",
@@ -3241,7 +3256,7 @@
       "rubrique": "n5nWNPCjOwd1hb51T1y6j",
       "misEnLigne": "dfs",
       "rang": 1,
-      "lectures": 41
+      "lectures": 44
     },
     {
       "id": "HVu2867AkEAfP2eml9PFG",
@@ -3271,7 +3286,7 @@
       "rubrique": "JGJwkAOryhk6apsLpXTfz",
       "misEnLigne": "dfs",
       "rang": 1,
-      "lectures": 51
+      "lectures": 57
     },
     {
       "id": "i3VSwHE5VdgRQyXv4rm6t",
@@ -3286,7 +3301,630 @@
       "rubrique": "-QWaA8fvKbVULHSMi0imC",
       "misEnLigne": "dfs",
       "rang": 1,
-      "lectures": 80
+      "lectures": 84
+    },
+    {
+      "id": "DaDse1Xl13j7cR28d68Nq",
+      "titreFront": "L’insularité au premier plan ",
+      "description": "Aux abords des côtes lorientaises, un petit festival résiste face à la crise économique du secteur culturel et naviguera cet été entre les imaginaires vers sa 25ème édition.",
+      "imageLogo": "/save/saveArticle/cover/DaDse1Xl13j7cR28d68Nq",
+      "path": "dsf",
+      "auteur": "Syriane Jacq",
+      "numeroParu": "32",
+      "date": "2026-06-01",
+      "private": false,
+      "rubrique": "wDmnEcnGlnhI5nG3JeqQk",
+      "misEnLigne": "dfs",
+      "rang": 1,
+      "lectures": 2
+    },
+    {
+      "id": "6bEoirANlsEPC8zWTkaUx",
+      "titreFront": "Coupe du monde 2026 : un chaos en coulisses",
+      "description": "Tous les quatre ans, les Coupes du monde sont des événements qui font vibrer nos étés. Mais celle de 2026 semble être un événement qui fera plus de bruit par son organisation que par le football.",
+      "imageLogo": "/save/saveArticle/cover/6bEoirANlsEPC8zWTkaUx",
+      "path": "dsf",
+      "auteur": "Agathe Le Borgne",
+      "numeroParu": "32",
+      "date": "2026-06-01",
+      "private": false,
+      "rubrique": "NI2sX0Xy6jVTjID3TdMmk",
+      "misEnLigne": "dfs",
+      "rang": 1,
+      "lectures": 2
+    },
+    {
+      "id": "FLUiX0sElBITAiTZD10Kg",
+      "titreFront": "Les vols low cost : à quels coûts ? ",
+      "description": "Prix cassés, vols de plus en plus convoités et vacances accessibles aux étudiants, voire aux classes les plus précaires : que révèle la tendance du low cost qui s’impose depuis plusieurs années ? ",
+      "imageLogo": "/save/saveArticle/cover/FLUiX0sElBITAiTZD10Kg",
+      "path": "dsf",
+      "auteur": "Élisa Caillot et Océane Bizon-Houizot",
+      "numeroParu": "32",
+      "date": "2026-06-01",
+      "private": false,
+      "rubrique": "qr0CAgT5vUoyBiZqUfQyR",
+      "misEnLigne": "dfs",
+      "rang": 1,
+      "lectures": 3
+    },
+    {
+      "id": "-1WZL8iYLqWaZ56ZZ5jl3",
+      "titreFront": "L’arc-en-ciel bleu blanc rouge",
+      "description": "Le soleil brille, et avec lui s’ouvre la saison des marches des fiertés à travers le monde. En France, un groupuscule homonationaliste tente de s’immiscer dans ces manifestations, qui puisent pourtant leurs origines dans les révoltes anti-police de Stonewall.",
+      "imageLogo": "/save/saveArticle/cover/-1WZL8iYLqWaZ56ZZ5jl3",
+      "path": "dsf",
+      "auteur": "Syriane Jacq",
+      "numeroParu": "32",
+      "date": "2026-06-01",
+      "private": false,
+      "rubrique": "QTjGEYRiT06jU4sn3LXnB",
+      "misEnLigne": "dfs",
+      "rang": 1,
+      "lectures": 3
+    },
+    {
+      "id": "rAJZAj5QByXaBdFv8Gs0C",
+      "titreFront": "Les chiens, meilleurs amis de la plage ?",
+      "description": "L'été arrive, la température monte, et on aura bientôt envie d’aller profiter de nos magnifiques côtes bretonnes, mais qu’en est-il de nos amis à quatres pattes ? ",
+      "imageLogo": "/save/saveArticle/cover/rAJZAj5QByXaBdFv8Gs0C",
+      "path": "dsf",
+      "auteur": "Ewenn Broudic",
+      "numeroParu": "32",
+      "date": "2026-06-01",
+      "private": false,
+      "rubrique": "QTjGEYRiT06jU4sn3LXnB",
+      "misEnLigne": "dfs",
+      "rang": 1,
+      "lectures": 2
+    },
+    {
+      "id": "t3z_uEriKH2AuCdkazrv2",
+      "titreFront": "Unknownfest : quand la musique rassemble",
+      "description": "Actif dans le paysage rennais, le collectif Unknownfest ouvre la voie aux jeunes rappeurs locaux en développant leurs propres soirées. DJ sets et concerts, de quoi raviver l’attrait des jeunes envers la trap. ",
+      "imageLogo": "/save/saveArticle/cover/t3z_uEriKH2AuCdkazrv2",
+      "path": "dsf",
+      "auteur": "Léa Noël",
+      "numeroParu": "32",
+      "date": "2026-06-01",
+      "private": false,
+      "rubrique": "JGJwkAOryhk6apsLpXTfz",
+      "misEnLigne": "dfs",
+      "rang": 1,
+      "lectures": 1
+    },
+    {
+      "id": "c6fIwLwcPlKgvgx6ZbJqp",
+      "titreFront": "Retour sur le festival Mythos ",
+      "description": "Du 3 au 12 avril 2026 se tenait le festival rennais Mythos. Entre rap, électro et musique malienne, L’agrafe vous propose une rétrospective des concerts que nos rédacteurs ont pu découvrir. ",
+      "imageLogo": "/save/saveArticle/cover/c6fIwLwcPlKgvgx6ZbJqp",
+      "path": "dsf",
+      "auteur": "La rédaction",
+      "numeroParu": "32",
+      "date": "2026-06-05",
+      "private": false,
+      "rubrique": "NL_fBgWtM_W1jGZdPdYYO",
+      "misEnLigne": "dfs",
+      "rang": 1,
+      "lectures": 5
+    },
+    {
+      "id": "Jvx4Ms4lRP3MQlyByUoey",
+      "titreFront": "Rejouer Dreyfus",
+      "description": "fdsPendant 6 mois, des élèves du lycée Émile Zola ont répété tous les mercredis une pièce historique : Rejouer Dreyfus. ",
+      "imageLogo": "/save/saveArticle/cover/Jvx4Ms4lRP3MQlyByUoey",
+      "path": "dsf",
+      "auteur": "Camille Daumard",
+      "numeroParu": "32",
+      "date": "2026-06-01",
+      "private": false,
+      "rubrique": "wDmnEcnGlnhI5nG3JeqQk",
+      "misEnLigne": "dfs",
+      "rang": 1,
+      "lectures": 1
+    },
+    {
+      "id": "w5_eEwLdu4Mym6FfOcTut",
+      "titreFront": "Yec’hed mat, l’art de trinquer ",
+      "description": "Et si on levait nos verres à la santé de la Bretagne ?",
+      "imageLogo": "/save/saveArticle/cover/w5_eEwLdu4Mym6FfOcTut",
+      "path": "dsf",
+      "auteur": "Manon Le Goff",
+      "numeroParu": "32",
+      "date": "2026-06-01",
+      "private": false,
+      "rubrique": "wiw5OpfvYfCxR4wO1zR9T",
+      "misEnLigne": "dfs",
+      "rang": 1,
+      "lectures": 3
+    },
+    {
+      "id": "y1GDqLrP1jT3nCinRZ5vE",
+      "titreFront": "Bad Buzz : quand le marketing floppe  ",
+      "description": "Une communication boiteuse, agressive, ou un concept bancal… Et c’est le bad buzz. ",
+      "imageLogo": "/save/saveArticle/cover/y1GDqLrP1jT3nCinRZ5vE",
+      "path": "dsf",
+      "auteur": "Romane Le Bloa",
+      "numeroParu": "32",
+      "date": "2026-06-01",
+      "private": false,
+      "rubrique": "Q0HQtdF_Dn1R2oLfNx8zO",
+      "misEnLigne": "dfs",
+      "rang": 1,
+      "lectures": 1
+    },
+    {
+      "id": "fA21j0w56OqWG4MOP1qRD",
+      "titreFront": "Le numérique et la puériculture au XIXe siècle ",
+      "description": "Clos dans le bâtiment T de l’université, un étrange groupe au teint blanchi par l’écran bleu a décidé d’utiliser l’encre et le papier pour vous informer sur un projet plus numérique que jamais ! ",
+      "imageLogo": "/save/saveArticle/cover/fA21j0w56OqWG4MOP1qRD",
+      "path": "dsf",
+      "auteur": "sdfPromotion Stephanie Shirley du Master HN (2025 – 2026)",
+      "numeroParu": "32",
+      "date": "2026-06-01",
+      "private": false,
+      "rubrique": "wiw5OpfvYfCxR4wO1zR9T",
+      "misEnLigne": "dfs",
+      "rang": 1,
+      "lectures": 1
+    },
+    {
+      "id": "uyEKeH70yizUVdDM_UYQT",
+      "titreFront": "Faire du vieux avec du neuf ",
+      "description": "Noir et blanc, argentique, pixel art… À contre-courant de l’ultra-réalisme contemporain, des artistes choisissent de réintroduire des visuels datés ou limités. Les contraintes techniques d’autrefois deviennent les choix esthétiques d’aujourd’hui. ",
+      "imageLogo": "/save/saveArticle/cover/uyEKeH70yizUVdDM_UYQT",
+      "path": "dsf",
+      "auteur": "Titouan Després",
+      "numeroParu": "32",
+      "date": "2026-06-01",
+      "private": false,
+      "rubrique": "jbC_nl9idzR2W_X2DF1uN",
+      "misEnLigne": "dfs",
+      "rang": 1,
+      "lectures": 1
+    },
+    {
+      "id": "pqJ1QVNcaDx1f30Wbew-J",
+      "titreFront": "Disability Pride Month : la lutte continue ",
+      "description": "Le mois de juillet représente un moment important pour la communauté handicapée : un moment de commémoration et de lutte à travers le Mois de la fierté du handicap. ",
+      "imageLogo": "/save/saveArticle/cover/pqJ1QVNcaDx1f30Wbew-J",
+      "path": "dsf",
+      "auteur": "Lucie Merrien",
+      "numeroParu": "32",
+      "date": "2026-06-01",
+      "private": false,
+      "rubrique": "n5nWNPCjOwd1hb51T1y6j",
+      "misEnLigne": "dfs",
+      "rang": 1,
+      "lectures": 1
+    },
+    {
+      "id": "mqSr6fA8gpFCzwBtkqpOa",
+      "titreFront": "En été fais ce qu’il te plait ! ",
+      "description": "Entre liberté et jugement, les corps ne sont pas égaux face à la chaleur. ",
+      "imageLogo": "/save/saveArticle/cover/mqSr6fA8gpFCzwBtkqpOa",
+      "path": "dsf",
+      "auteur": "Lison Courtet",
+      "numeroParu": "32",
+      "date": "2026-06-01",
+      "private": false,
+      "rubrique": "12SMgFqXM7vKEVuv4Z-ce",
+      "misEnLigne": "dfs",
+      "rang": 1,
+      "lectures": 1
+    },
+    {
+      "id": "M6giPkYIpltA2lYe-FB6R",
+      "titreFront": "¿ Fracasó el sistema alternativo al capitalismo en Cuba ?",
+      "description": "Sumida en una crisis multidimensional que se agrava cada día un poco más, el futuro de Cuba parece muy incierto últimamente. ",
+      "imageLogo": "/save/saveArticle/cover/M6giPkYIpltA2lYe-FB6R",
+      "path": "dsf",
+      "auteur": "Inès Abdelghaffar",
+      "numeroParu": "32",
+      "date": "2026-06-01",
+      "private": false,
+      "rubrique": "haiPvlrj3ILlIkP_c9T86",
+      "misEnLigne": "dfs",
+      "rang": 1,
+      "lectures": 2
+    },
+    {
+      "id": "Ibyovf7Hbj2m3TRp6HyXm",
+      "titreFront": "Ça ne vroum plus en France !",
+      "description": "La France, berceau de la compétition automobile, est orpheline de son Grand Prix de Formule 1 depuis 2022 au grand dam des férus de Ferrari, Alpine et autres Aston Martin. ",
+      "imageLogo": "/save/saveArticle/cover/Ibyovf7Hbj2m3TRp6HyXm",
+      "path": "dsf",
+      "auteur": "Elouan Blot ",
+      "numeroParu": "32",
+      "date": "2026-06-01",
+      "private": false,
+      "rubrique": "0JGM34aN_KLF_4wxUJl-d",
+      "misEnLigne": "dfs",
+      "rang": 1,
+      "lectures": 1
+    },
+    {
+      "id": "nm1GA5j8az4_SiETkzn6g",
+      "titreFront": "Stop thanking your computer ",
+      "description": "Ces derniers mois, les romances entre hommes ont absolument explosé dans le monde entier. Mais comme toute tendance, cette popularité est aussi accompagnée de dérives… ",
+      "imageLogo": "/save/saveArticle/cover/nm1GA5j8az4_SiETkzn6g",
+      "path": "dsf",
+      "auteur": "Romane Le Bloa",
+      "numeroParu": "33",
+      "date": "2026-09-01",
+      "private": false,
+      "rubrique": "-QWaA8fvKbVULHSMi0imC",
+      "misEnLigne": "dfs",
+      "rang": 1,
+      "lectures": 5
+    },
+    {
+      "id": "nY7JgOIEL33BGmyv4iPiY",
+      "titreFront": "Quand la fête cache la crise",
+      "description": "Depuis plusieurs mois, les financements publics pour la culture diminuent, qu'ils viennent de l'État ou des collectivités territoriales. Une tendance qui, selon les acteurs du secteur, pourrait encore s'aggraver en 2027. Dans ce contexte de fragilisation, le rôle des bénévoles est crucial pour l'avenir.",
+      "imageLogo": "/save/saveArticle/cover/nY7JgOIEL33BGmyv4iPiY",
+      "path": "dsf",
+      "auteur": "Jade Mélédo",
+      "numeroParu": "33",
+      "date": "2026-09-01",
+      "private": false,
+      "rubrique": "JGJwkAOryhk6apsLpXTfz",
+      "misEnLigne": "dfs",
+      "rang": 1,
+      "lectures": 6
+    },
+    {
+      "id": "QIbVgjmOMfrg0XpEapRd5",
+      "titreFront": "Loin des yeux, loin de l’algo ",
+      "description": "À force de répondre à chaque provocation de\nl’extrême droite, ses adversaires risquent d’en devenir\nles meilleurs attachés de presse. Ignorer peut-il suffire à\nfaire disparaître le problème ?",
+      "imageLogo": "/save/saveArticle/cover/QIbVgjmOMfrg0XpEapRd5",
+      "path": "dsf",
+      "auteur": "Titouan Després",
+      "numeroParu": "33",
+      "date": "2026-09-01",
+      "private": false,
+      "rubrique": "cbgmDLUFesIDwaVimzdEV",
+      "misEnLigne": "dfs",
+      "rang": 1,
+      "lectures": 4
+    },
+    {
+      "id": "tHJMr4-3emPyShyoYu0us",
+      "titreFront": "Drag Race France, le retour de l’émission culte ",
+      "description": "Comme chaque année dix nouvelles Queen font leur entrée dans l’atelier pour tenter de remporter la couronne. ",
+      "imageLogo": "/save/saveArticle/cover/tHJMr4-3emPyShyoYu0us",
+      "path": "dsf",
+      "auteur": "Ewenn Broudic",
+      "numeroParu": "33",
+      "date": "2026-09-01",
+      "private": false,
+      "rubrique": "NL_fBgWtM_W1jGZdPdYYO",
+      "misEnLigne": "dfs",
+      "rang": 1,
+      "lectures": 4
+    },
+    {
+      "id": "Subn9nVpjkJma9V54S0Zt",
+      "titreFront": "Une visite à l’UNESCO",
+      "description": "Le 26 mai 2026, L’agrafe a été invitée à l’UNESCO afin d’échanger autour de la crise cubaine. Revenons ensemble sur cette visite ainsi que sur le rôle de l’institution dans ce type de circonstances.",
+      "imageLogo": "/save/saveArticle/cover/Subn9nVpjkJma9V54S0Zt",
+      "path": "dsf",
+      "auteur": "Jade Mélédo, Raphaël Giraud et Claire Pierrat-Saout",
+      "numeroParu": "33",
+      "date": "2026-09-02",
+      "private": false,
+      "rubrique": "wiw5OpfvYfCxR4wO1zR9T",
+      "misEnLigne": "dfs",
+      "rang": 1,
+      "lectures": 8
+    },
+    {
+      "id": "Quo_HExmytF3j1n3As-og",
+      "titreFront": "Une rentrée à quel prix ?",
+      "description": "Étudier et travailler : pour beaucoup d'étudiants le choix n’existe plus. \n",
+      "imageLogo": "/save/saveArticle/cover/Quo_HExmytF3j1n3As-og",
+      "path": "dsf",
+      "auteur": "Lison Courtet",
+      "numeroParu": "33",
+      "date": "2026-09-01",
+      "private": false,
+      "rubrique": "e4tFs7PHWCg0AQoGluFaS",
+      "misEnLigne": "dfs",
+      "rang": 1,
+      "lectures": 1
+    },
+    {
+      "id": "nDfYyiY223jiTnt-YV9vK",
+      "titreFront": "Mourir peut pas attendre",
+      "description": "Les années passent, les époques évoluent et certaines icônes finissent par ne plus reconnaître le monde qui les entoure, voire rejeter ses changements. Une simple affaire de génération ?",
+      "imageLogo": "/save/saveArticle/cover/nDfYyiY223jiTnt-YV9vK",
+      "path": "dsf",
+      "auteur": "Titouan Després",
+      "numeroParu": "33",
+      "date": "2026-09-02",
+      "private": false,
+      "rubrique": "QTjGEYRiT06jU4sn3LXnB",
+      "misEnLigne": "dfs",
+      "rang": 1,
+      "lectures": 9
+    },
+    {
+      "id": "YDyKDGa_lvqQ3m0pn8had",
+      "titreFront": "Coupe du monde : un événement masculin ? ",
+      "description": "La Coupe du monde de la FIFA 2026 n’est peut-être pas un film interdit aux moins de 16 ans, et pourtant, être une femme, c’est parfois comme en être interdite de visionnage.",
+      "imageLogo": "/save/saveArticle/cover/YDyKDGa_lvqQ3m0pn8had",
+      "path": "dsf",
+      "auteur": "Enora Béon et Audrey Simon",
+      "numeroParu": "33",
+      "date": "2026-09-01",
+      "private": false,
+      "rubrique": "0JGM34aN_KLF_4wxUJl-d",
+      "misEnLigne": "dfs",
+      "rang": 1,
+      "lectures": 2
+    },
+    {
+      "id": "BnupZmIqgEad0o9OWG_Lw",
+      "titreFront": "Debout, épisode 1 : Prendre naissance",
+      "description": "Savez-vous comment débute un mouvement de lutte ? A quel moment un collectif se crée ? Quand estce que les opprimés décident qu’il en est assez ? C’est ce que Frédérique Mingant et Delphine Battour tentent de déchiffrer avec la saga Debout.",
+      "imageLogo": "/save/saveArticle/cover/BnupZmIqgEad0o9OWG_Lw",
+      "path": "dsf",
+      "auteur": "Raphaël Giraud",
+      "numeroParu": "33",
+      "date": "2026-09-02",
+      "private": false,
+      "rubrique": "j3H6kQQUrBkxXdQqiJDKw",
+      "misEnLigne": "dfs",
+      "rang": 1,
+      "lectures": 7
+    },
+    {
+      "id": "W9w08HvtXECdJvw2pCSlO",
+      "titreFront": "Les recos de septembre",
+      "description": "Voici quelques recommandations de la rédac' !",
+      "imageLogo": "/save/saveArticle/cover/W9w08HvtXECdJvw2pCSlO",
+      "path": "dsf",
+      "auteur": "Jade Mélédo et Raphaël Giraud",
+      "numeroParu": "33",
+      "date": "2026-09-02",
+      "private": false,
+      "rubrique": "wDmnEcnGlnhI5nG3JeqQk",
+      "misEnLigne": "dfs",
+      "rang": 1,
+      "lectures": 4
+    },
+    {
+      "id": "2okRCgVfj3yqr29ePcq2p",
+      "titreFront": "Une incohérence politique face au climat",
+      "description": "En plus d'être l'été le plus chaud jamais enregistré, l'été 2026 est aussi le moment où les responsables politiques se sont montrés les plus incohérents et volubiles  au sujet de l'écologie.",
+      "imageLogo": "/save/saveArticle/cover/2okRCgVfj3yqr29ePcq2p",
+      "path": "dsf",
+      "auteur": "Agathe Le Borgne",
+      "numeroParu": "33",
+      "date": "2026-09-01",
+      "private": false,
+      "rubrique": "qr0CAgT5vUoyBiZqUfQyR",
+      "misEnLigne": "dfs",
+      "rang": 1,
+      "lectures": 2
+    },
+    {
+      "id": "sTY0rRtu2vE_b1sVUybpk",
+      "titreFront": "Comment être cunt à Halloween ? ",
+      "description": "Quand notre costume en dit long sur notre identité",
+      "imageLogo": "/save/saveArticle/cover/sTY0rRtu2vE_b1sVUybpk",
+      "path": "dsf",
+      "auteur": "Manon Le Goff",
+      "numeroParu": "34",
+      "date": "2026-10-08",
+      "created_at": "2026-10-08",
+      "updated_at": "2026-10-07T19:45:47.829Z",
+      "private": false,
+      "rubrique": "12SMgFqXM7vKEVuv4Z-ce",
+      "dossier_id": null,
+      "misEnLigne": "dfs",
+      "rang": 1,
+      "lectures": 6
+    },
+    {
+      "id": "g0lrEqR4Uo3XO-74qfolX",
+      "titreFront": "Carton rouge : quand le football doit réinventer sa tolérance ",
+      "description": "Entre peur des réactions, pression médiatique et stéréotypes de genre, l'homosexualité demeure l'un des plus grands tabous du football.",
+      "imageLogo": "/save/saveArticle/cover/g0lrEqR4Uo3XO-74qfolX",
+      "path": "dsf",
+      "auteur": "Nathan Fermier",
+      "numeroParu": "34",
+      "date": "2026-10-08",
+      "created_at": "2026-10-08",
+      "updated_at": "2026-10-07T19:50:24.295Z",
+      "private": false,
+      "rubrique": "0JGM34aN_KLF_4wxUJl-d",
+      "dossier_id": null,
+      "misEnLigne": "dfs",
+      "rang": 1,
+      "lectures": 0
+    },
+    {
+      "id": "Qi6WJL6CShes6BcJZOoON",
+      "titreFront": "Quand la littérature devient le cinéma",
+      "description": "À la manière de l’Odyssée sorti cet été, le cinéma mondial se réapproprie de plus en plus de récits littéraires dans un objectif d’adaptation. Cette volonté cache des réalités bien distinctes. Comment faire le pont entre littérature et cinéma ? ",
+      "imageLogo": "/save/saveArticle/cover/Qi6WJL6CShes6BcJZOoON",
+      "path": "dsf",
+      "auteur": "Kylian Deschamps",
+      "numeroParu": "34",
+      "date": "2026-10-08",
+      "created_at": "2026-10-08",
+      "updated_at": "2026-10-07T19:54:49.224Z",
+      "private": false,
+      "rubrique": "QTjGEYRiT06jU4sn3LXnB",
+      "dossier_id": null,
+      "misEnLigne": "dfs",
+      "rang": 1,
+      "lectures": 2
+    },
+    {
+      "id": "XIVNB0aI4EbPINVg0SeIl",
+      "titreFront": " La réorientation : clé de notre réussite ? ",
+      "description": "Entre doutes et démarches administratives, pour de nombreux étudiants, changer de filière est une libération. Témoignages, sur les bancs de Villejean, avec deux étudiants ayant fait le choix de franchir le pas.",
+      "imageLogo": {},
+      "path": "dsf",
+      "auteur": "Anaé Guyon",
+      "numeroParu": "34",
+      "date": "2026-10-08",
+      "created_at": "2026-10-08",
+      "updated_at": "2026-10-07T21:10:47.380Z",
+      "private": false,
+      "rubrique": "j3H6kQQUrBkxXdQqiJDKw",
+      "dossier_id": null,
+      "misEnLigne": "dfs",
+      "rang": 1,
+      "lectures": 6,
+      "fileType": ""
+    },
+    {
+      "id": "ChgCU8ItDrD2DVNnOV5H3",
+      "titreFront": "Un grand bain d'humanité",
+      "description": "Du 11 au 13 septembre, 570 000 festivaliers se sont retrouvés pour fêter l’Humanité. Voici notre retour sur l’événement à travers nos divers coups de cœur.",
+      "imageLogo": "/save/saveArticle/cover/ChgCU8ItDrD2DVNnOV5H3",
+      "path": "dsf",
+      "auteur": "Jade Mélédo et Raphaël Giraud",
+      "numeroParu": "34",
+      "date": "2026-10-09",
+      "created_at": "2026-10-09",
+      "updated_at": "2026-10-07T20:22:55.807Z",
+      "private": false,
+      "rubrique": "wDmnEcnGlnhI5nG3JeqQk",
+      "dossier_id": null,
+      "misEnLigne": "dfs",
+      "rang": 1,
+      "lectures": 2
+    },
+    {
+      "id": "VP2IfYUBV2MXkh5qJntl_",
+      "titreFront": "Dune et la dualité de l’écologie",
+      "description": "En décembre prochain sortira le troisième volet de la saga Dune au cinéma. Si la trilogie fait la part belle au space opera, l’œuvre originale de Frank Herbert comprend aussi une dimension écologique fondamentale, basée sur ses propres recherches sur l’écosystème des déserts.",
+      "imageLogo": "/save/saveArticle/cover/VP2IfYUBV2MXkh5qJntl_",
+      "path": "dsf",
+      "auteur": "Titouan Després",
+      "numeroParu": "34",
+      "date": "2026-10-08",
+      "created_at": "2026-10-08",
+      "updated_at": "2026-10-07T21:00:56.811Z",
+      "private": false,
+      "rubrique": "qr0CAgT5vUoyBiZqUfQyR",
+      "dossier_id": null,
+      "misEnLigne": "dfs",
+      "rang": 1,
+      "lectures": 1
+    },
+    {
+      "id": "epz2--11Kq7AsSxg86jXS",
+      "titreFront": "La sécheresse, la goutte de trop pour les agriculteurs",
+      "description": "Cet été, ça a chauffé en France pour les agriculteurs. Nous avons pu interroger Juliette Le Gallo, docteure en économie de l’institut agronomique à ce sujet.",
+      "imageLogo": "/save/saveArticle/cover/epz2--11Kq7AsSxg86jXS",
+      "path": "dsf",
+      "auteur": "Faustine Jaunasse",
+      "numeroParu": "34",
+      "date": "2026-10-08",
+      "created_at": "2026-10-08",
+      "updated_at": "2026-10-07T21:11:31.468Z",
+      "private": false,
+      "rubrique": "qr0CAgT5vUoyBiZqUfQyR",
+      "dossier_id": null,
+      "misEnLigne": "dfs",
+      "rang": 1,
+      "lectures": 1,
+      "fileType": ""
+    },
+    {
+      "id": "laOS82CmhON2dB_ch-uNV",
+      "titreFront": "Les mustangs : symbole en péril",
+      "description": "Libre, fougueux, indompté… Le célèbre cheval sauvage qu’on connaît tous comme emblème des États-Unis est aujourd’hui en pleine agonie.",
+      "imageLogo": "/save/saveArticle/cover/laOS82CmhON2dB_ch-uNV",
+      "path": "dsf",
+      "auteur": "Audrey Simon",
+      "numeroParu": "34",
+      "date": "2026-10-08",
+      "created_at": "2026-10-08",
+      "updated_at": "2026-10-07T21:26:37.912Z",
+      "private": false,
+      "rubrique": "wiw5OpfvYfCxR4wO1zR9T",
+      "dossier_id": null,
+      "misEnLigne": "dfs",
+      "rang": 1,
+      "lectures": 1
+    },
+    {
+      "id": "2VObjHcZYC__wY7uBF8GH",
+      "titreFront": "Jeanne Malivel : pionnière des arts breton moderne",
+      "description": "Cette année 2026 est le centenaire de la mort de Jeanne Malivel. Cette artiste bretonne a marquée le 20e siècle, et pourtant elle décède à Rennes à seulement 31 ans. Elle laisse derrière elle l’héritage du mouvement Seiz Breur dont elle est l’une des fondatrices.",
+      "imageLogo": "/save/saveArticle/cover/2VObjHcZYC__wY7uBF8GH",
+      "path": "dsf",
+      "auteur": "Nolwenn Roux",
+      "numeroParu": "34",
+      "date": "2026-10-08",
+      "created_at": "2026-10-08",
+      "updated_at": "2026-10-07T21:57:37.271Z",
+      "private": false,
+      "rubrique": "e4tFs7PHWCg0AQoGluFaS",
+      "dossier_id": null,
+      "misEnLigne": "dfs",
+      "rang": 1,
+      "lectures": 1
+    },
+    {
+      "id": "3KOYMfgF7aE3dCRQ9-tw6",
+      "titreFront": "Peut-on adopter un animal en étant étudiant ? ",
+      "description": "Petit budget, place limitée, charge de travail souvent considérable : comment les étudiants peuvent-ils se permettre d’inclure un animal dans leur quotidien ?",
+      "imageLogo": "/save/saveArticle/cover/3KOYMfgF7aE3dCRQ9-tw6",
+      "path": "dsf",
+      "auteur": "Ewenn Broudic et Bertille Bazan",
+      "numeroParu": "34",
+      "date": "2026-10-08",
+      "created_at": "2026-10-08",
+      "updated_at": "2026-10-08T08:29:27.448Z",
+      "private": false,
+      "rubrique": "JGJwkAOryhk6apsLpXTfz",
+      "dossier_id": null,
+      "misEnLigne": "dfs",
+      "rang": 1,
+      "lectures": 0
+    },
+    {
+      "id": "d8_9yX-0I0aVMq4KoWekE",
+      "titreFront": "Sous nos yeux",
+      "description": "Comment se matérialise – aujourd’hui – la lutte passant par le boycott.",
+      "imageLogo": "/save/saveArticle/cover/d8_9yX-0I0aVMq4KoWekE",
+      "path": "dsf",
+      "auteur": "Loïc Frelin",
+      "numeroParu": "34",
+      "date": "2026-10-09",
+      "created_at": "2026-10-09",
+      "updated_at": "2026-10-08T08:38:12.890Z",
+      "private": false,
+      "rubrique": "cbgmDLUFesIDwaVimzdEV",
+      "dossier_id": null,
+      "misEnLigne": "dfs",
+      "rang": 1,
+      "lectures": 2
+    },
+    {
+      "id": "rlC3fGqj9D2FGg4PA_1Gb",
+      "titreFront": "Test",
+      "description": "test",
+      "imageLogo": "/save/saveArticle/cover/rlC3fGqj9D2FGg4PA_1Gb",
+      "path": "dsf",
+      "auteur": "Test",
+      "numeroParu": "Test",
+      "date": "2026-10-08",
+      "created_at": "2026-10-08",
+      "updated_at": "2026-10-08T09:15:18.239Z",
+      "private": true,
+      "rubrique": "_jQS8Uf8JZr33gZwX7qV6",
+      "dossier_id": null,
+      "misEnLigne": "dfs",
+      "rang": 1,
+      "lectures": 0
     }
   ]
 }

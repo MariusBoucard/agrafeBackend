@@ -335,6 +335,59 @@ getAllPublicArticles : async function getAllPublicArticles(){
  return { code: 404, message: "pas d article bg" , articles : null};
 },
 
+getPublicArticlesPage : async function getPublicArticlesPage({
+  page = 1,
+  pageSize = 5,
+  rubriqueId = null,
+  search = '',
+  excludeId = null,
+} = {}) {
+  const safePage = Math.max(1, Number(page) || 1);
+  const safeSize = Math.min(50, Math.max(1, Number(pageSize) || 5));
+
+  if (config.usePostgres) {
+    const result = await repos.articles.publicPage({
+      page: safePage,
+      pageSize: safeSize,
+      rubriqueId: rubriqueId || null,
+      search: search || '',
+      excludeId: excludeId || null,
+    });
+    return {
+      code: 200,
+      articles: await withAuthorSlugs(result.articles),
+      total: result.total,
+      page: result.page,
+      pageSize: result.pageSize,
+      pageCount: result.pageCount,
+    };
+  }
+
+  const rawData = await readDataFromFile();
+  const needle = (search || '').trim().toLowerCase();
+  let list = (rawData.articles || []).filter((ar) => ar.private === false);
+  if (rubriqueId) list = list.filter((ar) => ar.rubrique == rubriqueId);
+  if (excludeId) list = list.filter((ar) => ar.id !== excludeId);
+  if (needle) {
+    list = list.filter((ar) =>
+      (ar.titreFront || '').toLowerCase().includes(needle) ||
+      (ar.description || '').toLowerCase().includes(needle)
+    );
+  }
+  list.sort((a, b) => new Date(b.date) - new Date(a.date));
+  const total = list.length;
+  const start = (safePage - 1) * safeSize;
+  const articles = list.slice(start, start + safeSize);
+  return {
+    code: 200,
+    articles: await withAuthorSlugs(articles),
+    total,
+    page: safePage,
+    pageSize: safeSize,
+    pageCount: Math.max(1, Math.ceil(total / safeSize)),
+  };
+},
+
 // TO ADD IN ROUTES :
 getArticlesFromRubrique : async function getArticlesFromRubrique(rubId){
   if (config.usePostgres) {

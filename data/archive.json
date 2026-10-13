@@ -265,17 +265,6 @@
       "private": false
     },
     {
-      "id": "2QY8rQMEl5cd37LoZLlPG",
-      "titre": "Février 2026",
-      "description": "Février 2026",
-      "numero": "29",
-      "date": "2026-02-04",
-      "lectures": 0,
-      "auteurBack": "Maya Descamps",
-      "copyrightBack": "Maya Descamps",
-      "private": false
-    },
-    {
       "id": "09KyPntN-N1c6ect7LhOB",
       "titre": "Mars 2026",
       "description": "Mars 2026",
@@ -306,6 +295,39 @@
       "lectures": 0,
       "auteurBack": "@noluzyne.art",
       "copyrightBack": "@noluzyne.art",
+      "private": false
+    },
+    {
+      "id": "icFIwYYGGlsytpN8VKHDK",
+      "titre": "Septembre 2026",
+      "description": "Septembre 2026",
+      "numero": "33",
+      "date": "2026-09-01",
+      "lectures": 0,
+      "auteurBack": "@aela_wbr",
+      "copyrightBack": "@aela_wbr",
+      "private": false
+    },
+    {
+      "id": "DD02zsAyBTOedNHYLTLAN",
+      "titre": "Été 2026",
+      "description": "Été 2026",
+      "numero": "32",
+      "date": "2026-06-01",
+      "lectures": 0,
+      "auteurBack": "Romane Le Bloa",
+      "copyrightBack": "Romane Le Bloa",
+      "private": false
+    },
+    {
+      "id": "P1e-Lh1Pdz1d-lDwCNQQY",
+      "titre": "Février 2026",
+      "description": "Février 2026",
+      "numero": "29",
+      "date": "2026-02-04",
+      "lectures": 0,
+      "auteurBack": "Maya Descamps",
+      "copyrightBack": "Maya Descamps",
       "private": false
     }
   ]

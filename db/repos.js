@@ -99,6 +99,43 @@ export const articles = {
     );
     return res.rows.map(mapArticle);
   },
+  async publicPage({ page = 1, pageSize = 5, rubriqueId = null, search = '', excludeId = null } = {}) {
+    const safePage = Math.max(1, Number(page) || 1);
+    const safeSize = Math.min(50, Math.max(1, Number(pageSize) || 5));
+    const offset = (safePage - 1) * safeSize;
+    const needle = (search || '').trim();
+    const params = [];
+    const where = ['private = false'];
+
+    if (rubriqueId) {
+      params.push(rubriqueId);
+      where.push(`rubrique_id = $${params.length}`);
+    }
+    if (needle) {
+      params.push(`%${needle}%`);
+      where.push(`(titre_front ILIKE $${params.length} OR description ILIKE $${params.length})`);
+    }
+    if (excludeId) {
+      params.push(excludeId);
+      where.push(`id <> $${params.length}`);
+    }
+
+    const whereSql = where.join(' AND ');
+    const countRes = await query(`SELECT COUNT(*)::int AS total FROM articles WHERE ${whereSql}`, params);
+    const total = countRes.rows[0].total;
+    const listParams = [...params, safeSize, offset];
+    const listRes = await query(
+      `SELECT * FROM articles WHERE ${whereSql} ORDER BY date DESC NULLS LAST LIMIT $${params.length + 1} OFFSET $${params.length + 2}`,
+      listParams,
+    );
+    return {
+      articles: listRes.rows.map(mapArticle),
+      total,
+      page: safePage,
+      pageSize: safeSize,
+      pageCount: Math.max(1, Math.ceil(total / safeSize)),
+    };
+  },
   async searchByTitle(name) {
     const needle = name.toLowerCase().replace(/[.,/#!$%^&*;:{}=\-_`~()]/g, '');
     const res = await query('SELECT * FROM articles');
