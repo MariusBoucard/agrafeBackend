@@ -1,5 +1,7 @@
 import { nanoid } from 'nanoid'
 import fs from 'fs'
+import { config } from '../config/env.js';
+import * as repos from '../db/repos.js';
 
 // Function to read the JSON file
 function readDataFromFile() {
@@ -42,6 +44,12 @@ function saveToFile(data) {
 
 const lectureService = {
     updateLectures: async function updateLectures() {
+        if (config.usePostgres) {
+            const currentDate = new Date();
+            const formattedDate = `${currentDate.getDate()}/${currentDate.getMonth() + 1}/${currentDate.getFullYear()}`;
+            await repos.lectures.push({ date: formattedDate, lectures: await repos.articles.sumLectures() });
+            return;
+        }
         const articleData = await readArticleData()
         let allReads = 0
         articleData.articles.forEach(art => allReads += art.lectures)
@@ -64,6 +72,7 @@ const lectureService = {
         saveToFile(lectures)
     },
     getLectures :  async function getLectures() {
+        if (config.usePostgres) return repos.lectures.last(6);
         const lectures = await readDataFromFile()
         const lastFiveElements = lectures.lectures.slice(-6);
         return lastFiveElements
