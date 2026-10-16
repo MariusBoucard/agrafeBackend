@@ -71,6 +71,14 @@
       "mail": "test@gaga.com",
       "hash": "$2b$10$W4GDaEgFG2jm0ypbSf099e/GCZPL0hifgao0ArhC/RDrjzCaVelS.",
       "mailCheck": true
+    },
+    {
+      "id": "UbEOgXwxR5vhbzgbdfhlnJhGHd",
+      "type": "admin",
+      "name": "Thibau",
+      "mail": "lasthib.tl@gmail.com",
+      "hash": "$2b$10$cEt1NH8gzFVaBa2fxw7PG.Rm78eloR/HXHYmQDN6Jr6pquXVsL2V.",
+      "mailCheck": true
     }
   ]
 }

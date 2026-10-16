@@ -235,7 +235,9 @@ getAllArchives : async function getAllArchives(){
     return { code: 200, message: "voila l archive" , archives};
   }
   const rawData = await readDataFromFile()
-  const userFound = rawData.archives
+  const userFound = [...(rawData.archives || [])].sort(
+    (a, b) => new Date(b.date) - new Date(a.date)
+  )
   if(userFound){
     return { code: 200, message: "voila l archive" , archives : userFound};   
  }
@@ -248,7 +250,9 @@ getPublicArchives : async function getPublicArchives(){
     return { code: 200, message: "voila l archive" , archives};
   }
   const rawData = await readDataFromFile()
-  const userFound = rawData.archives.filter(ar => ar.private === false)
+  const userFound = rawData.archives
+    .filter(ar => ar.private === false)
+    .sort((a, b) => new Date(b.date) - new Date(a.date))
   if(userFound){
     return { code: 200, message: "voila l archive" , archives : userFound};   
  }

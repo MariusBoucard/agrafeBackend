@@ -25,16 +25,16 @@ const port = config.port;
  */
 // const bodyParser = require('body-parser');
 
-// app.use(bodyParser.json({ limit: '400mb' }));
-// app.use(bodyParser.urlencoded({ limit: '400mb', extended: true }));
+const MAX_UPLOAD_BYTES = 200 * 1024 * 1024; // 200 Mo
 
-const upload = multer({ 
+const upload = multer({
   storage: multer.memoryStorage(),
-  limits: { fileSize: 50 * 1024 * 1024*8 }, // 50 MB
- });
+  limits: { fileSize: MAX_UPLOAD_BYTES },
+});
 const millisecondsInADay = 24 * 60 * 60 * 1000; // 24 hours * 60 minutes * 60 seconds * 1000 milliseconds
 const interval = setInterval(lectureService.updateLectures, millisecondsInADay);
-app.use(express.json());
+app.use(express.json({ limit: '50mb' }));
+app.use(express.urlencoded({ extended: true, limit: '50mb' }));
 const allowedOrigins = config.corsOrigins;
 const corsOptions = {
   origin: (origin, callback) => {
@@ -434,9 +434,17 @@ app.post('/api/uploadPdfArchive', userService.authenticateToken, upload.single('
       return res.status(400).json({ message: 'Invalid file upload configuration.' });
     }
 
-    // Call extraction service (awaited in case it's asynchronous)
+    // Extraction cover/back : ne doit pas faire échouer l'upload du PDF
     if (typeof archiveService.extractPdf === 'function') {
-      await archiveService.extractPdf(infoString);
+      try {
+        await archiveService.extractPdf(infoString);
+      } catch (extractError) {
+        console.error('Cover/back extraction failed (PDF is still saved):', extractError);
+        return res.status(200).json({
+          message: 'PDF uploaded successfully, but cover extraction failed.',
+          warning: 'extract_failed',
+        });
+      }
     }
 
     return res.status(200).json({ message: 'PDF uploaded successfully.' });
