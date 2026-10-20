@@ -5,7 +5,7 @@ dotenv.config();
 export const config = {
   port: process.env.PORT || 3000,
   jwtSecret: process.env.JWT_SECRET || 'dev-secret-change-in-production',
-  corsOrigins: (process.env.CORS_ORIGINS || 'http://localhost:8080,http://127.0.0.1:8080,http://lagrafejournal.com')
+  corsOrigins: (process.env.CORS_ORIGINS || 'http://localhost:8080,http://127.0.0.1:8080,https://lagrafejournal.com,http://lagrafejournal.com,https://www.lagrafejournal.com')
     .split(',')
     .map((o) => o.trim())
     .filter(Boolean),
