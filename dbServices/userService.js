@@ -232,16 +232,18 @@ const userService = {
     return { code: 404, user: null, message: 'User not found' };
   },
 
-  /** Trouve un compte à partir du nom d’auteur d’un article. */
+  /** Trouve un compte à partir du nom d’auteur d’un article (premier match si coécriture). */
   findUserByAuthorName: async function findUserByAuthorName(auteur) {
-    const { normalizeAuthor } = await import('../utils/authorSlug.js');
-    const auteurNorm = normalizeAuthor(auteur);
-    if (!auteurNorm) return null;
+    const { splitAuthorNames, resolveAuthorSlugForName, normalizeAuthor } = await import('../utils/authorSlug.js');
     const all = await this.getAllUser();
     const users = all.users || [];
-    return users
-      .filter((u) => u?.name && auteurNorm.includes(normalizeAuthor(u.name)))
-      .sort((a, b) => String(b.name).length - String(a.name).length)[0] || null;
+    for (const name of splitAuthorNames(auteur)) {
+      const slug = resolveAuthorSlugForName(name, users);
+      const linked = users.find((u) => u?.profile_slug === slug)
+        || users.find((u) => u?.name && normalizeAuthor(u.name) === normalizeAuthor(name));
+      if (linked) return linked;
+    }
+    return null;
   },
 
   getAllUser: async function getAllUser() {

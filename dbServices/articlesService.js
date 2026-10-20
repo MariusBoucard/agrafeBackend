@@ -5,7 +5,7 @@ import rubriqueService from './rubriqueService.js';
 import { config } from '../config/env.js';
 import * as repos from '../db/repos.js';
 import userService from './userService.js';
-import { resolveAuthorSlug } from '../utils/authorSlug.js';
+import { resolveAuthorSlug, resolveAuthorEntries } from '../utils/authorSlug.js';
 import { sanitizeImageCredits } from '../utils/imageCredit.js';
 
 const contenuFilePath = (id) => 'save/saveArticle/articleText/' + id + '.txt';
@@ -31,14 +31,24 @@ async function withAuthorSlugs(payload) {
     const users = usersRes.users || [];
     const attach = (article) => {
       if (!article || typeof article !== 'object') return article;
-      return { ...article, authorSlug: resolveAuthorSlug(article.auteur, users) };
+      const authors = resolveAuthorEntries(article.auteur, users);
+      return {
+        ...article,
+        authorSlug: authors[0]?.slug || resolveAuthorSlug(article.auteur, users),
+        authors,
+      };
     };
     if (Array.isArray(payload)) return payload.map(attach);
     return attach(payload);
   } catch {
     const attach = (article) => {
       if (!article || typeof article !== 'object') return article;
-      return { ...article, authorSlug: resolveAuthorSlug(article.auteur, []) };
+      const authors = resolveAuthorEntries(article.auteur, []);
+      return {
+        ...article,
+        authorSlug: authors[0]?.slug || resolveAuthorSlug(article.auteur, []),
+        authors,
+      };
     };
     if (Array.isArray(payload)) return payload.map(attach);
     return attach(payload);
