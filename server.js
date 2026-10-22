@@ -26,7 +26,7 @@ const port = config.port;
 // const bodyParser = require('body-parser');
 
 const MAX_UPLOAD_BYTES = 200 * 1024 * 1024; // 200 Mo
-
+app.set('trust proxy', true);
 const upload = multer({
   storage: multer.memoryStorage(),
   limits: { fileSize: MAX_UPLOAD_BYTES },
